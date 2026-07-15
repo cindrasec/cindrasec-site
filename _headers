@@ -1,0 +1,22 @@
+# Response headers for cindrasec.com.
+#
+# GitHub Pages cannot set custom HTTP headers, so this file is not applied by
+# Pages itself. It serves two purposes:
+#   1. The canonical reference for the headers that MUST be configured at the
+#      edge — in Cloudflare, via Rules -> Transform Rules -> Modify Response
+#      Header (or a Snippet), mirroring every header below.
+#   2. Drop-in support if the site ever moves to a host that reads _headers
+#      natively (Cloudflare Pages, Netlify).
+#
+# The CSP <meta> tag in index.html provides in-page enforcement today, but
+# frame-ancestors, HSTS, X-Content-Type-Options and Permissions-Policy only
+# work as real HTTP headers — set them at the edge.
+
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; manifest-src 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin

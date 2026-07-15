@@ -1,0 +1,6 @@
+# Cindrasec — https://cindrasec.com
+# We are a security firm; we hold ourselves to the disclosure standards we ask of others.
+Contact: mailto:contact@cindrasec.com
+Expires: 2027-07-15T00:00:00.000Z
+Preferred-Languages: en, bn
+Canonical: https://cindrasec.com/.well-known/security.txt

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Nothing found in scope · Cindrasec</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<style>
+  /* self-hosted fonts — absolute paths because this page renders at any missing URL */
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:100 900; font-display:swap; src:url('/fonts/inter-var.woff2') format('woff2'); }
+  @font-face{ font-family:'JetBrains Mono'; font-style:normal; font-weight:100 800; font-display:swap; src:url('/fonts/jetbrains-mono-var.woff2') format('woff2'); }
+  @font-face{ font-family:'Space Grotesk'; font-style:normal; font-weight:300 700; font-display:swap; src:url('/fonts/space-grotesk-var.woff2') format('woff2'); }
+  :root{ --ink:#0F1217; --ink-2:#171B21; --cream:#F4F1EA; --ember-1:#FFC169; --ember-2:#FF5A36; --cyan:#33E0C8; --muted:#9AA0A8; --line:rgba(244,241,234,.09); }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100dvh; display:flex; align-items:center; justify-content:center; background:var(--ink); color:var(--cream); font-family:'Inter',system-ui,sans-serif; text-align:center; padding:24px; }
+  .wrap{ max-width:480px; }
+  .code{ font-family:'JetBrains Mono',monospace; color:var(--cyan); font-size:14px; letter-spacing:.1em; margin-bottom:18px; }
+  h1{ font-family:'Space Grotesk',sans-serif; font-size:clamp(28px,5vw,40px); margin:0 0 14px; }
+  h1 .grad{ background:linear-gradient(90deg,var(--ember-1),var(--ember-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  p{ color:var(--muted); font-size:15.5px; line-height:1.6; margin-bottom:32px; }
+  a.btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:999px; background:linear-gradient(135deg,var(--ember-1),var(--ember-2) 60%,#C2361A); color:#1A0D07; font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:600; text-decoration:none; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="code">scan complete — 0 assets found · out of scope</div>
+    <h1>This page isn't in <span class="grad">scope.</span></h1>
+    <p>The page you're looking for doesn't exist, or the link is out of date. Everything else on the site is right where it should be.</p>
+    <a class="btn" href="/">Back to Cindrasec →</a>
+  </div>
+</body>
+</html>

@@ -50,17 +50,15 @@ GitHub Pages cannot set custom HTTP headers, so headers are enforced in two plac
   Transform Rules → Modify Response Header**. Belt and suspenders: keep the meta CSP
   even after the edge CSP exists.
 
-## Subresource integrity
+## No SRI on first-party assets (by design)
 
-`index.html` references `styles.css` and `app.js` with `integrity` hashes. **If you edit
-either file, regenerate the hash** or the browser will refuse to load it:
-
-```sh
-openssl dgst -sha384 -binary styles.css | openssl base64 -A
-openssl dgst -sha384 -binary app.js | openssl base64 -A
-```
-
-Paste the output into the matching `integrity="sha384-…"` attribute in `index.html`.
+`styles.css` and `app.js` are referenced **without** `integrity` (SRI) hashes — and they
+must stay that way. SRI protects against a tampered *third-party CDN*; these are first-party,
+same-origin files already covered by the strict CSP (`style-src 'self'`, `script-src 'self'`).
+Behind the Cloudflare proxy, SRI is actively harmful: any edge transform (minification,
+optimization) changes the bytes, the browser's computed hash no longer matches the attribute,
+and it **refuses to apply the stylesheet/script — leaving a completely unstyled page.** This
+happened once; don't reintroduce SRI here. Bump `sw.js` `CACHE_NAME` when you change assets.
 
 ## Contact form
 

@@ -328,3 +328,71 @@ footer{ border-top:1px solid var(--line); padding:44px 24px 30px; }
 .rule h4{ font-family:'Space Grotesk',sans-serif; font-size:16px; margin:0 0 8px; }
 .rule p{ font-size:13.8px; color:var(--muted); margin:0; }
 .rule .rule-num{ font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:12px; color:var(--ember-2); margin-bottom:10px; }
+
+/* ============================================================
+   v3 — clarity + conversion additions
+   ============================================================ */
+
+/* risk-reversal strip */
+.assurance{ background:var(--ink-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:40px 24px; }
+.assurance-grid{ max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+@media (max-width:820px){ .assurance-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:460px){ .assurance-grid{ grid-template-columns:1fr; } }
+.assurance-item{ display:flex; gap:12px; align-items:flex-start; }
+.assurance-item .ai-ic{ flex-shrink:0; width:26px; height:26px; margin-top:2px; }
+.assurance-item h4{ font-family:'Space Grotesk',sans-serif; font-size:14.5px; margin:0 0 3px; color:var(--cream); }
+.assurance-item p{ font-size:12.8px; color:var(--muted); margin:0; line-height:1.45; }
+
+/* free-pilot pill */
+.free-pill{ display:inline-flex; align-items:center; gap:7px; background:rgba(51,224,200,.12); border:1px solid rgba(51,224,200,.4);
+  color:var(--cyan); font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11.5px; font-weight:500;
+  padding:5px 12px; border-radius:999px; margin-bottom:14px; }
+.free-pill::before{ content:"★"; font-size:11px; }
+
+/* service card "includes" list */
+.card .includes{ list-style:none; margin:2px 0 4px; padding:0; display:flex; flex-direction:column; gap:5px; }
+.card .includes li{ font-size:12.8px; color:var(--muted); padding-left:18px; position:relative; line-height:1.4; }
+.card .includes li::before{ content:"✓"; position:absolute; left:0; color:var(--cyan); font-size:12px; font-weight:700; }
+
+/* pricing intro + note */
+.price-lead{ max-width:760px; margin:-24px 0 30px; }
+.price-lead p{ color:var(--muted); font-size:15px; margin-bottom:8px; }
+.price-lead strong{ color:var(--cream); }
+.pricing td.inc{ color:var(--muted); font-size:13px; }
+
+/* free-pilot banner */
+.pilot-banner{ display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  background:linear-gradient(120deg, rgba(51,224,200,.12), rgba(255,90,54,.08)); border:1px solid rgba(51,224,200,.35);
+  border-radius:var(--radius); padding:24px 28px; margin-bottom:28px; }
+.pilot-banner h3{ font-family:'Space Grotesk',sans-serif; font-size:19px; color:var(--cream); margin:0 0 4px; }
+.pilot-banner p{ font-size:14px; color:var(--muted); margin:0; max-width:60ch; }
+.pilot-banner .btn{ flex-shrink:0; }
+
+/* value comparison */
+.compare{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:26px; }
+@media (max-width:680px){ .compare{ grid-template-columns:1fr; } }
+.compare-card{ border:1px solid var(--line); border-radius:14px; padding:20px 22px; background:var(--ink-2); }
+.compare-card.them{ opacity:.85; }
+.compare-card .lab{ font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:10px; }
+.compare-card.them .lab{ color:var(--muted-2); }
+.compare-card.us .lab{ color:var(--cyan); }
+.compare-card .big{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:var(--cream); margin-bottom:8px; }
+.compare-card ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+.compare-card li{ font-size:13px; color:var(--muted); padding-left:18px; position:relative; }
+.compare-card.them li::before{ content:"—"; position:absolute; left:0; color:var(--muted-2); }
+.compare-card.us li::before{ content:"✓"; position:absolute; left:0; color:var(--cyan); font-weight:700; }
+.compare-card.us{ border-color:rgba(51,224,200,.4); }
+
+/* billing block */
+.billing{ margin-top:30px; border:1px solid var(--line); border-radius:var(--radius); background:var(--ink-2); padding:26px 28px; }
+.billing h3{ font-family:'Space Grotesk',sans-serif; font-size:17px; margin:0 0 14px; color:var(--cream); }
+.billing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+@media (max-width:760px){ .billing-grid{ grid-template-columns:1fr; gap:16px; } }
+.billing-col .bt{ font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--cyan); margin-bottom:6px; }
+.billing-col p{ font-size:13.2px; color:var(--muted); margin:0; line-height:1.5; }
+.billing-note{ margin-top:16px; padding-top:14px; border-top:1px dashed var(--line); font-size:12.5px; color:var(--muted-2); }
+
+.price-lead--after{ margin:26px 0 0; }
+
+/* toggles rely on the [hidden] attribute — it must always win over decorative display rules */
+[hidden]{ display:none !important; }

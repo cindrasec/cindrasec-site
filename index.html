@@ -85,8 +85,11 @@
       "description": "Cindrasec is an automation-first security studio providing attack-surface monitoring and AI/LLM security testing for founders and SMEs in Bangladesh and worldwide.",
       "slogan": "We find the spark before it becomes a fire.",
       "email": "contact@cindrasec.com",
-      "founder": { "@type": "Person", "name": "Md. Azmol Haque Rony" },
+      "founder": { "@id": "https://cindrasec.com/#founder" },
       "foundingDate": "2026",
+      "foundingLocation": { "@type": "Place", "name": "Dhaka, Bangladesh" },
+      "address": { "@type": "PostalAddress", "addressCountry": "BD", "addressLocality": "Dhaka" },
+      "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "email": "contact@cindrasec.com", "areaServed": ["BD", "Worldwide"], "availableLanguage": ["en", "bn"] },
       "areaServed": ["Bangladesh", "Worldwide"],
       "knowsAbout": [
         "Attack Surface Management",
@@ -97,6 +100,7 @@
         "Exposed Secrets Detection"
       ],
       "sameAs": [
+        "https://github.com/azmolhaque",
         "https://github.com/azmolhaque/secretnode",
         "https://www.linkedin.com/company/cindrasec"
       ]
@@ -110,6 +114,15 @@
       "description": "Automated attack-surface and AI/LLM security monitoring for teams that can't afford a breach.",
       "inLanguage": ["en", "bn"],
       "publisher": { "@id": "https://cindrasec.com/#organization" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://cindrasec.com/#founder",
+      "name": "Md. Azmol Haque Rony",
+      "jobTitle": "Founder & Security Researcher",
+      "worksFor": { "@id": "https://cindrasec.com/#organization" },
+      "knowsAbout": ["Attack Surface Management", "AI/LLM Security", "Prompt Injection Testing"],
+      "sameAs": ["https://github.com/azmolhaque"]
     }
   ]
 }

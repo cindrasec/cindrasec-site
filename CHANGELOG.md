@@ -1,5 +1,15 @@
 # Changelog
 
+## SEO fix — FAQ structured-data parity (2026-07-22)
+
+### Fixed
+- **`FAQPage` JSON-LD now mirrors the visible FAQ.** The structured data listed only
+  5 Q&As — including a phantom "How fast is delivery? → 3 to 5 hours" question that does
+  not appear on the page, and a stale data-handling answer ("purge after engagement
+  close" vs. the page's "auto-purged 30 days after delivery"). Rebuilt the markup to
+  match all 8 visible questions and answers verbatim, restoring Google's requirement that
+  FAQ markup reflect on-page content and removing the delivery-time inconsistency.
+
 ## v2 — Cyber-resilience pass (2026-07-15)
 
 ### Removed

@@ -15,18 +15,10 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   hamburger.setAttribute('aria-expanded', 'false');
 }));
 
-// language toggle
-function setLang(lang){
-  document.querySelectorAll('[data-en]').forEach(el => el.hidden = lang !== 'en');
-  document.querySelectorAll('[data-bn]').forEach(el => el.hidden = lang !== 'bn');
-  document.querySelectorAll('[data-lang-btn]').forEach(b => {
-    b.classList.toggle('active', b.dataset.langBtn === lang);
-    b.setAttribute('aria-pressed', String(b.dataset.langBtn === lang));
-  });
-  document.documentElement.lang = lang;
-}
-document.querySelectorAll('[data-lang-btn]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.langBtn)));
-setLang('en');
+// Language is no longer a client-side toggle. English lives at / and Bengali at
+// /bn/, generated from one source by build.py, joined by reciprocal hreflang.
+// Hiding one language behind an attribute meant search engines never counted
+// it; the switch in the header is now a plain link a crawler can follow.
 
 // currency toggle
 function setCurrency(cur){
@@ -273,6 +265,6 @@ termObserver.observe(document.querySelector('.terminal'));
 // service worker registration — safe no-op on file:// or unsupported browsers
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
 }

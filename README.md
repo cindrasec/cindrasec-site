@@ -92,3 +92,25 @@ visitor's mail client pre-filled, and it also does that automatically on network
   Best Practices / SEO.
 - After any asset change: `sw.js` `CACHE_NAME` bumped, `PRECACHE` list matches shipped
   files, SRI hashes regenerated.
+
+## Editing content
+
+`index.html` and `bn/index.html` are **generated** — do not edit them directly.
+
+The single source is `src/index.src.html`, which carries both languages as
+`<span data-en>…</span><span data-bn hidden lang="bn">…</span>` pairs. After
+editing it:
+
+```
+python3 build.py            # regenerate both pages
+python3 build.py --check    # CI-friendly: exits 1 if the output is stale
+```
+
+English is served at `/`, Bengali at `/bn/`, joined by reciprocal `hreflang`.
+They are generated from one file so the two languages cannot drift apart.
+
+Why not the old single-page toggle: content hidden at load is discounted by
+search engines, so the Bengali half of the page earned nothing in Bengali
+search. Separate URLs with hreflang is what Google documents for multilingual
+sites, and the language switch in the header is now a real link a crawler can
+follow rather than a script.

@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# Build inputs, not pages. src/index.src.html is the bilingual source both
+# published pages are generated from, so it duplicates their content almost
+# exactly. It carries a canonical pointing at /, but it should not be crawled
+# in the first place.
+Disallow: /src/
+Disallow: /build.py
+
 Sitemap: https://cindrasec.com/sitemap.xml

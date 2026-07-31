@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Cindrasec — Attack Surface &amp; AI/LLM Security Monitoring</title>
+<meta name="description" content="Automated attack-surface & AI/LLM security monitoring for founders & SMEs — Bangladesh & worldwide. Verification-first, authorized-only. First Snapshot free.">
+<meta name="keywords" content="attack surface management, AI security, LLM security, penetration testing, prompt injection, exposed secrets, security monitoring, Bangladesh, cybersecurity for startups">
+<meta name="author" content="Md. Azmol Haque Rony — Cindrasec">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#0F1217">
+<link rel="canonical" href="https://cindrasec.com/">
+<link rel="dns-prefetch" href="https://api.web3forms.com">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cindrasec">
+<meta property="og:title" content="Cindrasec — Attack Surface & AI/LLM Security Monitoring">
+<meta property="og:description" content="Automated attack-surface & AI/LLM security monitoring for founders and SMEs — Bangladesh and worldwide. Verification-first, authorized-only. First Snapshot free.">
+<meta property="og:url" content="https://cindrasec.com/">
+<meta property="og:image" content="https://cindrasec.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cindrasec — we find the spark before it becomes a fire. Attack surface & AI/LLM security monitoring.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="bn_BD">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cindrasec — Attack Surface & AI/LLM Security Monitoring">
+<meta name="twitter:description" content="Automated attack-surface & AI/LLM security monitoring for founders and SMEs. Verification-first, authorized-only. First Snapshot free.">
+<meta name="twitter:image" content="https://cindrasec.com/og-image.png">
+<meta name="twitter:image:alt" content="Cindrasec — attack surface & AI/LLM security monitoring.">
+
+<!-- Icons / PWA -->
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+
+<!-- Self-hosted fonts: zero external hosts at runtime (see README invariant) -->
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Cindrasec",
+  "url": "https://cindrasec.com/",
+  "image": "https://cindrasec.com/og-image.png",
+  "description": "Continuous, automated attack-surface and AI/LLM security monitoring for SMEs and startups.",
+  "founder": { "@type": "Person", "name": "Md. Azmol Haque Rony" },
+  "areaServed": ["Bangladesh", "Worldwide"],
+  "email": "contact@cindrasec.com",
+  "priceRange": "$150–$8000",
+  "sameAs": ["https://github.com/azmolhaque/secretnode", "https://www.linkedin.com/company/cindrasec"],
+  "makesOffer": [
+    { "@type": "Offer", "name": "Snapshot — one-time attack-surface scan", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 250, "maxPrice": 600, "priceCurrency": "USD" } },
+    { "@type": "Offer", "name": "Watch — continuous monitoring subscription", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": 150, "maxPrice": 500, "priceCurrency": "USD", "unitText": "MONTH" } },
+    { "@type": "Offer", "name": "AI/LLM Security Assessment", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 2000, "maxPrice": 8000, "priceCurrency": "USD" } },
+    { "@type": "Offer", "name": "Productized Gig — fixed-scope quick check", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 150, "maxPrice": 500, "priceCurrency": "USD" } }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://cindrasec.com/#organization",
+      "name": "Cindrasec",
+      "alternateName": "Cindrasec Security",
+      "url": "https://cindrasec.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://cindrasec.com/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://cindrasec.com/og-image.png",
+      "description": "Cindrasec is an automation-first security studio providing attack-surface monitoring and AI/LLM security testing for founders and SMEs in Bangladesh and worldwide.",
+      "slogan": "We find the spark before it becomes a fire.",
+      "email": "contact@cindrasec.com",
+      "founder": { "@id": "https://cindrasec.com/#founder" },
+      "foundingDate": "2026",
+      "foundingLocation": { "@type": "Place", "name": "Dhaka, Bangladesh" },
+      "address": { "@type": "PostalAddress", "addressCountry": "BD", "addressLocality": "Dhaka" },
+      "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "email": "contact@cindrasec.com", "areaServed": ["BD", "Worldwide"], "availableLanguage": ["en", "bn"] },
+      "areaServed": ["Bangladesh", "Worldwide"],
+      "knowsAbout": [
+        "Attack Surface Management",
+        "AI/LLM Security",
+        "Prompt Injection Testing",
+        "Penetration Testing",
+        "Vulnerability Assessment",
+        "Exposed Secrets Detection"
+      ],
+      "sameAs": [
+        "https://github.com/azmolhaque/secretnode",
+        "https://www.linkedin.com/company/cindrasec"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://cindrasec.com/#website",
+      "url": "https://cindrasec.com/",
+      "name": "Cindrasec",
+      "alternateName": "Cindrasec — Attack Surface & AI/LLM Security",
+      "description": "Automated attack-surface and AI/LLM security monitoring for teams that can't afford a breach.",
+      "inLanguage": ["en", "bn"],
+      "publisher": { "@id": "https://cindrasec.com/#organization" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://cindrasec.com/#founder",
+      "name": "Md. Azmol Haque Rony",
+      "jobTitle": "Founder & Security Researcher",
+      "worksFor": { "@id": "https://cindrasec.com/#organization" },
+      "knowsAbout": ["Attack Surface Management", "AI/LLM Security", "Prompt Injection Testing"],
+      "sameAs": [
+        "https://www.linkedin.com/in/md-azmol-haque-rony",
+        "https://x.com/AzmolRony",
+        "https://www.facebook.com/share/18ag3eXj7Q/",
+        "https://github.com/azmolhaque"
+      ]
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is scanning my systems even legal?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — every engagement starts with a signed Rules of Engagement and Authorization Letter covering scope, time window, and data handling. Scans are passive-first and never touch anything outside the agreed scope. No signed authorization, no scan — that's a hard rule, not a formality." }
+    },
+    {
+      "@type": "Question",
+      "name": "Will testing break or slow down my site?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Testing is passive-first and rate-limited — we observe what's publicly reachable rather than attacking it. We never exploit, never overload, and never modify or delete your data. Your systems keep running exactly as they were." }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost, and why the range?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A Snapshot is ৳15k–25k ($250–600); Watch is ৳5k–12k/mo ($150–500); AI/LLM assessments are ৳40k–1.5L ($2,000–8,000). The range depends only on how many domains and assets are in scope — we confirm the exact figure and give a fixed quote before you pay. And the first Snapshot is free for founding-cohort clients." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I pay?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Local clients: bKash or bank transfer in Taka. Global clients: Payoneer or Wise in USD. It's 50% advance to start and 50% on delivery, invoiced after a quick scope call — there's no payment button on this site by design." }
+    },
+    {
+      "@type": "Question",
+      "name": "We're small — are we even a target?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Attackers don't hand-pick you; they scan the whole internet for anything left open — an exposed key, a forgotten subdomain, a stale admin panel. Small teams get breached exactly because they assume no one's looking. A Snapshot tells you what's actually exposed, cheaply, before it becomes an incident." }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the scan finds nothing?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A clean scan is still a report: you get a coverage summary, a confidence statement, and a clear picture of what was and wasn't in scope — never just \"we found nothing.\"" }
+    },
+    {
+      "@type": "Question",
+      "name": "How is client data handled?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Data minimization by default: stored on self-hosted infrastructure, encrypted at rest, redacted where possible, and auto-purged 30 days after delivery — or sooner on request. Findings go only to the person you name." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can international clients work with Cindrasec?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — global engagements are billed in USD via Payoneer or Wise, delivered in English, and treated as an export of service." }
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<noscript><div class="noscript-banner">This site works best with JavaScript enabled — you can still email contact@cindrasec.com directly.</div></noscript>
+<a href="#top" class="skip-link"><span data-en>Skip to content</span><span data-bn hidden lang="bn">মূল কনটেন্টে যান</span></a>
+
+<!-- shared icon defs -->
+<svg width="0" height="0" class="icon-defs" aria-hidden="true">
+  <defs>
+    <linearGradient id="emberGrad" x1="0%" y1="0%" x2="25%" y2="100%">
+      <stop offset="0%" stop-color="#FFC169"/><stop offset="55%" stop-color="#FF5A36"/><stop offset="100%" stop-color="#C2361A"/>
+    </linearGradient>
+    <symbol id="logo-icon" viewBox="0 0 120 120">
+      <path d="M60,18 L96.37,39 L96.37,54 M96.37,66 L96.37,81 L60,102 L23.63,81 L23.63,39 Z" fill="none" stroke="#F4F1EA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M100,44 C108,50 112,58 108,66 C105,72 98,74 94,68 C91,63 93,57 97,58 C95,52 96,47 100,44 Z" fill="url(#emberGrad)"/>
+      <path d="M88,48 L88,40 L96,40" fill="none" stroke="#33E0C8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M114,70 L114,78 L106,78" fill="none" stroke="#33E0C8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="Cindrasec home" data-bn-aria-label="Cindrasec হোম">
+      <svg aria-hidden="true" focusable="false"><use href="#logo-icon"/></svg>
+      <span class="brand-word">CINDRA<span class="accent">SEC</span></span>
+    </a>
+    <nav class="links" id="navLinks">
+      <a href="#estimator">Risk Check</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#why">Why Us</a>
+      <a href="#proof">Proof</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle" role="group" aria-label="Language" data-bn-aria-label="ভাষা">
+        <button data-lang-btn="en" class="active" aria-pressed="true">EN</button>
+        <button data-lang-btn="bn" aria-pressed="false" lang="bn">বাং</button>
+      </div>
+      <a class="btn btn-primary btn-sm" href="#contact">Get a Snapshot</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu" data-bn-aria-label="মেনু" aria-controls="navLinks" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow"><span data-en>Attack Surface Monitoring · AI Security</span><span data-bn hidden lang="bn">অ্যাটাক সারফেস মনিটরিং · এআই সিকিউরিটি</span></div>
+        <h1>
+          <span data-en>We find the spark<br>before it becomes a <span class="grad">fire.</span></span>
+          <span data-bn hidden lang="bn">আগুন ছড়ানোর আগেই<br><span class="grad">আঁচ</span> খুঁজে বের করি।</span>
+        </h1>
+        <p class="sub">
+          <span data-en>Continuous, automated attack-surface and AI-system monitoring for teams that can't afford an enterprise security budget — and can't afford a breach either.</span>
+          <span data-bn hidden lang="bn">যাদের এন্টারপ্রাইজ সিকিউরিটি বাজেট নেই, কিন্তু ব্রিচ সহ্য করারও সামর্থ্য নেই — তাদের জন্য কন্টিনিউয়াস, স্বয়ংক্রিয় অ্যাটাক-সারফেস ও এআই-সিস্টেম মনিটরিং।</span>
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary"><span data-en>Request a free Snapshot</span><span data-bn hidden lang="bn">ফ্রি স্ন্যাপশট রিকোয়েস্ট করুন</span> →</a>
+          <a href="#process" class="btn btn-ghost"><span data-en>See how it works</span><span data-bn hidden lang="bn">কীভাবে কাজ করে দেখুন</span></a>
+        </div>
+        <div class="trust-strip">
+          <span class="trust-chip"><span data-en>Google VRP–credited researcher</span><span data-bn hidden lang="bn">Google VRP–স্বীকৃত গবেষক</span></span>
+          <span class="trust-chip"><span data-en>Self-hosted, verification-first engine</span><span data-bn hidden lang="bn">সেলফ-হোস্টেড, প্রমাণ-ভিত্তিক ইঞ্জিন</span></span>
+          <span class="trust-chip">Bilingual — <span lang="bn">বাংলা</span> + English</span>
+          <span class="trust-chip"><span data-en>Bangladesh + Global</span><span data-bn hidden lang="bn">বাংলাদেশ + গ্লোবাল</span></span>
+        </div>
+      </div>
+
+      <div class="terminal reveal" aria-hidden="true">
+        <div class="terminal-bar"><span></span><span></span><span></span><span class="terminal-label">secretnode · live scan preview</span></div>
+        <div class="terminal-body" id="termBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="reveal"><div class="stat-num">$2.26B</div><div class="stat-label"><span data-en>AI red-teaming market, 2026</span><span data-bn hidden lang="bn">AI রেড-টিমিং মার্কেট, ২০২৬</span></div></div>
+      <div class="reveal"><div class="stat-num">Aug 2</div><div class="stat-label"><span data-en>EU AI Act enforcement begins, 2026</span><span data-bn hidden lang="bn">EU AI Act কার্যকর হওয়া শুরু, ২০২৬</span></div></div>
+      <div class="reveal"><div class="stat-num">~14%</div><div class="stat-label"><span data-en>orgs with in-house AI-security talent</span><span data-bn hidden lang="bn">প্রতিষ্ঠানে নিজস্ব AI-সিকিউরিটি দক্ষতা আছে</span></div></div>
+      <div class="reveal"><div class="stat-num">#1</div><div class="stat-label"><span data-en>OWASP LLM risk — prompt injection</span><span data-bn hidden lang="bn">OWASP LLM ঝুঁকি — প্রম্পট ইনজেকশন</span></div></div>
+    </div>
+    <p class="stats-note wrap"><span data-en>Industry context compiled from Mordor Intelligence, Promptfoo and OWASP research, as referenced in the Cindrasec 2026 market analysis.</span><span data-bn hidden lang="bn">ইন্ডাস্ট্রি প্রেক্ষাপট Mordor Intelligence, Promptfoo ও OWASP গবেষণা থেকে সংকলিত, Cindrasec-এর ২০২৬ মার্কেট বিশ্লেষণে উল্লেখ অনুযায়ী।</span></p>
+  </section>
+
+  <!-- ============ ESTIMATOR ============ -->
+  <section id="estimator">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>Free Tool</span><span data-bn hidden lang="bn">ফ্রি টুল</span></div>
+        <h2><span data-en>How exposed are you, actually?</span><span data-bn hidden lang="bn">আসলে আপনি কতটা এক্সপোজড?</span></h2>
+        <p><span data-en>Four questions, a rough exposure score, and a plain recommendation — calculated in your browser, nothing sent anywhere.</span><span data-bn hidden lang="bn">চারটি প্রশ্ন, একটি আনুমানিক এক্সপোজার স্কোর, এবং একটি সরাসরি সুপারিশ — আপনার ব্রাউজারেই হিসাব হয়, কোথাও পাঠানো হয় না।</span></p>
+      </div>
+
+      <div class="estimator reveal">
+        <div class="estimator-grid">
+          <form id="estForm">
+            <fieldset class="est-q">
+              <legend><span data-en>What does your team run publicly?</span><span data-bn hidden lang="bn">আপনার টিম পাবলিকলি কী চালায়?</span></legend>
+              <div class="est-opts">
+                <div class="est-opt"><input type="radio" name="surface" id="s1" value="1" data-w="1"><label for="s1"><span data-en>Just a marketing site</span><span data-bn hidden lang="bn">শুধু একটি মার্কেটিং সাইট</span></label></div>
+                <div class="est-opt"><input type="radio" name="surface" id="s2" value="2" data-w="2"><label for="s2"><span data-en>Site + login / user accounts</span><span data-bn hidden lang="bn">সাইট + লগইন / ইউজার অ্যাকাউন্ট</span></label></div>
+                <div class="est-opt"><input type="radio" name="surface" id="s3" value="3" data-w="3" checked><label for="s3"><span data-en>Web app + API + admin panel</span><span data-bn hidden lang="bn">ওয়েব অ্যাপ + API + অ্যাডমিন প্যানেল</span></label></div>
+                <div class="est-opt"><input type="radio" name="surface" id="s4" value="4" data-w="4"><label for="s4"><span data-en>Multiple products / subdomains</span><span data-bn hidden lang="bn">একাধিক প্রোডাক্ট / সাবডোমেইন</span></label></div>
+              </div>
+            </fieldset>
+            <fieldset class="est-q">
+              <legend><span data-en>Does anything use an LLM or AI chatbot?</span><span data-bn hidden lang="bn">কোথাও কি LLM বা AI চ্যাটবট ব্যবহার হয়?</span></legend>
+              <div class="est-opts">
+                <div class="est-opt"><input type="radio" name="ai" id="a1" value="1" data-w="0"><label for="a1">No</label></div>
+                <div class="est-opt"><input type="radio" name="ai" id="a2" value="2" data-w="2"><label for="a2"><span data-en>Customer-facing chatbot</span><span data-bn hidden lang="bn">কাস্টমার-ফেসিং চ্যাটবট</span></label></div>
+                <div class="est-opt"><input type="radio" name="ai" id="a3" value="3" data-w="4" checked><label for="a3"><span data-en>Agent with tool access / data access</span><span data-bn hidden lang="bn">টুল বা ডেটা অ্যাক্সেসসহ এজেন্ট</span></label></div>
+              </div>
+            </fieldset>
+            <fieldset class="est-q">
+              <legend><span data-en>When was your last external security check?</span><span data-bn hidden lang="bn">শেষ এক্সটার্নাল সিকিউরিটি চেক কবে হয়েছে?</span></legend>
+              <div class="est-opts">
+                <div class="est-opt"><input type="radio" name="last" id="l1" value="1" data-w="0"><label for="l1"><span data-en>Within 3 months</span><span data-bn hidden lang="bn">গত ৩ মাসের মধ্যে</span></label></div>
+                <div class="est-opt"><input type="radio" name="last" id="l2" value="2" data-w="2" checked><label for="l2">6–12 months ago</label></div>
+                <div class="est-opt"><input type="radio" name="last" id="l3" value="3" data-w="4"><label for="l3"><span data-en>Never / not sure</span><span data-bn hidden lang="bn">কখনো হয়নি / জানা নেই</span></label></div>
+              </div>
+            </fieldset>
+            <fieldset class="est-q est-q-last">
+              <legend><span data-en>Team size handling security today?</span><span data-bn hidden lang="bn">এখন সিকিউরিটি কে সামলায়?</span></legend>
+              <div class="est-opts">
+                <div class="est-opt"><input type="radio" name="team" id="t1" value="1" data-w="3" checked><label for="t1"><span data-en>Nobody dedicated</span><span data-bn hidden lang="bn">নির্দিষ্ট কেউ নেই</span></label></div>
+                <div class="est-opt"><input type="radio" name="team" id="t2" value="2" data-w="1"><label for="t2"><span data-en>One person, part-time</span><span data-bn hidden lang="bn">একজন, খণ্ডকালীন</span></label></div>
+                <div class="est-opt"><input type="radio" name="team" id="t3" value="3" data-w="0"><label for="t3"><span data-en>Dedicated security hire/team</span><span data-bn hidden lang="bn">ডেডিকেটেড সিকিউরিটি কর্মী বা টিম</span></label></div>
+              </div>
+            </fieldset>
+          </form>
+
+          <div class="est-result" aria-live="polite">
+            <div class="est-eyebrow"><span data-en>Estimated exposure</span><span data-bn hidden lang="bn">আনুমানিক এক্সপোজার</span></div>
+            <div class="est-score-row">
+              <div class="est-score" id="estScore">–</div>
+              <div class="est-score-label">/ 100</div>
+            </div>
+            <div class="est-bar"><div class="est-bar-fill" id="estBarFill"></div></div>
+            <!-- Estimator result copy. Lives in the DOM rather than in app.js so build.py
+       translates it with everything else; app.js reads the band it needs. -->
+  <div id="estCopy" hidden aria-hidden="true">
+    <div data-band="empty"><p class="v"><span data-en>Answer the four questions to see where you stand.</span><span data-bn hidden lang="bn">চারটি প্রশ্নের উত্তর দিন — আপনি কোথায় দাঁড়িয়ে আছেন দেখুন।</span></p><p class="c"><span data-en>Request a free Snapshot →</span><span data-bn hidden lang="bn">ফ্রি Snapshot চান →</span></p></div>
+    <div data-band="low"><p class="v"><span data-en><strong>Lower relative exposure.</strong> Your footprint is small and recently checked. A Snapshot is still worth doing once a year, or before anything ships — you have less surface area, not zero.</span><span data-bn hidden lang="bn"><strong>তুলনামূলকভাবে কম এক্সপোজার।</strong> আপনার সারফেস ছোট এবং সম্প্রতি পরীক্ষা করা হয়েছে। তবুও বছরে একবার, বা নতুন কিছু লঞ্চের আগে একটি Snapshot করা ভালো — আপনার সারফেস কম, শূন্য নয়।</span></p><p class="c"><span data-en>Get a baseline Snapshot →</span><span data-bn hidden lang="bn">একটি বেসলাইন Snapshot নিন →</span></p></div>
+    <div data-band="moderate"><p class="v"><span data-en><strong>Moderate exposure.</strong> Login flows, APIs, or a stale last-check are the kind of thing that quietly turns into a P1. A Snapshot will tell you exactly where you stand in a few hours.</span><span data-bn hidden lang="bn"><strong>মাঝারি এক্সপোজার।</strong> লগইন ফ্লো, API, বা পুরোনো হয়ে যাওয়া শেষ চেক — এগুলোই চুপচাপ P1 সমস্যা হয়ে দাঁড়ায়। কয়েক ঘণ্টার একটি Snapshot আপনাকে সঠিক অবস্থান জানিয়ে দেবে।</span></p><p class="c"><span data-en>Request a free Snapshot →</span><span data-bn hidden lang="bn">ফ্রি Snapshot চান →</span></p></div>
+    <div data-band="high"><p class="v"><span data-en><strong>High exposure.</strong> Multiple surfaces, no dedicated owner, and/or an AI system in the mix — this combination is exactly what Watch is built for: continuous monitoring instead of a once-a-year guess.</span><span data-bn hidden lang="bn"><strong>উচ্চ এক্সপোজার।</strong> একাধিক সারফেস, নির্দিষ্ট দায়িত্বশীল কেউ নেই, এবং/অথবা সাথে একটি AI সিস্টেম — ঠিক এই সমন্বয়ের জন্যই Watch তৈরি: বছরে একবার অনুমান নয়, ধারাবাহিক মনিটরিং।</span></p><p class="c"><span data-en>Start continuous Watch monitoring →</span><span data-bn hidden lang="bn">ধারাবাহিক Watch মনিটরিং শুরু করুন →</span></p></div>
+    <div data-band="critical"><p class="v"><span data-en><strong>Critical exposure profile.</strong> An AI agent with tool access, a large surface, and no recent check is a real-world breach setup. Start with an AI/LLM Security Assessment alongside a Snapshot.</span><span data-bn hidden lang="bn"><strong>ক্রিটিক্যাল এক্সপোজার প্রোফাইল।</strong> টুল-অ্যাক্সেসসহ AI এজেন্ট, বড় সারফেস, আর সাম্প্রতিক কোনো চেক নেই — বাস্তবে এটাই একটি ব্রিচের সেটআপ। Snapshot-এর পাশাপাশি একটি AI/LLM সিকিউরিটি অ্যাসেসমেন্ট দিয়ে শুরু করুন।</span></p><p class="c"><span data-en>Book an AI/LLM assessment →</span><span data-bn hidden lang="bn">AI/LLM অ্যাসেসমেন্ট বুক করুন →</span></p></div>
+  </div>
+  <p class="est-verdict" id="estVerdict"></p>
+            <div class="est-cta">
+              <a href="#contact" class="btn btn-primary btn-sm" id="estCta">Request a free Snapshot →</a>
+            </div>
+            <button type="button" class="est-reset" id="estReset"><span data-en>Reset answers</span><span data-bn hidden lang="bn">উত্তর রিসেট করুন</span></button>
+          </div>
+        </div>
+      </div>
+      <p class="proof-note reveal note-tight"><span data-en>This is a directional estimate, not an audit — it's here to help you triage, not to replace a scan.</span><span data-bn hidden lang="bn">এটি একটি দিকনির্দেশক অনুমান, অডিট নয় — এটি আপনাকে ট্রায়াজ করতে সাহায্য করার জন্য, স্ক্যানের বিকল্প নয়।</span></p>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>Services</span><span data-bn hidden lang="bn">সার্ভিসেস</span></div>
+        <h2><span data-en>Four ways in — one engine underneath.</span><span data-bn hidden lang="bn">প্রবেশের চারটি পথ — একই ইঞ্জিন।</span></h2>
+        <p><span data-en>Every offering runs on the same SecretNode scanning engine, so pricing stays low and delivery stays fast.</span><span data-bn hidden lang="bn">প্রতিটি সার্ভিস একই SecretNode ইঞ্জিনে চলে — তাই দাম কম, ডেলিভারি দ্রুত।</span></p>
+      </div>
+
+      <div class="currency-toggle" role="group" aria-label="Currency" data-bn-aria-label="মুদ্রা">
+        <button data-cur-btn="bdt" class="active" aria-pressed="true">৳ Bangladesh</button>
+        <button data-cur-btn="usd" aria-pressed="false">$ Global</button>
+      </div>
+
+      <div class="cards">
+        <div class="card reveal">
+          <span class="free-pill"><span data-en>First one free — founding cohort</span><span data-bn hidden lang="bn">প্রথমটি ফ্রি — ফাউন্ডিং কোহর্ট</span></span>
+          <svg class="card-icon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="17" cy="17" r="11" fill="none" stroke="#33E0C8" stroke-width="2.4"/><line x1="25" y1="25" x2="34" y2="34" stroke="#33E0C8" stroke-width="2.4" stroke-linecap="round"/><path d="M12 17h10M17 12v10" stroke="#FF5A36" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <h3>Snapshot</h3>
+          <p class="desc"><span data-en>A one-time look at everything of yours that's reachable from the public internet — exposed secrets, forgotten subdomains, misconfigurations.</span><span data-bn hidden lang="bn">পাবলিক ইন্টারনেট থেকে অ্যাক্সেসযোগ্য আপনার সবকিছুর এককালীন পরীক্ষা — এক্সপোজড সিক্রেট, ভুলে যাওয়া সাবডোমেইন, মিসকনফিগারেশন।</span></p>
+          <ul class="includes">
+            <li><span data-en>External attack-surface + exposed-secrets scan</span><span data-bn hidden lang="bn">এক্সটার্নাল অ্যাটাক-সারফেস + এক্সপোজড-সিক্রেট স্ক্যান</span></li>
+            <li><span data-en>Verification-first report (every finding confirmed)</span><span data-bn hidden lang="bn">ভেরিফিকেশন-ফার্স্ট রিপোর্ট (প্রতিটি ফাইন্ডিং যাচাইকৃত)</span></li>
+            <li><span data-en>15-min walkthrough call + free re-check</span><span data-bn hidden lang="bn">১৫ মিনিটের ওয়াকথ্রু কল + ফ্রি রি-চেক</span></li>
+          </ul>
+          <div class="price"><span data-cur="bdt">৳15,000–25,000</span><span data-cur="usd" hidden>$250–600</span><span data-en>one-time · report in 3–5 working days</span><span data-bn hidden lang="bn">এককালীন · ৩–৫ কর্মদিবসে রিপোর্ট</span></div>
+          <a href="#contact" class="btn btn-ghost btn-sm"><span data-en>Start with a Snapshot</span><span data-bn hidden lang="bn">স্ন্যাপশট দিয়ে শুরু করুন</span> →</a>
+        </div>
+
+        <div class="card featured reveal">
+          <span class="badge">RECURRING</span>
+          <svg class="card-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 26c3-10 8-15 14-15s11 5 14 15" fill="none" stroke="#33E0C8" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="24" r="4.5" fill="#FF5A36"/></svg>
+          <h3>Watch</h3>
+          <p class="desc"><span data-en>Your Snapshot, kept current. We watch your surface continuously and tell you the moment something new appears.</span><span data-bn hidden lang="bn">আপনার Snapshot — সবসময় আপডেটেড। আমরা ধারাবাহিকভাবে নজর রাখি, নতুন কিছু দেখা দিলেই জানাই।</span></p>
+          <ul class="includes">
+            <li><span data-en>Continuous monitoring, done-for-you</span><span data-bn hidden lang="bn">ধারাবাহিক মনিটরিং — সম্পূর্ণ আমরাই করি</span></li>
+            <li><span data-en>Monthly diff report (what changed &amp; why)</span><span data-bn hidden lang="bn">মাসিক diff রিপোর্ট (কী বদলালো ও কেন)</span></li>
+            <li><span data-en>Real-time alert on every new finding</span><span data-bn hidden lang="bn">প্রতিটি নতুন ফাইন্ডিংয়ে রিয়েল-টাইম অ্যালার্ট</span></li>
+          </ul>
+          <div class="price"><span data-cur="bdt">৳5,000–12,000</span><span data-cur="usd" hidden>$150–500</span><span data-en>per month · cancel anytime</span><span data-bn hidden lang="bn">প্রতি মাসে · যেকোনো সময় বাতিল</span></div>
+          <a href="#contact" class="btn btn-ghost btn-sm"><span data-en>Subscribe to Watch</span><span data-bn hidden lang="bn">Watch সাবস্ক্রাইব করুন</span> →</a>
+        </div>
+
+        <div class="card reveal">
+          <svg class="card-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6l4 9 9 4-9 4-4 9-4-9-9-4 9-4z" fill="none" stroke="#FF5A36" stroke-width="2.2" stroke-linejoin="round"/></svg>
+          <h3>AI/LLM Security</h3>
+          <p class="desc"><span data-en>For teams shipping a chatbot, agent, or LLM feature. We try to break it the way a real attacker would — before they do.</span><span data-bn hidden lang="bn">যারা চ্যাটবট, এজেন্ট বা LLM ফিচার চালু করছেন তাদের জন্য। বাস্তব অ্যাটাকার যেভাবে ভাঙবে, আমরা আগেই সেভাবে পরীক্ষা করি।</span></p>
+          <ul class="includes">
+            <li><span data-en>Prompt-injection &amp; jailbreak testing</span><span data-bn hidden lang="bn">প্রম্পট-ইনজেকশন ও জেইলব্রেক টেস্টিং</span></li>
+            <li><span data-en>Data-leak &amp; system-prompt exposure</span><span data-bn hidden lang="bn">ডেটা-লিক ও সিস্টেম-প্রম্পট এক্সপোজার</span></li>
+            <li><span data-en>Agent / tool-abuse testing (test accounts only)</span><span data-bn hidden lang="bn">এজেন্ট / টুল-অপব্যবহার টেস্টিং (শুধু টেস্ট অ্যাকাউন্ট)</span></li>
+          </ul>
+          <div class="price"><span data-cur="bdt">৳40,000–1,50,000</span><span data-cur="usd" hidden>$2,000–8,000</span><span data-en>per engagement · 2–5 days</span><span data-bn hidden lang="bn">প্রতি এনগেজমেন্ট · ২–৫ দিন</span></div>
+          <a href="#contact" class="btn btn-ghost btn-sm"><span data-en>Book an assessment</span><span data-bn hidden lang="bn">অ্যাসেসমেন্ট বুক করুন</span> →</a>
+        </div>
+
+        <div class="card reveal">
+          <svg class="card-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M22 4L8 22h9l-3 14 17-20h-10z" fill="#FFC169"/></svg>
+          <h3>Productized Gig</h3>
+          <p class="desc"><span data-en>A single, tightly-scoped check with a fixed price and fast turnaround — the lowest-commitment way to start.</span><span data-bn hidden lang="bn">একটিমাত্র নির্দিষ্ট-স্কোপ চেক — ফিক্সড দাম, দ্রুত ডেলিভারি। শুরু করার সবচেয়ে সহজ উপায়।</span></p>
+          <ul class="includes">
+            <li><span data-en>One specific target, one clear deliverable</span><span data-bn hidden lang="bn">একটি নির্দিষ্ট টার্গেট, একটি স্পষ্ট ডেলিভারেবল</span></li>
+            <li><span data-en>Fixed price agreed up front</span><span data-bn hidden lang="bn">আগেই নির্ধারিত ফিক্সড দাম</span></li>
+            <li><span data-en>Ideal for Fiverr / Upwork-style buyers</span><span data-bn hidden lang="bn">Fiverr / Upwork ধরনের ক্রেতাদের জন্য আদর্শ</span></li>
+          </ul>
+          <div class="price"><span data-cur="bdt">৳16,000–55,000</span><span data-cur="usd" hidden>$150–500</span><span data-en>fixed scope · 2–4 hrs delivery</span><span data-bn hidden lang="bn">ফিক্সড স্কোপ · ২–৪ ঘণ্টায় ডেলিভারি</span></div>
+          <a href="#contact" class="btn btn-ghost btn-sm"><span data-en>See gig scope</span><span data-bn hidden lang="bn">গিগ স্কোপ দেখুন</span> →</a>
+        </div>
+      </div>
+      <p class="price-lead price-lead--after"><span data-en>Ranges depend on one thing only: <strong>how many domains and assets are in scope.</strong> We confirm the exact figure and give you a fixed quote before you pay anything. No hourly billing, no surprise scope.</span><span data-bn hidden lang="bn">দাম শুধু একটি বিষয়ের উপর নির্ভর করে: <strong>স্কোপে কতগুলো ডোমেইন ও অ্যাসেট আছে।</strong> টাকা দেওয়ার আগেই আমরা সঠিক সংখ্যা নিশ্চিত করে ফিক্সড কোট দিই। ঘণ্টা-হিসেবে বিল নয়, হঠাৎ স্কোপ বাড়ানো নয়।</span></p>
+    </div>
+  </section>
+
+  <!-- ============ ASSURANCE (risk reversal) ============ -->
+  <section class="assurance">
+    <div class="assurance-grid">
+      <div class="assurance-item reveal">
+        <svg class="ai-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5l12 5v9c0 8-5 13-12 16-7-3-12-8-12-16v-9z" fill="none" stroke="#33E0C8" stroke-width="2.2"/><path d="M14 20l4 4 8-9" stroke="#FF5A36" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><h4><span data-en>Nothing without your signature</span><span data-bn hidden lang="bn">আপনার স্বাক্ষর ছাড়া কিছুই নয়</span></h4><p><span data-en>Every scan runs only under a signed Rules of Engagement. No drive-by testing, ever.</span><span data-bn hidden lang="bn">প্রতিটি স্ক্যান শুধু স্বাক্ষরিত RoE-এর অধীনে। কখনো অনুমতিহীন টেস্টিং নয়।</span></p></div>
+      </div>
+      <div class="assurance-item reveal">
+        <svg class="ai-ic" viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="17" width="22" height="16" rx="3" fill="none" stroke="#33E0C8" stroke-width="2.2"/><path d="M14 17v-4a6 6 0 0112 0v4" fill="none" stroke="#FFC169" stroke-width="2.2"/></svg>
+        <div><h4><span data-en>Passive-first — safe by design</span><span data-bn hidden lang="bn">প্যাসিভ-ফার্স্ট — নিরাপদ</span></h4><p><span data-en>We look, we don't break. Your systems are never modified or taken offline.</span><span data-bn hidden lang="bn">আমরা দেখি, ভাঙি না। আপনার সিস্টেম কখনো পরিবর্তন বা বন্ধ হয় না।</span></p></div>
+      </div>
+      <div class="assurance-item reveal">
+        <svg class="ai-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c6 4 11 5 11 5v8c0 8-5 12-11 15-6-3-11-7-11-15v-8s5-1 11-5z" fill="none" stroke="#33E0C8" stroke-width="2.2"/><circle cx="20" cy="19" r="3" fill="#FF5A36"/></svg>
+        <div><h4><span data-en>Your data, deleted on request</span><span data-bn hidden lang="bn">আপনার ডেটা, অনুরোধে মুছে ফেলা হয়</span></h4><p><span data-en>Self-hosted, encrypted, auto-purged in 30 days — or sooner if you ask. No trackers.</span><span data-bn hidden lang="bn">Self-hosted, encrypted, ৩০ দিনে অটো-পার্জ — বললে তার আগেই। কোনো ট্র্যাকার নেই।</span></p></div>
+      </div>
+      <div class="assurance-item reveal">
+        <svg class="ai-ic" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14" fill="none" stroke="#33E0C8" stroke-width="2.2"/><path d="M13 20l5 5 9-11" stroke="#FF5A36" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><h4><span data-en>First Snapshot is free</span><span data-bn hidden lang="bn">প্রথম Snapshot ফ্রি</span></h4><p><span data-en>Founding-cohort clients pay nothing for the first scan. See the value before you spend.</span><span data-bn hidden lang="bn">ফাউন্ডিং-কোহর্ট ক্লায়েন্টরা প্রথম স্ক্যানে কিছুই দেন না। খরচের আগেই মূল্য দেখুন।</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>Process</span><span data-bn hidden lang="bn">প্রসেস</span></div>
+        <h2><span data-en>From intake to a verified report — nothing skipped.</span><span data-bn hidden lang="bn">ইনটেক থেকে যাচাইকৃত রিপোর্ট — কিছুই বাদ পড়ে না।</span></h2>
+        <p><span data-en>Two checkpoints are never automated away: authorization, and the final severity call on anything critical.</span><span data-bn hidden lang="bn">দুটি চেকপয়েন্ট কখনো স্বয়ংক্রিয় হয় না: অনুমোদন, এবং যেকোনো ক্রিটিক্যাল ফাইন্ডিংয়ের চূড়ান্ত সিভিয়ারিটি সিদ্ধান্ত।</span></p>
+      </div>
+      <div class="process">
+        <div class="step gate reveal"><div class="num">01</div><h3><span data-en>Intake</span><span data-bn hidden lang="bn">ইনটেক</span></h3><p><span data-en>Quick scope form — domains, targets, goals.</span><span data-bn hidden lang="bn">দ্রুত স্কোপ ফর্ম — ডোমেইন, টার্গেট, লক্ষ্য।</span></p></div>
+        <div class="step gate reveal"><div class="num">02</div><h3><span data-en>Authorize</span><span data-bn hidden lang="bn">অনুমোদন</span></h3><p><span data-en>Signed RoE + Authorization Letter. Non-negotiable gate.</span><span data-bn hidden lang="bn">স্বাক্ষরিত RoE + অথরাইজেশন লেটার। অ-আপসযোগ্য গেট।</span></p></div>
+        <div class="step reveal"><div class="num">03</div><h3><span data-en>Scan</span><span data-bn hidden lang="bn">স্ক্যান</span></h3><p><span data-en>SecretNode passive scan, strictly within authorized scope.</span><span data-bn hidden lang="bn">SecretNode প্যাসিভ স্ক্যান — কঠোরভাবে অনুমোদিত স্কোপের ভেতরে।</span></p></div>
+        <div class="step reveal"><div class="num">04</div><h3><span data-en>Verify &amp; Report</span><span data-bn hidden lang="bn">যাচাই ও রিপোর্ট</span></h3><p><span data-en>AI-drafted report plus a human severity review.</span><span data-bn hidden lang="bn">AI-খসড়া রিপোর্ট, সঙ্গে মানব সিভিয়ারিটি রিভিউ।</span></p></div>
+        <div class="step reveal"><div class="num">05</div><h3><span data-en>Delivery Call</span><span data-bn hidden lang="bn">ডেলিভারি কল</span></h3><p><span data-en>A 15–20 min walkthrough of every finding.</span><span data-bn hidden lang="bn">প্রতিটি ফাইন্ডিংয়ের ১৫–২০ মিনিটের ওয়াকথ্রু।</span></p></div>
+        <div class="step reveal"><div class="num">06</div><h3><span data-en>Free Re-check</span><span data-bn hidden lang="bn">ফ্রি রি-চেক</span></h3><p><span data-en>Two weeks later, then an easy path into Watch.</span><span data-bn hidden lang="bn">দুই সপ্তাহ পর, তারপর Watch-এ সহজ পথ।</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW WE WORK ============ -->
+  <section id="how-we-work">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>How We Work</span><span data-bn hidden lang="bn">আমরা যেভাবে কাজ করি</span></div>
+        <h2><span data-en>Three rules that never bend.</span><span data-bn hidden lang="bn">তিনটি নিয়ম — কখনো ভাঙে না।</span></h2>
+      </div>
+      <div class="rules-grid">
+        <div class="rule reveal">
+          <div class="rule-num">RULE 01</div>
+          <h3><span data-en>Authorization before anything</span><span data-bn hidden lang="bn">সবার আগে অনুমোদন</span></h3>
+          <p><span data-en>No scan ever starts without a signed Rules of Engagement and Authorization Letter naming the exact scope and time window. There is no drive-by scanning — not for demos, not for pilots, not ever.</span><span data-bn hidden lang="bn">স্বাক্ষরিত Rules of Engagement ও Authorization Letter ছাড়া কোনো স্ক্যান শুরু হয় না — ডেমোর জন্যও নয়, পাইলটের জন্যও নয়, কখনোই নয়।</span></p>
+        </div>
+        <div class="rule reveal">
+          <div class="rule-num">RULE 02</div>
+          <h3><span data-en>Your data stays minimal and mortal</span><span data-bn hidden lang="bn">আপনার ডেটা — ন্যূনতম ও স্বল্পস্থায়ী</span></h3>
+          <p><span data-en>Scan data lives on self-hosted infrastructure, encrypted at rest, kept only as long as the engagement needs it — and deleted on request. No third-party analytics, no trackers, no cookies on this site either.</span><span data-bn hidden lang="bn">স্ক্যান ডেটা self-hosted অবকাঠামোয় থাকে, encrypted-at-rest, এবং প্রয়োজন ফুরালে বা অনুরোধেই মুছে ফেলা হয়। এই সাইটেও কোনো ট্র্যাকার বা কুকি নেই।</span></p>
+        </div>
+        <div class="rule reveal">
+          <div class="rule-num">RULE 03</div>
+          <h3><span data-en>Findings go to you — and only you</span><span data-bn hidden lang="bn">ফাইন্ডিংস শুধু আপনার কাছে যায়</span></h3>
+          <p><span data-en>The same responsible-disclosure discipline behind the Google VRP track record applies to every engagement: verified before reported, severity calibrated honestly, and never disclosed to anyone but you.</span><span data-bn hidden lang="bn">Google VRP ট্র্যাক রেকর্ডের পেছনের একই responsible-disclosure নীতি প্রতিটি এনগেজমেন্টে প্রযোজ্য: আগে যাচাই, তারপর রিপোর্ট — এবং আপনি ছাড়া কারও কাছে প্রকাশ নয়।</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY ============ -->
+  <section id="why">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>Why Cindrasec</span><span data-bn hidden lang="bn">কেন Cindrasec</span></div>
+        <h2><span data-en>The moat isn't the tool. It's how it's run.</span><span data-bn hidden lang="bn">আসল শক্তি টুল নয় — কীভাবে চালানো হয়, সেটাই।</span></h2>
+        <p><span data-en>Anyone can copy a scanner. These five things compound instead.</span><span data-bn hidden lang="bn">স্ক্যানার যে কেউ কপি করতে পারে। কিন্তু এই পাঁচটি জিনিস সময়ের সঙ্গে বাড়ে।</span></p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item reveal">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 30l8-8 6 6 14-14" fill="none" stroke="#FF5A36" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3><span data-en>Verification-First</span><span data-bn hidden lang="bn">ভেরিফিকেশন-ফার্স্ট</span></h3>
+          <p><span data-en>Every finding is confirmed before you see it — you get signal, not a wall of false positives.</span><span data-bn hidden lang="bn">প্রতিটি ফাইন্ডিং আপনার কাছে যাওয়ার আগে যাচাই করা হয় — আপনি পান signal, false positive-এর দেয়াল নয়।</span></p>
+        </div>
+        <div class="why-item reveal">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13" fill="none" stroke="#33E0C8" stroke-width="2.4"/><path d="M20 12v8l6 4" stroke="#33E0C8" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <h3><span data-en>Recurring, Not One-off</span><span data-bn hidden lang="bn">ধারাবাহিক, এককালীন নয়</span></h3>
+          <p><span data-en>Monthly diff reports keep you covered between big reviews — security as a habit, not a yearly panic.</span><span data-bn hidden lang="bn">মাসিক diff রিপোর্ট বড় রিভিউয়ের মাঝেও সুরক্ষা দেয় — নিরাপত্তা একটি অভ্যাস, বাৎসরিক আতঙ্ক নয়।</span></p>
+        </div>
+        <div class="why-item reveal">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c8 0 14 7 14 14s-6 18-14 18S6 25 6 18 12 4 20 4z" fill="none" stroke="#FFC169" stroke-width="2.2"/><path d="M8 18h24M20 6c4 4 6 9 6 12s-2 8-6 12c-4-4-6-9-6-12s2-8 6-12z" stroke="#FFC169" stroke-width="1.4" fill="none"/></svg>
+          <h3><span data-en>Local Trust, Global Reach</span><span data-bn hidden lang="bn">লোকাল ট্রাস্ট, গ্লোবাল রিচ</span></h3>
+          <p><span data-en>Bilingual delivery — <span lang="bn">বাংলা</span> support paired with international-grade reporting.</span><span data-bn hidden lang="bn">দ্বিভাষিক ডেলিভারি — বাংলা সাপোর্টের সঙ্গে আন্তর্জাতিক মানের রিপোর্টিং।</span></p>
+        </div>
+        <div class="why-item reveal">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 30V16l8-10 8 10v14" fill="none" stroke="#FF5A36" stroke-width="2.2" stroke-linejoin="round"/><circle cx="20" cy="20" r="3" fill="#FF5A36"/></svg>
+          <h3><span data-en>Niche Authority</span><span data-bn hidden lang="bn">নির্দিষ্ট বিষয়ে দক্ষতা</span></h3>
+          <p><span data-en>Focused only on attack surface and AI/LLM security — not a generalist agency.</span><span data-bn hidden lang="bn">শুধু অ্যাটাক সারফেস ও AI/LLM সিকিউরিটিতে মনোযোগী — জেনারেলিস্ট এজেন্সি নয়।</span></p>
+        </div>
+        <div class="why-item reveal">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M22 4L10 22h8l-2 14 16-20h-8z" fill="#33E0C8"/></svg>
+          <h3><span data-en>Built for Speed</span><span data-bn hidden lang="bn">দ্রুততার জন্য তৈরি</span></h3>
+          <p><span data-en>Automation-first pipeline delivers in days where agencies take weeks.</span><span data-bn hidden lang="bn">অটোমেশন-ফার্স্ট পাইপলাইন কয়েক দিনে ডেলিভার করে, যেখানে এজেন্সি নেয় সপ্তাহ।</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROOF ============ -->
+  <section id="proof">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>Track Record</span><span data-bn hidden lang="bn">ট্র্যাক রেকর্ড</span></div>
+        <h2><span data-en>Findings that were actually accepted — not hypotheticals.</span><span data-bn hidden lang="bn">বাস্তবে গৃহীত ফাইন্ডিংস — কল্পনা নয়।</span></h2>
+        <p><span data-en>Cindrasec is new as a business, but the researcher behind it isn't new to disclosure. A sample of confirmed, redacted findings from the Google Vulnerability Reward Program:</span><span data-bn hidden lang="bn">ব্যবসা হিসেবে Cindrasec নতুন, কিন্তু গবেষক নতুন নন। Google VRP থেকে কিছু নিশ্চিত, রিড্যাক্টেড ফাইন্ডিং:</span></p>
+      </div>
+      <div class="proof-grid">
+        <div class="proof-card reveal">
+          <span class="sev sev-p2"><span data-en>Confirmed · P2</span><span data-bn hidden lang="bn">নিশ্চিত · P2</span></span>
+          <h3><span data-en>Cross-tenant load balancer misconfiguration</span><span data-bn hidden lang="bn">ক্রস-টেন্যান্ট লোড ব্যালান্সার মিসকনফিগারেশন</span></h3>
+          <p><span data-en>A Google-acquired product's subdomains shared a load balancer in a way that allowed cross-tenant routing exposure. Confirmed and assigned P2 severity by a Google engineer.</span><span data-bn hidden lang="bn">Google-অধিগৃহীত একটি প্রোডাক্টের সাবডোমেইনগুলো এমনভাবে একটি লোড ব্যালান্সার ভাগ করছিল যাতে ক্রস-টেন্যান্ট রাউটিং এক্সপোজার সম্ভব হতো। Google-এর একজন ইঞ্জিনিয়ার এটি নিশ্চিত করে P2 সিভিয়ারিটি দেন।</span></p>
+          <div class="tag"><span data-en>Google VRP · acquisition-scope target</span><span data-bn hidden lang="bn">Google VRP · অ্যাকুইজিশন-স্কোপ টার্গেট</span></div>
+        </div>
+        <div class="proof-card reveal">
+          <span class="sev sev-crit"><span data-en>Critical · NS delegation</span><span data-bn hidden lang="bn">ক্রিটিক্যাল · NS ডেলিগেশন</span></span>
+          <h3><span data-en>Dangling nameserver delegation</span><span data-bn hidden lang="bn">ড্যাংলিং নেমসার্ভার ডেলিগেশন</span></h3>
+          <p><span data-en>A subdomain on Google-acquired infrastructure delegated to a nameserver provider whose account had lapsed — a takeover path later confirmed and classified critical.</span><span data-bn hidden lang="bn">Google-অধিগৃহীত অবকাঠামোর একটি সাবডোমেইন এমন এক নেমসার্ভার প্রোভাইডারে ডেলিগেট করা ছিল যার অ্যাকাউন্টের মেয়াদ শেষ হয়ে গিয়েছিল — পরে এই টেকওভার পথটি নিশ্চিত হয় এবং ক্রিটিক্যাল হিসেবে চিহ্নিত হয়।</span></p>
+          <div class="tag"><span data-en>Custom NS-takeover scanner · Google-acquired target</span><span data-bn hidden lang="bn">কাস্টম NS-টেকওভার স্ক্যানার · Google-অধিগৃহীত টার্গেট</span></div>
+        </div>
+        <div class="proof-card reveal">
+          <span class="sev sev-p4"><span data-en>Closed · WAI / P4</span><span data-bn hidden lang="bn">বন্ধ · WAI / P4</span></span>
+          <h3><span data-en>CORS misconfiguration — a lesson kept, not hidden</span><span data-bn hidden lang="bn">CORS মিসকনফিগারেশন — শিক্ষাটি লুকানো হয়নি</span></h3>
+          <p><span data-en>A CORS header-reflection issue was reported and closed as working-as-intended. It's on this list on purpose: header reflection alone isn't enough, and every report Cindrasec sends holds itself to that same higher bar.</span><span data-bn hidden lang="bn">একটি CORS হেডার-রিফ্লেকশন ইস্যু রিপোর্ট করা হয়েছিল এবং working-as-intended হিসেবে বন্ধ করা হয়। এটি এই তালিকায় আছে ইচ্ছাকৃতভাবেই: শুধু হেডার রিফ্লেকশনই যথেষ্ট নয়, আর Cindrasec-এর পাঠানো প্রতিটি রিপোর্ট নিজেকে সেই একই উঁচু মানদণ্ডে রাখে।</span></p>
+          <div class="tag"><span data-en>Included for calibration, not just wins</span><span data-bn hidden lang="bn">ক্যালিব্রেশনের জন্য রাখা — শুধু সাফল্য নয়</span></div>
+        </div>
+      </div>
+      <p class="proof-note reveal"><span data-en>Full write-ups are redacted until public disclosure timelines clear. See a <a href="sample-finding.pdf" target="_blank" rel="noopener">sample client-facing report format (PDF)</a> — illustrative, no live vulnerability details, same rigor.</span><span data-bn hidden lang="bn">পাবলিক ডিসক্লোজার টাইমলাইন পার না হওয়া পর্যন্ত সম্পূর্ণ রিপোর্ট রিড্যাক্টেড থাকে। একটি <a href="sample-finding.pdf" target="_blank" rel="noopener">নমুনা ক্লায়েন্ট রিপোর্ট ফরম্যাট (PDF)</a> দেখুন — উদাহরণস্বরূপ, লাইভ ভালনারেবিলিটি ডিটেইল ছাড়াই, একই কঠোরতায়।</span></p>
+    </div>
+  </section>
+
+  <!-- ============ FOUNDING COHORT ============ -->
+  <section>
+    <div class="wrap">
+      <div class="cohort reveal">
+        <div>
+          <div class="eyebrow"><span data-en>Founding Cohort</span><span data-bn hidden lang="bn">ফাউন্ডিং কোহর্ট</span></div>
+          <h2><span data-en>Your first Snapshot is free — here's the deal.</span><span data-bn hidden lang="bn">আপনার প্রথম Snapshot ফ্রি — শর্তটা সহজ।</span></h2>
+          <p><span data-en>We're onboarding a small number of pilot clients at no cost to build honest, redacted case studies. You get a real scan and a real report; we get proof. Every client works directly with the researcher behind the scan — not a support queue. Slots are limited by design, not marketing.</span><span data-bn hidden lang="bn">সৎ, রিড্যাক্টেড কেস স্টাডি তৈরি করতে আমরা অল্প কিছু পাইলট ক্লায়েন্টকে বিনামূল্যে অনবোর্ড করছি। আপনি পান আসল স্ক্যান ও আসল রিপোর্ট; আমরা পাই প্রমাণ। প্রতিটি ক্লায়েন্ট সরাসরি গবেষকের সঙ্গে কাজ করেন — সাপোর্ট কিউ নয়। স্লট সীমিত — ডিজাইনেই, মার্কেটিং নয়।</span></p>
+          <div class="badge-row">
+            <span class="trust-chip"><span data-en>Signed RoE on every engagement</span><span data-bn hidden lang="bn">প্রতিটি এনগেজমেন্টে স্বাক্ষরিত RoE</span></span>
+            <span class="trust-chip"><span data-en>Real report, yours to keep</span><span data-bn hidden lang="bn">আসল রিপোর্ট, আপনারই থাকবে</span></span>
+            <span class="trust-chip"><span data-en>Case study only with your consent</span><span data-bn hidden lang="bn">কেস স্টাডি শুধু আপনার সম্মতিতে</span></span>
+          </div>
+        </div>
+        <div class="founder">
+          <div class="name">Md. Azmol Haque Rony</div>
+          <div class="role"><span data-en>Founder &amp; Principal Security Researcher</span><span data-bn hidden lang="bn">ফাউন্ডার ও প্রিন্সিপাল সিকিউরিটি রিসার্চার</span></div>
+          <p class="founder-bio"><span data-en>Google VRP–credited, with a calibrated, responsible-disclosure track record. Builds and runs the SecretNode scanning engine end to end.</span><span data-bn hidden lang="bn">Google VRP–credited, calibrated ও দায়িত্বশীল disclosure ট্র্যাক রেকর্ডসহ। SecretNode স্ক্যানিং ইঞ্জিন নিজে তৈরি ও পরিচালনা করেন।</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING TABLE ============ -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>Pricing</span><span data-bn hidden lang="bn">প্রাইসিং</span></div>
+        <h2><span data-en>Clear, fixed-scope pricing. No hourly billing.</span><span data-bn hidden lang="bn">স্পষ্ট, ফিক্সড-স্কোপ দাম। ঘণ্টা-হিসেবে বিল নয়।</span></h2>
+        <p><span data-en>Toggle ৳ / $ above. The range depends only on scope size — you always get a fixed quote before paying.</span><span data-bn hidden lang="bn">উপরে ৳ / $ টগল করুন। দাম শুধু স্কোপের আকারের উপর নির্ভর করে — টাকা দেওয়ার আগে সবসময় ফিক্সড কোট পাবেন।</span></p>
+      </div>
+
+      <div class="pilot-banner reveal">
+        <div>
+          <h3><span data-en>★ Founding cohort: your first Snapshot is free</span><span data-bn hidden lang="bn">★ ফাউন্ডিং কোহর্ট: আপনার প্রথম Snapshot ফ্রি</span></h3>
+          <p><span data-en>A real scan and a real report at no cost, under a signed RoE — while pilot slots last. The prices below apply after that.</span><span data-bn hidden lang="bn">স্বাক্ষরিত RoE-এর অধীনে আসল স্ক্যান ও আসল রিপোর্ট — বিনামূল্যে, যতক্ষণ পাইলট স্লট আছে। নিচের দাম তারপর প্রযোজ্য।</span></p>
+        </div>
+        <a href="#contact" class="btn btn-primary btn-sm"><span data-en>Claim a free Snapshot</span><span data-bn hidden lang="bn">ফ্রি Snapshot নিন</span> →</a>
+      </div>
+
+      <div class="table-wrap reveal">
+        <table class="pricing">
+          <thead>
+            <tr><th><span data-en>Tier</span><span data-bn hidden lang="bn">টিয়ার</span></th><th><span data-en>What's included</span><span data-bn hidden lang="bn">যা অন্তর্ভুক্ত</span></th><th><span data-en>Delivery</span><span data-bn hidden lang="bn">ডেলিভারি</span></th><th><span data-en>Price</span><span data-bn hidden lang="bn">দাম</span></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tier">Snapshot</td>
+              <td class="inc" data-label="What's included"><span class="en" data-en>External surface + exposed-secrets scan, verified report, walkthrough call, free re-check</span><span class="bn" data-bn hidden lang="bn">এক্সটার্নাল সারফেস + এক্সপোজড-সিক্রেট স্ক্যান, যাচাইকৃত রিপোর্ট, ওয়াকথ্রু কল, ফ্রি রি-চেক</span></td>
+              <td data-label="Delivery"><span data-en>3–5 working days</span><span data-bn hidden lang="bn">৩–৫ কর্মদিবস</span></td>
+              <td data-label="Price"><span data-cur="bdt">৳15k–25k</span><span data-cur="usd" hidden>$250–600</span></td>
+            </tr>
+            <tr>
+              <td class="tier">Watch</td>
+              <td class="inc" data-label="What's included"><span class="en" data-en>Continuous monitoring, monthly diff report, real-time alerts — fully done-for-you</span><span class="bn" data-bn hidden lang="bn">ধারাবাহিক মনিটরিং, মাসিক diff রিপোর্ট, রিয়েল-টাইম অ্যালার্ট — সম্পূর্ণ আমরাই করি</span></td>
+              <td data-label="Delivery"><span data-en>Monthly · cancel anytime</span><span data-bn hidden lang="bn">মাসিক · যেকোনো সময় বাতিল</span></td>
+              <td data-label="Price"><span data-cur="bdt">৳5k–12k/mo</span><span data-cur="usd" hidden>$150–500/mo</span></td>
+            </tr>
+            <tr>
+              <td class="tier">AI/LLM Security</td>
+              <td class="inc" data-label="What's included"><span class="en" data-en>Prompt-injection, jailbreak, data-leak &amp; agent-abuse testing on your LLM systems</span><span class="bn" data-bn hidden lang="bn">আপনার LLM সিস্টেমে প্রম্পট-ইনজেকশন, জেইলব্রেক, ডেটা-লিক ও এজেন্ট-অপব্যবহার টেস্টিং</span></td>
+              <td data-label="Delivery"><span data-en>2–5 days</span><span data-bn hidden lang="bn">২–৫ দিন</span></td>
+              <td data-label="Price"><span data-cur="bdt">৳40k–1.5L</span><span data-cur="usd" hidden>$2,000–8,000</span></td>
+            </tr>
+            <tr>
+              <td class="tier">Productized Gig</td>
+              <td class="inc" data-label="What's included"><span class="en" data-en>One tightly-scoped check, one clear deliverable, fixed price agreed up front</span><span class="bn" data-bn hidden lang="bn">একটি নির্দিষ্ট-স্কোপ চেক, একটি স্পষ্ট ডেলিভারেবল, আগেই নির্ধারিত ফিক্সড দাম</span></td>
+              <td data-label="Delivery"><span data-en>2–4 hrs</span><span data-bn hidden lang="bn">২–৪ ঘণ্টা</span></td>
+              <td data-label="Price"><span data-cur="bdt">৳16k–55k</span><span data-cur="usd" hidden>$150–500</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- value comparison -->
+      <div class="compare reveal">
+        <div class="compare-card them">
+          <div class="lab"><span data-en>Traditional one-time pentest</span><span data-bn hidden lang="bn">প্রচলিত এককালীন পেনটেস্ট</span></div>
+          <div class="big"><span data-cur="bdt">৳5,00,000+</span><span data-cur="usd" hidden>$5,000–35,000</span></div>
+          <ul>
+            <li><span data-en>A single snapshot in time, then nothing</span><span data-bn hidden lang="bn">শুধু এক মুহূর্তের ছবি, তারপর কিছু নেই</span></li>
+            <li><span data-en>Weeks of turnaround</span><span data-bn hidden lang="bn">সপ্তাহের পর সপ্তাহ সময়</span></li>
+            <li><span data-en>Out of reach for most SMEs</span><span data-bn hidden lang="bn">বেশিরভাগ SME-র নাগালের বাইরে</span></li>
+          </ul>
+        </div>
+        <div class="compare-card us">
+          <div class="lab"><span data-en>Cindrasec</span><span data-bn hidden lang="bn">Cindrasec</span></div>
+          <div class="big"><span data-en>A fraction of that — continuous</span><span data-bn hidden lang="bn">তার একটি ভগ্নাংশ — ধারাবাহিক</span></div>
+          <ul>
+            <li><span data-en>Automation makes the first pass near-free</span><span data-bn hidden lang="bn">অটোমেশনে প্রথম পাস প্রায়-বিনামূল্যে</span></li>
+            <li><span data-en>Report in days, alerts in real time</span><span data-bn hidden lang="bn">কয়েক দিনে রিপোর্ট, রিয়েল-টাইমে অ্যালার্ট</span></li>
+            <li><span data-en>Priced for founders, not enterprises</span><span data-bn hidden lang="bn">এন্টারপ্রাইজ নয়, ফাউন্ডারদের জন্য দাম</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- how billing works -->
+      <div class="billing reveal">
+        <h3><span data-en>How billing works</span><span data-bn hidden lang="bn">বিলিং যেভাবে কাজ করে</span></h3>
+        <div class="billing-grid">
+          <div class="billing-col">
+            <div class="bt"><span data-en>Local (Bangladesh)</span><span data-bn hidden lang="bn">লোকাল (বাংলাদেশ)</span></div>
+            <p><span data-en>bKash or bank transfer, invoiced in Taka. A 50% advance starts the work; the balance is due on delivery.</span><span data-bn hidden lang="bn">bKash বা ব্যাংক ট্রান্সফার, টাকায় ইনভয়েস। ৫০% অগ্রিম দিলে কাজ শুরু; বাকিটা ডেলিভারিতে।</span></p>
+          </div>
+          <div class="billing-col">
+            <div class="bt"><span data-en>Global</span><span data-bn hidden lang="bn">গ্লোবাল</span></div>
+            <p><span data-en>Payoneer or Wise, billed in USD as an export of service. Same 50% advance, 50% on delivery.</span><span data-bn hidden lang="bn">Payoneer বা Wise, USD-তে export-of-service হিসেবে বিল। একই ৫০% অগ্রিম, ৫০% ডেলিভারিতে।</span></p>
+          </div>
+          <div class="billing-col">
+            <div class="bt"><span data-en>Always</span><span data-bn hidden lang="bn">সবসময়</span></div>
+            <p><span data-en>No payment link on this site by design — you get a proper invoice after a quick scope call and a signed RoE.</span><span data-bn hidden lang="bn">এই সাইটে ইচ্ছাকৃতভাবে কোনো পেমেন্ট লিংক নেই — দ্রুত স্কোপ কল ও স্বাক্ষরিত RoE-এর পর সঠিক ইনভয়েস পাবেন।</span></p>
+          </div>
+        </div>
+        <div class="billing-note"><span data-en>Watch subscriptions are month-to-month with no lock-in. The founding-cohort Snapshot is genuinely free — no card, no obligation to continue.</span><span data-bn hidden lang="bn">Watch সাবস্ক্রিপশন মাসভিত্তিক — কোনো লক-ইন নেই। ফাউন্ডিং-কোহর্ট Snapshot সত্যিকারভাবে ফ্রি — কার্ড নয়, চালিয়ে যাওয়ার বাধ্যবাধকতা নয়।</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span data-en>FAQ</span><span data-bn hidden lang="bn">সচরাচর জিজ্ঞাসা</span></div>
+        <h2><span data-en>Before you reach out.</span><span data-bn hidden lang="bn">যোগাযোগের আগে।</span></h2>
+      </div>
+      <div class="faq reveal">
+        <details open>
+          <summary><span data-en>Is scanning my systems even legal?</span><span data-bn hidden lang="bn">আমার সিস্টেম স্ক্যান করা কি বৈধ?</span></summary>
+          <p><span data-en>Yes — every engagement starts with a signed Rules of Engagement and Authorization Letter covering scope, time window, and data handling. Scans are passive-first and never touch anything outside the agreed scope. No signed authorization, no scan — that's a hard rule, not a formality.</span><span data-bn hidden lang="bn">হ্যাঁ — প্রতিটি এনগেজমেন্ট শুরু হয় স্বাক্ষরিত Rules of Engagement ও Authorization Letter দিয়ে, যেখানে স্কোপ, সময়সীমা ও ডেটা হ্যান্ডলিং থাকে। স্ক্যান passive-first এবং অনুমোদিত স্কোপের বাইরে কিছুতেই হাত দেয় না। স্বাক্ষরিত অনুমতি ছাড়া কোনো স্ক্যান নয় — এটি নিয়ম, আনুষ্ঠানিকতা নয়।</span></p>
+        </details>
+        <details>
+          <summary><span data-en>Will testing break or slow down my site?</span><span data-bn hidden lang="bn">টেস্টিং কি আমার সাইট ভাঙবে বা ধীর করবে?</span></summary>
+          <p><span data-en>No. Testing is passive-first and rate-limited — we observe what's publicly reachable rather than attacking it. We never exploit, never overload, and never modify or delete your data. Your systems keep running exactly as they were.</span><span data-bn hidden lang="bn">না। টেস্টিং passive-first ও rate-limited — আমরা পাবলিকলি যা অ্যাক্সেসযোগ্য তা পর্যবেক্ষণ করি, আক্রমণ করি না। কখনো exploit করি না, overload করি না, আপনার ডেটা পরিবর্তন বা মুছি না। আপনার সিস্টেম আগের মতোই চলতে থাকে।</span></p>
+        </details>
+        <details>
+          <summary><span data-en>How much does it cost, and why the range?</span><span data-bn hidden lang="bn">খরচ কত, আর দাম রেঞ্জ কেন?</span></summary>
+          <p><span data-en>A Snapshot is ৳15k–25k ($250–600); Watch is ৳5k–12k/mo ($150–500); AI/LLM assessments are ৳40k–1.5L ($2,000–8,000). The range depends only on how many domains and assets are in scope — we confirm the exact figure and give a fixed quote before you pay. And the first Snapshot is free for founding-cohort clients.</span><span data-bn hidden lang="bn">Snapshot ৳১৫–২৫ হাজার ($২৫০–৬০০); Watch ৳৫–১২ হাজার/মাস ($১৫০–৫০০); AI/LLM অ্যাসেসমেন্ট ৳৪০ হাজার–১.৫ লাখ ($২,০০০–৮,০০০)। দাম শুধু স্কোপে কতগুলো ডোমেইন ও অ্যাসেট আছে তার উপর নির্ভর করে — টাকা দেওয়ার আগে সঠিক সংখ্যা নিশ্চিত করে ফিক্সড কোট দিই। আর ফাউন্ডিং-কোহর্ট ক্লায়েন্টদের প্রথম Snapshot ফ্রি।</span></p>
+        </details>
+        <details>
+          <summary><span data-en>How do I pay?</span><span data-bn hidden lang="bn">কীভাবে পেমেন্ট করব?</span></summary>
+          <p><span data-en>Local clients: bKash or bank transfer in Taka. Global clients: Payoneer or Wise in USD. It's 50% advance to start and 50% on delivery, invoiced after a quick scope call — there's no payment button on this site by design.</span><span data-bn hidden lang="bn">লোকাল ক্লায়েন্ট: bKash বা ব্যাংক ট্রান্সফার (টাকায়)। গ্লোবাল ক্লায়েন্ট: Payoneer বা Wise (USD-তে)। শুরুতে ৫০% অগ্রিম, ডেলিভারিতে ৫০% — দ্রুত স্কোপ কলের পর ইনভয়েস। এই সাইটে ইচ্ছাকৃতভাবে কোনো পেমেন্ট বাটন নেই।</span></p>
+        </details>
+        <details>
+          <summary><span data-en>We're small — are we even a target?</span><span data-bn hidden lang="bn">আমরা ছোট — আমরা কি আদৌ টার্গেট?</span></summary>
+          <p><span data-en>Attackers don't hand-pick you; they scan the whole internet for anything left open — an exposed key, a forgotten subdomain, a stale admin panel. Small teams get breached exactly because they assume no one's looking. A Snapshot tells you what's actually exposed, cheaply, before it becomes an incident.</span><span data-bn hidden lang="bn">অ্যাটাকাররা আপনাকে বেছে নেয় না; তারা পুরো ইন্টারনেট স্ক্যান করে খোলা কিছু খুঁজে — একটি এক্সপোজড কী, ভুলে যাওয়া সাবডোমেইন, পুরনো অ্যাডমিন প্যানেল। ছোট টিমই বেশি ব্রিচ হয়, কারণ তারা ভাবে কেউ দেখছে না। Snapshot অল্প খরচে দেখিয়ে দেয় আসলে কী এক্সপোজড — ঘটনা ঘটার আগেই।</span></p>
+        </details>
+        <details>
+          <summary><span data-en>What if the scan finds nothing?</span><span data-bn hidden lang="bn">স্ক্যানে যদি কিছু না পাওয়া যায়?</span></summary>
+          <p><span data-en>A clean scan is still a report: you get a coverage summary, a confidence statement, and a clear picture of what was and wasn't in scope — never just "we found nothing."</span><span data-bn hidden lang="bn">ক্লিন স্ক্যানও একটি রিপোর্ট: আপনি পান coverage সামারি, confidence স্টেটমেন্ট, এবং কী স্কোপে ছিল আর কী ছিল না তার স্পষ্ট চিত্র — কখনো শুধু "কিছু পাইনি" নয়।</span></p>
+        </details>
+        <details>
+          <summary><span data-en>How is client data handled?</span><span data-bn hidden lang="bn">ক্লায়েন্ট ডেটা কীভাবে সামলানো হয়?</span></summary>
+          <p><span data-en>Data minimization by default: stored on self-hosted infrastructure, encrypted at rest, redacted where possible, and auto-purged 30 days after delivery — or sooner on request. Findings go only to the person you name.</span><span data-bn hidden lang="bn">ডিফল্টে ডেটা ন্যূনতম: self-hosted অবকাঠামোয় সংরক্ষিত, encrypted-at-rest, যেখানে সম্ভব redacted, এবং ডেলিভারির ৩০ দিন পর অটো-পার্জ — বললে তার আগেই। ফাইন্ডিং শুধু আপনার নির্ধারিত ব্যক্তির কাছেই যায়।</span></p>
+        </details>
+        <details>
+          <summary><span data-en>Can international clients work with Cindrasec?</span><span data-bn hidden lang="bn">আন্তর্জাতিক ক্লায়েন্টরা কি কাজ করতে পারেন?</span></summary>
+          <p><span data-en>Yes — global engagements are billed in USD via Payoneer or Wise, delivered in English, and treated as an export of service.</span><span data-bn hidden lang="bn">হ্যাঁ — গ্লোবাল এনগেজমেন্ট USD-তে Payoneer বা Wise দিয়ে বিল হয়, ইংরেজিতে ডেলিভার হয়, এবং export-of-service হিসেবে গণ্য হয়।</span></p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final-cta" id="contact">
+    <div class="wrap">
+      <div class="eyebrow eyebrow-center"><span data-en>Get Started</span><span data-bn hidden lang="bn">শুরু করুন</span></div>
+      <h2><span data-en>Don't wait for the fire alarm.</span><span data-bn hidden lang="bn">আগুনের অ্যালার্ম বাজার আগেই ব্যবস্থা নিন।</span></h2>
+      <p><span data-en>Tell us what to look at — a free Snapshot is the fastest way to see what's actually exposed.</span><span data-bn hidden lang="bn">বলুন কী দেখতে হবে — কী আসলেই এক্সপোজড, তা জানার সবচেয়ে দ্রুত উপায় একটি ফ্রি স্ন্যাপশট।</span></p>
+
+      <form class="contact-form reveal" id="intakeForm" aria-label="Snapshot request form" data-bn-aria-label="Snapshot রিকোয়েস্ট ফর্ম">
+        <!-- Honeypot: bots fill this, humans never see it -->
+        <input type="text" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="row2">
+          <div>
+            <label for="f-name"><span data-en>Name</span><span data-bn hidden lang="bn">নাম</span></label>
+            <input id="f-name" name="name" type="text" required autocomplete="name" placeholder="Your name" data-bn-placeholder="আপনার নাম" maxlength="100">
+          </div>
+          <div>
+            <label for="f-email"><span data-en>Email</span><span data-bn hidden lang="bn">ইমেইল</span></label>
+            <input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" maxlength="150">
+          </div>
+        </div>
+        <div class="row2">
+          <div>
+            <label for="f-service"><span data-en>Interested in</span><span data-bn hidden lang="bn">যেটিতে আগ্রহী</span></label>
+            <select id="f-service" name="service">
+              <option><span data-en>Snapshot — one-time scan</span><span data-bn hidden lang="bn">Snapshot — এককালীন স্ক্যান</span></option>
+              <option><span data-en>Watch — continuous monitoring</span><span data-bn hidden lang="bn">Watch — ধারাবাহিক মনিটরিং</span></option>
+              <option><span data-en>AI/LLM Security Assessment</span><span data-bn hidden lang="bn">AI/LLM সিকিউরিটি অ্যাসেসমেন্ট</span></option>
+              <option><span data-en>Productized Gig</span><span data-bn hidden lang="bn">প্রোডাক্টাইজড গিগ</span></option>
+              <option><span data-en>Not sure yet</span><span data-bn hidden lang="bn">এখনো নিশ্চিত নই</span></option>
+            </select>
+          </div>
+          <div>
+            <label for="f-domain"><span data-en>Domain / target</span><span data-bn hidden lang="bn">ডোমেইন / টার্গেট</span></label>
+            <input id="f-domain" name="domain" type="text" autocomplete="off" placeholder="yourcompany.com" maxlength="200">
+          </div>
+        </div>
+        <div>
+          <label for="f-msg"><span data-en>What should we know?</span><span data-bn hidden lang="bn">আমাদের কী জানা দরকার?</span></label>
+          <textarea id="f-msg" name="message" placeholder="A sentence or two on what you'd like checked." data-bn-placeholder="কী পরীক্ষা করাতে চান, এক-দুই লাইনে লিখুন।" maxlength="2000"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="intakeSubmit"><span data-en>Send request</span><span data-bn hidden lang="bn">রিকোয়েস্ট পাঠান</span> →</button>
+          <button type="button" class="copy-email" id="copyEmailBtn" data-email="contact@cindrasec.com"><span data-en>Copy contact@cindrasec.com</span><span data-bn hidden lang="bn">কপি করুন contact@cindrasec.com</span></button>
+        </div>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite" hidden></div>
+        <p class="form-note"><span data-en>Sent straight to our inbox — we usually reply within a day. No live scan ever starts without a signed Rules of Engagement.</span><span data-bn hidden lang="bn">সরাসরি আমাদের ইনবক্সে যায় — সাধারণত এক দিনের মধ্যে উত্তর দিই। স্বাক্ষরিত Rules of Engagement ছাড়া কোনো লাইভ স্ক্যান শুরু হয় না।</span></p>
+      </form>
+
+      <div class="contact-links">
+        <a class="btn btn-ghost" href="https://github.com/azmolhaque/secretnode" target="_blank" rel="noopener"><span data-en>SecretNode on GitHub</span><span data-bn hidden lang="bn">GitHub-এ SecretNode</span></a>
+        <a class="btn btn-ghost" href="mailto:contact@cindrasec.com">Email directly</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<a href="#top" class="to-top" id="toTop" aria-label="Back to top" data-bn-aria-label="উপরে ফিরে যান">↑</a>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="#top" class="brand" aria-label="Cindrasec"><svg aria-hidden="true" focusable="false"><use href="#logo-icon"/></svg><span class="brand-word">CINDRA<span class="accent">SEC</span></span></a>
+      <p class="footer-tag">Automated attack-surface and AI-system monitoring, built and run from Bangladesh — <span lang="bn">আগুন ছড়ানোর আগেই আঁচ খুঁজে বের করি।</span></p>
+    </div>
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="mailto:contact@cindrasec.com">Contact</a>
+      <a href="/.well-known/security.txt">security.txt</a>
+    </div>
+  </div>
+  <div class="footer-legal wrap">
+    <span data-en>Cindrasec conducts only authorized, passive-first security assessments under a signed Rules of Engagement. Nothing on this site is legal, tax, or financial advice.</span><span data-bn hidden lang="bn">Cindrasec শুধুমাত্র স্বাক্ষরিত Rules of Engagement-এর অধীনে অনুমোদিত, প্যাসিভ-ফার্স্ট সিকিউরিটি অ্যাসেসমেন্ট করে। এই সাইটের কোনো কিছুই আইনি, কর বা আর্থিক পরামর্শ নয়।</span> © 2026 Cindrasec. All rights reserved.
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

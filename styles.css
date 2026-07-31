@@ -80,8 +80,9 @@ nav.links a{ text-decoration:none; color:var(--muted); transition:color .15s; }
 nav.links a:hover{ color:var(--cream); }
 .nav-right{ display:flex; align-items:center; gap:14px; }
 .lang-toggle{ display:flex; border:1px solid var(--line); border-radius:999px; padding:3px; font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:12px; }
-.lang-toggle button{ background:none; border:none; color:var(--muted); padding:6px 11px; border-radius:999px; cursor:pointer; font-family:inherit; font-size:inherit; }
-.lang-toggle button.active{ background:var(--ink-3); color:var(--cream); }
+.lang-toggle button,.lang-toggle a{ text-decoration:none; display:inline-block; }
+.lang-toggle button,.lang-toggle a{ background:none; border:none; color:var(--muted); padding:6px 11px; border-radius:999px; cursor:pointer; font-family:inherit; font-size:inherit; }
+.lang-toggle button.active,.lang-toggle a.active{ background:var(--ink-3); color:var(--cream); }
 .hamburger{ display:none; background:none; border:1px solid var(--line); border-radius:8px; padding:8px 10px; color:var(--cream); cursor:pointer; }
 @media (max-width:880px){
   nav.links{ position:absolute; top:100%; left:0; right:0; background:var(--ink-2); flex-direction:column; align-items:flex-start; padding:20px 24px; border-bottom:1px solid var(--line); transform:translateY(-8px); opacity:0; pointer-events:none; transition:.18s ease; }
@@ -162,7 +163,7 @@ nav.links a:hover{ color:var(--cream); }
 @media (max-width:560px){ .process{ grid-template-columns:1fr; } }
 .step{ border:1px solid var(--line); border-radius:14px; padding:20px 16px; background:var(--ink-2); }
 .step .num{ font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace; color:var(--ember-2); font-size:13px; margin-bottom:10px; }
-.step h4{ font-family:'Space Grotesk',sans-serif; font-size:15px; margin-bottom:6px; }
+.step h3{ font-family:'Space Grotesk',sans-serif; font-size:15px; margin-bottom:6px; }
 .step p{ font-size:13px; color:var(--muted); margin:0; }
 .step.gate{ border-color:rgba(255,90,54,.5); background:linear-gradient(180deg, rgba(255,90,54,.08), transparent); }
 
@@ -171,7 +172,7 @@ nav.links a:hover{ color:var(--cream); }
 @media (max-width:980px){ .why-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:560px){ .why-grid{ grid-template-columns:1fr; } }
 .why-item svg{ width:26px; height:26px; margin-bottom:14px; }
-.why-item h4{ font-family:'Space Grotesk',sans-serif; font-size:16px; margin-bottom:8px; }
+.why-item h3{ font-family:'Space Grotesk',sans-serif; font-size:16px; margin-bottom:8px; }
 .why-item p{ font-size:13.5px; color:var(--muted); margin:0; }
 
 /* ---------- ESTIMATOR ---------- */
@@ -213,7 +214,7 @@ nav.links a:hover{ color:var(--cream); }
 .sev-p2{ background:rgba(255,90,54,.14); color:var(--ember-1); border:1px solid rgba(255,90,54,.35); }
 .sev-p4{ background:rgba(51,224,200,.12); color:var(--cyan); border:1px solid rgba(51,224,200,.3); }
 .sev-crit{ background:rgba(255,90,54,.2); color:var(--ember-2); border:1px solid rgba(255,90,54,.5); }
-.proof-card h4{ font-family:'Space Grotesk',sans-serif; font-size:16.5px; }
+.proof-card h3{ font-family:'Space Grotesk',sans-serif; font-size:16.5px; }
 .proof-card p{ font-size:13.8px; color:var(--muted); margin:0; }
 .proof-card .tag{ font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:11.5px; color:var(--muted-2); margin-top:auto; padding-top:10px; border-top:1px dashed var(--line); }
 .proof-note{ margin-top:24px; font-size:13px; color:var(--muted-2); max-width:70ch; }
@@ -325,7 +326,7 @@ footer{ border-top:1px solid var(--line); padding:44px 24px 30px; }
 .rules-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 @media (max-width:860px){ .rules-grid{ grid-template-columns:1fr; } }
 .rule{ border:1px solid var(--line); border-left:2px solid var(--ember-2); border-radius:14px; background:var(--ink-2); padding:24px 22px; }
-.rule h4{ font-family:'Space Grotesk',sans-serif; font-size:16px; margin:0 0 8px; }
+.rule h3{ font-family:'Space Grotesk',sans-serif; font-size:16px; margin:0 0 8px; }
 .rule p{ font-size:13.8px; color:var(--muted); margin:0; }
 .rule .rule-num{ font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:12px; color:var(--ember-2); margin-bottom:10px; }
 

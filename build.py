@@ -127,7 +127,10 @@ LANG_TOGGLE_EN = (
     '<a href="/bn/" hreflang="bn" lang="bn" title="বাংলায় দেখুন">বাং</a>'
 )
 LANG_TOGGLE_BN = (
-    '<a href="/" hreflang="en" title="View in English">EN</a>'
+    # Tooltip is in the page's own language; the label stays in the target
+    # language and carries lang="en" so a Bengali screen reader says "E N",
+    # not an attempted Bengali reading of the letters.
+    '<a href="/" hreflang="en" lang="en" title="ইংরেজিতে দেখুন">EN</a>'
     '<span class="active" aria-current="page" lang="bn">বাং</span>'
 )
 

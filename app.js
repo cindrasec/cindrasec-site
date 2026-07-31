@@ -53,39 +53,40 @@ function computeScore(){
   return Math.max(4, Math.min(100, pct));
 }
 
+function estCopy(band){
+  // Result copy is authored in the HTML (#estCopy) so it exists in both
+  // languages; keeping these strings in JS would have left the Bengali page
+  // showing English verdicts.
+  const el = document.querySelector(`#estCopy [data-band="${band}"]`);
+  return el
+    ? { verdict: el.querySelector('.v').innerHTML, cta: el.querySelector('.c').textContent.trim() }
+    : { verdict: '', cta: '' };
+}
+
 function renderScore(){
   const score = computeScore();
   if (score === null){
+    const c = estCopy('empty');
     estScoreEl.textContent = '–';
     estBarFill.style.width = '0%';
-    estVerdict.textContent = 'Answer the four questions to see where you stand.';
+    estVerdict.innerHTML = c.verdict;
+    estCta.textContent = c.cta;
     return;
   }
   estScoreEl.textContent = score;
   estBarFill.style.width = score + '%';
 
-  let color, verdict, cta;
-  if (score < 30){
-    color = '#33E0C8';
-    verdict = `<strong>Lower relative exposure.</strong> Your footprint is small and recently checked. A Snapshot is still worth doing once a year, or before anything ships — you have less surface area, not zero.`;
-    cta = 'Get a baseline Snapshot →';
-  } else if (score < 60){
-    color = '#FFC169';
-    verdict = `<strong>Moderate exposure.</strong> Login flows, APIs, or a stale last-check are the kind of thing that quietly turns into a P1. A Snapshot will tell you exactly where you stand in a few hours.`;
-    cta = 'Request a free Snapshot →';
-  } else if (score < 82){
-    color = '#FF5A36';
-    verdict = `<strong>High exposure.</strong> Multiple surfaces, no dedicated owner, and/or an AI system in the mix — this combination is exactly what Watch is built for: continuous monitoring instead of a once-a-year guess.`;
-    cta = 'Start continuous Watch monitoring →';
-  } else {
-    color = '#FF3B1F';
-    verdict = `<strong>Critical exposure profile.</strong> An AI agent with tool access, a large surface, and no recent check is a real-world breach setup. Start with an AI/LLM Security Assessment alongside a Snapshot.`;
-    cta = 'Book an AI/LLM assessment →';
-  }
+  let color, band;
+  if (score < 30){ color = '#33E0C8'; band = 'low'; }
+  else if (score < 60){ color = '#FFC169'; band = 'moderate'; }
+  else if (score < 82){ color = '#FF5A36'; band = 'high'; }
+  else { color = '#FF3B1F'; band = 'critical'; }
+
+  const c = estCopy(band);
   estBarFill.style.background = `linear-gradient(90deg, ${color}, ${color}cc)`;
   estScoreEl.style.color = color;
-  estVerdict.innerHTML = verdict;
-  estCta.textContent = cta;
+  estVerdict.innerHTML = c.verdict;
+  estCta.textContent = c.cta;
 }
 
 if (estForm){

@@ -287,52 +287,61 @@
         <div class="estimator-grid">
           <form id="estForm">
             <fieldset class="est-q">
-              <legend>What does your team run publicly?</legend>
+              <legend>আপনার টিম পাবলিকলি কী চালায়?</legend>
               <div class="est-opts">
-                <div class="est-opt"><input type="radio" name="surface" id="s1" value="1" data-w="1"><label for="s1">Just a marketing site</label></div>
-                <div class="est-opt"><input type="radio" name="surface" id="s2" value="2" data-w="2"><label for="s2">Site + login / user accounts</label></div>
-                <div class="est-opt"><input type="radio" name="surface" id="s3" value="3" data-w="3" checked><label for="s3">Web app + API + admin panel</label></div>
-                <div class="est-opt"><input type="radio" name="surface" id="s4" value="4" data-w="4"><label for="s4">Multiple products / subdomains</label></div>
+                <div class="est-opt"><input type="radio" name="surface" id="s1" value="1" data-w="1"><label for="s1">শুধু একটি মার্কেটিং সাইট</label></div>
+                <div class="est-opt"><input type="radio" name="surface" id="s2" value="2" data-w="2"><label for="s2">সাইট + লগইন / ইউজার অ্যাকাউন্ট</label></div>
+                <div class="est-opt"><input type="radio" name="surface" id="s3" value="3" data-w="3" checked><label for="s3">ওয়েব অ্যাপ + API + অ্যাডমিন প্যানেল</label></div>
+                <div class="est-opt"><input type="radio" name="surface" id="s4" value="4" data-w="4"><label for="s4">একাধিক প্রোডাক্ট / সাবডোমেইন</label></div>
               </div>
             </fieldset>
             <fieldset class="est-q">
-              <legend>Does anything use an LLM or AI chatbot?</legend>
+              <legend>কোথাও কি LLM বা AI চ্যাটবট ব্যবহার হয়?</legend>
               <div class="est-opts">
                 <div class="est-opt"><input type="radio" name="ai" id="a1" value="1" data-w="0"><label for="a1">No</label></div>
-                <div class="est-opt"><input type="radio" name="ai" id="a2" value="2" data-w="2"><label for="a2">Customer-facing chatbot</label></div>
-                <div class="est-opt"><input type="radio" name="ai" id="a3" value="3" data-w="4" checked><label for="a3">Agent with tool access / data access</label></div>
+                <div class="est-opt"><input type="radio" name="ai" id="a2" value="2" data-w="2"><label for="a2">কাস্টমার-ফেসিং চ্যাটবট</label></div>
+                <div class="est-opt"><input type="radio" name="ai" id="a3" value="3" data-w="4" checked><label for="a3">টুল বা ডেটা অ্যাক্সেসসহ এজেন্ট</label></div>
               </div>
             </fieldset>
             <fieldset class="est-q">
-              <legend>When was your last external security check?</legend>
+              <legend>শেষ এক্সটার্নাল সিকিউরিটি চেক কবে হয়েছে?</legend>
               <div class="est-opts">
-                <div class="est-opt"><input type="radio" name="last" id="l1" value="1" data-w="0"><label for="l1">Within 3 months</label></div>
+                <div class="est-opt"><input type="radio" name="last" id="l1" value="1" data-w="0"><label for="l1">গত ৩ মাসের মধ্যে</label></div>
                 <div class="est-opt"><input type="radio" name="last" id="l2" value="2" data-w="2" checked><label for="l2">6–12 months ago</label></div>
-                <div class="est-opt"><input type="radio" name="last" id="l3" value="3" data-w="4"><label for="l3">Never / not sure</label></div>
+                <div class="est-opt"><input type="radio" name="last" id="l3" value="3" data-w="4"><label for="l3">কখনো হয়নি / জানা নেই</label></div>
               </div>
             </fieldset>
             <fieldset class="est-q est-q-last">
-              <legend>Team size handling security today?</legend>
+              <legend>এখন সিকিউরিটি কে সামলায়?</legend>
               <div class="est-opts">
-                <div class="est-opt"><input type="radio" name="team" id="t1" value="1" data-w="3" checked><label for="t1">Nobody dedicated</label></div>
-                <div class="est-opt"><input type="radio" name="team" id="t2" value="2" data-w="1"><label for="t2">One person, part-time</label></div>
-                <div class="est-opt"><input type="radio" name="team" id="t3" value="3" data-w="0"><label for="t3">Dedicated security hire/team</label></div>
+                <div class="est-opt"><input type="radio" name="team" id="t1" value="1" data-w="3" checked><label for="t1">নির্দিষ্ট কেউ নেই</label></div>
+                <div class="est-opt"><input type="radio" name="team" id="t2" value="2" data-w="1"><label for="t2">একজন, খণ্ডকালীন</label></div>
+                <div class="est-opt"><input type="radio" name="team" id="t3" value="3" data-w="0"><label for="t3">ডেডিকেটেড সিকিউরিটি কর্মী বা টিম</label></div>
               </div>
             </fieldset>
           </form>
 
           <div class="est-result" aria-live="polite">
-            <div class="est-eyebrow">Estimated exposure</div>
+            <div class="est-eyebrow">আনুমানিক এক্সপোজার</div>
             <div class="est-score-row">
               <div class="est-score" id="estScore">–</div>
               <div class="est-score-label">/ 100</div>
             </div>
             <div class="est-bar"><div class="est-bar-fill" id="estBarFill"></div></div>
-            <p class="est-verdict" id="estVerdict">Answer the four questions to see where you stand.</p>
+            <!-- Estimator result copy. Lives in the DOM rather than in app.js so build.py
+       translates it with everything else; app.js reads the band it needs. -->
+  <div id="estCopy" hidden aria-hidden="true">
+    <div data-band="empty"><p class="v">চারটি প্রশ্নের উত্তর দিন — আপনি কোথায় দাঁড়িয়ে আছেন দেখুন।</p><p class="c">ফ্রি Snapshot চান →</p></div>
+    <div data-band="low"><p class="v"><strong>তুলনামূলকভাবে কম এক্সপোজার।</strong> আপনার সারফেস ছোট এবং সম্প্রতি পরীক্ষা করা হয়েছে। তবুও বছরে একবার, বা নতুন কিছু লঞ্চের আগে একটি Snapshot করা ভালো — আপনার সারফেস কম, শূন্য নয়।</p><p class="c">একটি বেসলাইন Snapshot নিন →</p></div>
+    <div data-band="moderate"><p class="v"><strong>মাঝারি এক্সপোজার।</strong> লগইন ফ্লো, API, বা পুরোনো হয়ে যাওয়া শেষ চেক — এগুলোই চুপচাপ P1 সমস্যা হয়ে দাঁড়ায়। কয়েক ঘণ্টার একটি Snapshot আপনাকে সঠিক অবস্থান জানিয়ে দেবে।</p><p class="c">ফ্রি Snapshot চান →</p></div>
+    <div data-band="high"><p class="v"><strong>উচ্চ এক্সপোজার।</strong> একাধিক সারফেস, নির্দিষ্ট দায়িত্বশীল কেউ নেই, এবং/অথবা সাথে একটি AI সিস্টেম — ঠিক এই সমন্বয়ের জন্যই Watch তৈরি: বছরে একবার অনুমান নয়, ধারাবাহিক মনিটরিং।</p><p class="c">ধারাবাহিক Watch মনিটরিং শুরু করুন →</p></div>
+    <div data-band="critical"><p class="v"><strong>ক্রিটিক্যাল এক্সপোজার প্রোফাইল।</strong> টুল-অ্যাক্সেসসহ AI এজেন্ট, বড় সারফেস, আর সাম্প্রতিক কোনো চেক নেই — বাস্তবে এটাই একটি ব্রিচের সেটআপ। Snapshot-এর পাশাপাশি একটি AI/LLM সিকিউরিটি অ্যাসেসমেন্ট দিয়ে শুরু করুন।</p><p class="c">AI/LLM অ্যাসেসমেন্ট বুক করুন →</p></div>
+  </div>
+  <p class="est-verdict" id="estVerdict"></p>
             <div class="est-cta">
               <a href="#contact" class="btn btn-primary btn-sm" id="estCta">Request a free Snapshot →</a>
             </div>
-            <button type="button" class="est-reset" id="estReset">Reset answers</button>
+            <button type="button" class="est-reset" id="estReset">উত্তর রিসেট করুন</button>
           </div>
         </div>
       </div>

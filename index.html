@@ -328,7 +328,16 @@
               <div class="est-score-label">/ 100</div>
             </div>
             <div class="est-bar"><div class="est-bar-fill" id="estBarFill"></div></div>
-            <p class="est-verdict" id="estVerdict">Answer the four questions to see where you stand.</p>
+            <!-- Estimator result copy. Lives in the DOM rather than in app.js so build.py
+       translates it with everything else; app.js reads the band it needs. -->
+  <div id="estCopy" hidden aria-hidden="true">
+    <div data-band="empty"><p class="v">Answer the four questions to see where you stand.</p><p class="c">Request a free Snapshot →</p></div>
+    <div data-band="low"><p class="v"><strong>Lower relative exposure.</strong> Your footprint is small and recently checked. A Snapshot is still worth doing once a year, or before anything ships — you have less surface area, not zero.</p><p class="c">Get a baseline Snapshot →</p></div>
+    <div data-band="moderate"><p class="v"><strong>Moderate exposure.</strong> Login flows, APIs, or a stale last-check are the kind of thing that quietly turns into a P1. A Snapshot will tell you exactly where you stand in a few hours.</p><p class="c">Request a free Snapshot →</p></div>
+    <div data-band="high"><p class="v"><strong>High exposure.</strong> Multiple surfaces, no dedicated owner, and/or an AI system in the mix — this combination is exactly what Watch is built for: continuous monitoring instead of a once-a-year guess.</p><p class="c">Start continuous Watch monitoring →</p></div>
+    <div data-band="critical"><p class="v"><strong>Critical exposure profile.</strong> An AI agent with tool access, a large surface, and no recent check is a real-world breach setup. Start with an AI/LLM Security Assessment alongside a Snapshot.</p><p class="c">Book an AI/LLM assessment →</p></div>
+  </div>
+  <p class="est-verdict" id="estVerdict"></p>
             <div class="est-cta">
               <a href="#contact" class="btn btn-primary btn-sm" id="estCta">Request a free Snapshot →</a>
             </div>

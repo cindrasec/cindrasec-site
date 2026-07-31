@@ -1,7 +1,7 @@
 // Cindrasec service worker — minimal, cache-first for static shell, network-first fallback.
 // Uses relative/scope-derived paths so it works whether deployed at a domain root
 // or a GitHub Pages project subpath (https://username.github.io/repo-name/).
-const CACHE_NAME = 'cindrasec-v9';
+const CACHE_NAME = 'cindrasec-v10';
 const SCOPE = self.registration.scope; // e.g. https://user.github.io/repo/
 const PRECACHE = [
   SCOPE,
@@ -18,6 +18,7 @@ const PRECACHE = [
   SCOPE + 'fonts/inter-var.woff2',
   SCOPE + 'fonts/space-grotesk-var.woff2',
   SCOPE + 'fonts/jetbrains-mono-var.woff2',
+  SCOPE + 'fonts/noto-sans-bengali-var.woff2',
   SCOPE + '404.html',
 ];
 

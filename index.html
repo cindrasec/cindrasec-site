@@ -736,6 +736,15 @@
           <button type="button" class="copy-email" id="copyEmailBtn" data-email="contact@cindrasec.com">Copy contact@cindrasec.com</button>
         </div>
         <div class="form-status" id="formStatus" role="status" aria-live="polite" hidden></div>
+        <!-- Status copy lives here, not in app.js, for the same reason the estimator's
+             verdicts do: strings held in JavaScript ship in one language only, and the
+             form is the last thing a Bengali visitor touches before becoming a lead. -->
+        <div id="formCopy" hidden aria-hidden="true">
+          <span data-key="cooldown">Please wait a few seconds before sending again.</span>
+          <span data-key="sending">Sending your request…</span>
+          <span data-key="success">✓ Request sent — we’ll reply within a day. Thank you.</span>
+          <span data-key="error">Couldn’t send from here — opening your email app as a fallback…</span>
+        </div>
         <p class="form-note">Sent straight to our inbox — we usually reply within a day. No live scan ever starts without a signed Rules of Engagement.</p>
       </form>
 

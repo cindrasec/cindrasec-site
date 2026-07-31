@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://cindrasec.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Cindrasec — we find the spark before it becomes a fire. Attack surface & AI/LLM security monitoring.">
+<meta property="og:image:alt" content="Cindrasec — আগুন ছড়ানোর আগেই আঁচ খুঁজে বের করি। অ্যাটাক সারফেস ও AI/LLM সিকিউরিটি মনিটরিং।">
 <meta property="og:locale" content="bn_BD">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
@@ -47,6 +47,7 @@
 <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/noto-sans-bengali-var.woff2" as="font" type="font/woff2" crossorigin>
 
 <script type="application/ld+json">
 {
@@ -736,6 +737,15 @@
           <button type="button" class="copy-email" id="copyEmailBtn" data-email="contact@cindrasec.com">কপি করুন contact@cindrasec.com</button>
         </div>
         <div class="form-status" id="formStatus" role="status" aria-live="polite" hidden></div>
+        <!-- Status copy lives here, not in app.js, for the same reason the estimator's
+             verdicts do: strings held in JavaScript ship in one language only, and the
+             form is the last thing a Bengali visitor touches before becoming a lead. -->
+        <div id="formCopy" hidden aria-hidden="true">
+          <span data-key="cooldown">আবার পাঠানোর আগে কয়েক সেকেন্ড অপেক্ষা করুন।</span>
+          <span data-key="sending">আপনার রিকোয়েস্ট পাঠানো হচ্ছে…</span>
+          <span data-key="success">✓ রিকোয়েস্ট পাঠানো হয়েছে — এক দিনের মধ্যে উত্তর দেব। ধন্যবাদ।</span>
+          <span data-key="error">এখান থেকে পাঠানো গেল না — বিকল্প হিসেবে আপনার ইমেইল অ্যাপ খোলা হচ্ছে…</span>
+        </div>
         <p class="form-note">সরাসরি আমাদের ইনবক্সে যায় — সাধারণত এক দিনের মধ্যে উত্তর দিই। স্বাক্ষরিত Rules of Engagement ছাড়া কোনো লাইভ স্ক্যান শুরু হয় না।</p>
       </form>
 

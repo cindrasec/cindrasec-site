@@ -146,6 +146,19 @@ HREFLANG = (
     '<link rel="alternate" hreflang="x-default" href="https://cindrasec.com/">'
 )
 
+LATIN_PRELOADS = (
+    '<link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>'
+)
+BN_PRELOAD = (
+    '<link rel="preload" href="/fonts/noto-sans-bengali-var.woff2" as="font" type="font/woff2" crossorigin>'
+)
+
+IMAGE_ALT_RE = re.compile(r'<meta property="og:image:alt" content="[^"]*">')
+BN_IMAGE_ALT = (
+    '<meta property="og:image:alt" content="Cindrasec — আগুন ছড়ানোর আগেই আঁচ খুঁজে বের করি। '
+    'অ্যাটাক সারফেস ও AI/LLM সিকিউরিটি মনিটরিং।">'
+)
+
 BN_TITLE = "Cindrasec — অ্যাটাক সারফেস ও AI/LLM সিকিউরিটি মনিটরিং"
 BN_DESC = (
     "ফাউন্ডার ও ছোট ব্যবসার জন্য অটোমেটেড অ্যাটাক-সারফেস এবং AI/LLM সিকিউরিটি "
@@ -281,6 +294,13 @@ def build(lang: str, html: str) -> str:
                 rf'(<meta (?:property|name)="{prop}" content=").*?(">)',
                 rf"\g<1>{BN_DESC}\g<2>", html, count=1, flags=re.S,
             )
+        html = IMAGE_ALT_RE.sub(lambda _: BN_IMAGE_ALT, html, count=1)
+        # The @font-face unicode-range already stops the English page fetching the
+        # Bengali face. Preloading is the other half: on /bn/ that font carries
+        # nearly every glyph on the page, so it must not wait for CSS to be parsed
+        # and matched. Only this build gets the hint -- preloading it on / would
+        # download 73KB the English page never draws with.
+        html = html.replace(LATIN_PRELOADS, LATIN_PRELOADS + "\n" + BN_PRELOAD, 1)
 
     html = _rewrite_faq_jsonld(html, lang)
 

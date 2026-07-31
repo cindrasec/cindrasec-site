@@ -764,6 +764,15 @@
           <button type="button" class="copy-email" id="copyEmailBtn" data-email="contact@cindrasec.com"><span data-en>Copy contact@cindrasec.com</span><span data-bn hidden lang="bn">কপি করুন contact@cindrasec.com</span></button>
         </div>
         <div class="form-status" id="formStatus" role="status" aria-live="polite" hidden></div>
+        <!-- Status copy lives here, not in app.js, for the same reason the estimator's
+             verdicts do: strings held in JavaScript ship in one language only, and the
+             form is the last thing a Bengali visitor touches before becoming a lead. -->
+        <div id="formCopy" hidden aria-hidden="true">
+          <span data-key="cooldown"><span data-en>Please wait a few seconds before sending again.</span><span data-bn hidden lang="bn">আবার পাঠানোর আগে কয়েক সেকেন্ড অপেক্ষা করুন।</span></span>
+          <span data-key="sending"><span data-en>Sending your request…</span><span data-bn hidden lang="bn">আপনার রিকোয়েস্ট পাঠানো হচ্ছে…</span></span>
+          <span data-key="success"><span data-en>✓ Request sent — we’ll reply within a day. Thank you.</span><span data-bn hidden lang="bn">✓ রিকোয়েস্ট পাঠানো হয়েছে — এক দিনের মধ্যে উত্তর দেব। ধন্যবাদ।</span></span>
+          <span data-key="error"><span data-en>Couldn’t send from here — opening your email app as a fallback…</span><span data-bn hidden lang="bn">এখান থেকে পাঠানো গেল না — বিকল্প হিসেবে আপনার ইমেইল অ্যাপ খোলা হচ্ছে…</span></span>
+        </div>
         <p class="form-note"><span data-en>Sent straight to our inbox — we usually reply within a day. No live scan ever starts without a signed Rules of Engagement.</span><span data-bn hidden lang="bn">সরাসরি আমাদের ইনবক্সে যায় — সাধারণত এক দিনের মধ্যে উত্তর দিই। স্বাক্ষরিত Rules of Engagement ছাড়া কোনো লাইভ স্ক্যান শুরু হয় না।</span></p>
       </form>
 

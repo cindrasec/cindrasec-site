@@ -68,7 +68,7 @@ body{
   text-decoration:none; transition:top .15s ease;
 }
 .skip-link:focus{ top:16px; }
-#services,#process,#how-we-work,#why,#proof,#pricing,#faq,#contact,#estimator{ scroll-margin-top:88px; }
+#services,#process,#how-we-work,#why,#proof,#pricing,#faq,#contact,#estimator,#privacy{ scroll-margin-top:88px; }
 h1,h2,h3,.brand-word{ font-family:'Space Grotesk','Noto Sans Bengali',sans-serif; font-weight:700; letter-spacing:-0.01em; margin:0; }
 .mono{ font-family:'JetBrains Mono','Noto Sans Bengali',ui-monospace,'SF Mono',Menlo,Consolas,monospace; }
 a{ color:inherit; }
@@ -469,3 +469,10 @@ footer{ border-top:1px solid var(--line); padding:44px 24px 30px; }
    generated content that no element selector can reach. */
 :lang(bn) table.pricing th,table.pricing th:lang(bn){ letter-spacing:normal; }
 :lang(bn) table.pricing td::before{ letter-spacing:normal; }
+
+/* ---------- PRIVACY ---------- */
+.privacy{ padding-top:0; }
+.privacy .wrap{ max-width:820px; }
+.privacy-lead{ color:var(--muted); font-size:15.5px; max-width:64ch; margin:14px 0 26px; }
+.privacy-foot{ color:var(--muted-2); font-size:13px; margin-top:26px; }
+.privacy-foot a{ color:var(--cyan); }

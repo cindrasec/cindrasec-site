@@ -176,6 +176,11 @@ def _text(fragment: str) -> str:
 
 
 FAQ_ITEM = re.compile(r"<details\b[^>]*>\s*<summary[^>]*>(.*?)</summary>(.*?)</details>", re.S)
+# Scope the scrape to the FAQ section. <details> is a generic disclosure widget and
+# the page uses it elsewhere -- the privacy notice is five more of them -- so
+# scanning the whole document silently advertised "Just visiting" to Google as a
+# frequently asked question.
+FAQ_SECTION = re.compile(r'<section[^>]*\bid="faq"[^>]*>(.*?)</section>', re.S)
 LD_FAQ = re.compile(
     r'<script type="application/ld\+json">\s*\{[^<]*?"@type":\s*"FAQPage".*?</script>', re.S
 )
@@ -191,8 +196,12 @@ def _rewrite_faq_jsonld(html: str, lang: str) -> str:
     block from the rendered FAQ makes the two incapable of disagreeing: edit a
     question once, rebuild, and the markup follows.
     """
+    section = FAQ_SECTION.search(html)
+    if not section:
+        raise ValueError('no <section id="faq"> found - the markup shape changed')
+
     items = []
-    for summary, body in FAQ_ITEM.findall(html):
+    for summary, body in FAQ_ITEM.findall(section.group(1)):
         q, a = _text(summary), _text(body)
         if q and a:
             items.append({"q": q, "a": a})

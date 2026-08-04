@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://cindrasec.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Cindrasec — we find the spark before it becomes a fire. Attack surface & AI/LLM security monitoring.">
+<meta property="og:image:alt" content="Cindrasec — আগুন ছড়ানোর আগেই আঁচ খুঁজে বের করি। অ্যাটাক সারফেস ও AI/LLM সিকিউরিটি মনিটরিং।">
 <meta property="og:locale" content="bn_BD">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
@@ -47,6 +47,7 @@
 <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/noto-sans-bengali-var.woff2" as="font" type="font/woff2" crossorigin>
 
 <script type="application/ld+json">
 {
@@ -736,6 +737,15 @@
           <button type="button" class="copy-email" id="copyEmailBtn" data-email="contact@cindrasec.com">কপি করুন contact@cindrasec.com</button>
         </div>
         <div class="form-status" id="formStatus" role="status" aria-live="polite" hidden></div>
+        <!-- Status copy lives here, not in app.js, for the same reason the estimator's
+             verdicts do: strings held in JavaScript ship in one language only, and the
+             form is the last thing a Bengali visitor touches before becoming a lead. -->
+        <div id="formCopy" hidden aria-hidden="true">
+          <span data-key="cooldown">আবার পাঠানোর আগে কয়েক সেকেন্ড অপেক্ষা করুন।</span>
+          <span data-key="sending">আপনার রিকোয়েস্ট পাঠানো হচ্ছে…</span>
+          <span data-key="success">✓ রিকোয়েস্ট পাঠানো হয়েছে — এক দিনের মধ্যে উত্তর দেব। ধন্যবাদ।</span>
+          <span data-key="error">এখান থেকে পাঠানো গেল না — বিকল্প হিসেবে আপনার ইমেইল অ্যাপ খোলা হচ্ছে…</span>
+        </div>
         <p class="form-note">সরাসরি আমাদের ইনবক্সে যায় — সাধারণত এক দিনের মধ্যে উত্তর দিই। স্বাক্ষরিত Rules of Engagement ছাড়া কোনো লাইভ স্ক্যান শুরু হয় না।</p>
       </form>
 
@@ -743,6 +753,44 @@
         <a class="btn btn-ghost" href="https://github.com/azmolhaque/secretnode" target="_blank" rel="noopener">GitHub-এ SecretNode</a>
         <a class="btn btn-ghost" href="mailto:contact@cindrasec.com">সরাসরি ইমেইল করুন</a>
       </div>
+    </div>
+  </section>
+
+  <!-- Privacy notice. Deliberately states only what is verifiable from this
+       site's own code plus the retention terms already committed to in the FAQ.
+       Nothing here is a new promise. -->
+  <section class="privacy" id="privacy">
+    <div class="wrap">
+      <div class="eyebrow">প্রাইভেসি</div>
+      <h2>এই সাইট কী সংগ্রহ করে, আর তা দিয়ে আমরা কী করি</h2>
+      <p class="privacy-lead">সংক্ষেপে: ফর্ম না পাঠালে কিছুই না। যে সিকিউরিটি স্টুডিও চুপচাপ তার ভিজিটরদের ট্র্যাক করে, আপনার কাছে তার মূল্য শূন্য।</p>
+
+      <details>
+        <summary>শুধু ভিজিট করছেন</summary>
+        <p>কোনো কুকি নেই, কোনো অ্যানালিটিক্স নেই, কোনো ট্র্যাকিং পিক্সেল নেই, কোনো ফিঙ্গারপ্রিন্টিং নেই, এবং ব্রাউজার স্টোরেজে কিছু লেখা হয় না। ফন্ট এই ডোমেইন থেকেই আসে, তাই কোনো ফন্ট CDN-ও আপনার ভিজিট দেখে না। এক্সপোজার এস্টিমেটর সম্পূর্ণ আপনার ব্রাউজারেই হিসাব করে — আপনার উত্তর কখনো কোথাও পাঠানো হয় না, আমাদের কাছেও না। আপনার ডিভাইসে শুধু পেজটিই ক্যাশ হয়, যাতে অফলাইনেও কাজ করে।</p>
+      </details>
+
+      <details>
+        <summary>যদি যোগাযোগ ফর্ম পাঠান</summary>
+        <p>আমরা পাই আপনার নাম ও ইমেইল, সঙ্গে আপনি যে সার্ভিসটি বেছেছেন এবং — শুধু যদি পূরণ করেন — আপনার ডোমেইন ও বার্তা। এটি Web3Forms নামের একটি ফর্ম-রিলে সার্ভিসের মাধ্যমে আমাদের কাছে আসে এবং contact@cindrasec.com-এ ইমেইল হিসেবে পৌঁছায়। আমরা এটি শুধু আপনাকে উত্তর দিতে ব্যবহার করি, আর কিছুতেই না। এটি কখনো বিক্রি হয় না, কোনো মার্কেটিং তালিকায় যোগ হয় না, এবং Cindrasec-এর বাইরে কারো সঙ্গে শেয়ার করা হয় না।</p>
+      </details>
+
+      <details>
+        <summary>যদি আপনি ক্লায়েন্ট হন</summary>
+        <p>স্ক্যান ডেটা কাজের জন্য যতটুকু দরকার ততটুকুই রাখা হয়: self-hosted অবকাঠামোয় সংরক্ষিত, encrypted-at-rest, যেখানে সম্ভব redacted, এবং ডেলিভারির ৩০ দিন পর অটো-পার্জ — বললে তার আগেই। ফাইন্ডিং শুধু Rules of Engagement-এ আপনার নাম-করা ব্যক্তির কাছেই যায়। স্কোপ, টেস্টিং উইন্ডো ও ডেটা হ্যান্ডলিং — সবই কোনো স্ক্যান শুরুর আগে ওই ডকুমেন্টে লেখা থাকে।</p>
+      </details>
+
+      <details>
+        <summary>আর কারা আপনার ডেটা স্পর্শ করে</summary>
+        <p>দুটি সার্ভিস, দুটিরই নাম বলা: Web3Forms যোগাযোগ ফর্ম পৌঁছে দেয়, আর GitHub Pages এই সাইট হোস্ট করে — ফলে সাধারণ ওয়েব-সার্ভার রিকোয়েস্ট লগ দেখে। তালিকা এটুকুই। এই পেজটি তার পুরো জীবদ্দশায় ঠিক একটি ক্রস-অরিজিন রিকোয়েস্ট করে, আর সেটিও কেবল যখন আপনি Send চাপেন।</p>
+      </details>
+
+      <details>
+        <summary>আমাদের কাছে যা আছে তা দেখতে বা মুছতে বলা</summary>
+        <p>contact@cindrasec.com-এ ইমেইল করে জানতে চান। আমাদের কাছে আপনার সম্পর্কে কী আছে তা আমরা জানাব, সংশোধন করব, বা মুছে দেব — ৩০ দিনের মধ্যে, সাধারণত সেই সপ্তাহেই। কোনো কারণ দেখাতে হবে না, এবং টেস্ট করার অনুমতি আপনি যেকোনো মুহূর্তে লিখিতভাবে প্রত্যাহার করতে পারেন — তখনই টেস্টিং বন্ধ হয়ে যাবে।</p>
+      </details>
+
+      <p class="privacy-foot">সর্বশেষ হালনাগাদ ৩১ জুলাই ২০২৬। এ বিষয়ে যেকোনো প্রশ্ন — <a href="mailto:contact@cindrasec.com">contact@cindrasec.com</a>।</p>
     </div>
   </section>
 
@@ -762,6 +810,11 @@
       <a href="#pricing">প্রাইসিং</a>
       <a href="#faq">প্রশ্নোত্তর</a>
       <a href="mailto:contact@cindrasec.com">যোগাযোগ</a>
+      <a href="#privacy">প্রাইভেসি</a>
+      <!-- The agreement a client actually signs. The site says "no signed RoE, no
+           scan" in four places; letting a prospect read it before they enquire is
+           the difference between a claim and a check they can make themselves. -->
+      <a href="/legal/Cindrasec_RoE_Authorization.docx" download>রুলস অফ এনগেজমেন্ট</a>
       <a href="/.well-known/security.txt">security.txt</a>
     </div>
   </div>

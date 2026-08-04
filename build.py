@@ -146,6 +146,19 @@ HREFLANG = (
     '<link rel="alternate" hreflang="x-default" href="https://cindrasec.com/">'
 )
 
+LATIN_PRELOADS = (
+    '<link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>'
+)
+BN_PRELOAD = (
+    '<link rel="preload" href="/fonts/noto-sans-bengali-var.woff2" as="font" type="font/woff2" crossorigin>'
+)
+
+IMAGE_ALT_RE = re.compile(r'<meta property="og:image:alt" content="[^"]*">')
+BN_IMAGE_ALT = (
+    '<meta property="og:image:alt" content="Cindrasec — আগুন ছড়ানোর আগেই আঁচ খুঁজে বের করি। '
+    'অ্যাটাক সারফেস ও AI/LLM সিকিউরিটি মনিটরিং।">'
+)
+
 BN_TITLE = "Cindrasec — অ্যাটাক সারফেস ও AI/LLM সিকিউরিটি মনিটরিং"
 BN_DESC = (
     "ফাউন্ডার ও ছোট ব্যবসার জন্য অটোমেটেড অ্যাটাক-সারফেস এবং AI/LLM সিকিউরিটি "
@@ -163,6 +176,11 @@ def _text(fragment: str) -> str:
 
 
 FAQ_ITEM = re.compile(r"<details\b[^>]*>\s*<summary[^>]*>(.*?)</summary>(.*?)</details>", re.S)
+# Scope the scrape to the FAQ section. <details> is a generic disclosure widget and
+# the page uses it elsewhere -- the privacy notice is five more of them -- so
+# scanning the whole document silently advertised "Just visiting" to Google as a
+# frequently asked question.
+FAQ_SECTION = re.compile(r'<section[^>]*\bid="faq"[^>]*>(.*?)</section>', re.S)
 LD_FAQ = re.compile(
     r'<script type="application/ld\+json">\s*\{[^<]*?"@type":\s*"FAQPage".*?</script>', re.S
 )
@@ -178,8 +196,12 @@ def _rewrite_faq_jsonld(html: str, lang: str) -> str:
     block from the rendered FAQ makes the two incapable of disagreeing: edit a
     question once, rebuild, and the markup follows.
     """
+    section = FAQ_SECTION.search(html)
+    if not section:
+        raise ValueError('no <section id="faq"> found - the markup shape changed')
+
     items = []
-    for summary, body in FAQ_ITEM.findall(html):
+    for summary, body in FAQ_ITEM.findall(section.group(1)):
         q, a = _text(summary), _text(body)
         if q and a:
             items.append({"q": q, "a": a})
@@ -281,6 +303,13 @@ def build(lang: str, html: str) -> str:
                 rf'(<meta (?:property|name)="{prop}" content=").*?(">)',
                 rf"\g<1>{BN_DESC}\g<2>", html, count=1, flags=re.S,
             )
+        html = IMAGE_ALT_RE.sub(lambda _: BN_IMAGE_ALT, html, count=1)
+        # The @font-face unicode-range already stops the English page fetching the
+        # Bengali face. Preloading is the other half: on /bn/ that font carries
+        # nearly every glyph on the page, so it must not wait for CSS to be parsed
+        # and matched. Only this build gets the hint -- preloading it on / would
+        # download 73KB the English page never draws with.
+        html = html.replace(LATIN_PRELOADS, LATIN_PRELOADS + "\n" + BN_PRELOAD, 1)
 
     html = _rewrite_faq_jsonld(html, lang)
 

@@ -131,11 +131,20 @@ function buildMailto(f){
   ].filter(Boolean).join('\n');
   return `mailto:contact@cindrasec.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
-function showStatus(cls, msg){
+// Status copy is authored in the HTML (#formCopy) so it exists in both languages
+// — same reason as estCopy() above. `cls` doubles as the lookup key.
+function formCopy(key){
+  const el = document.querySelector(`#formCopy [data-key="${key}"]`);
+  return el ? el.textContent.trim() : '';
+}
+// `key` selects the copy; `cls` selects the styling, and defaults to the key.
+// They differ only for the cooldown notice, which reads from its own string but
+// borrows the error styling, exactly as it did before the copy moved into HTML.
+function showStatus(key, cls){
   if (!formStatus) return;
   formStatus.hidden = false;
-  formStatus.className = 'form-status ' + cls;
-  formStatus.textContent = msg;
+  formStatus.className = 'form-status ' + (cls || key);
+  formStatus.textContent = formCopy(key);
 }
 
 const SUBMIT_COOLDOWN_MS = 20000;
@@ -148,7 +157,7 @@ if (intakeForm) {
     if (!intakeForm.reportValidity()) return;
     const now = Date.now();
     if (now - lastSubmitAt < SUBMIT_COOLDOWN_MS){
-      showStatus('error', 'Please wait a few seconds before sending again.');
+      showStatus('cooldown', 'error');
       return;
     }
     lastSubmitAt = now;
@@ -160,7 +169,7 @@ if (intakeForm) {
     }
 
     intakeSubmit.disabled = true;
-    showStatus('sending', 'Sending your request…');
+    showStatus('sending');
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -179,12 +188,12 @@ if (intakeForm) {
       const data = await res.json();
       if (data.success){
         intakeForm.reset();
-        showStatus('success', '✓ Request sent — we’ll reply within a day. Thank you.');
+        showStatus('success');
       } else {
         throw new Error(data.message || 'submit failed');
       }
     } catch (err){
-      showStatus('error', 'Couldn’t send from here — opening your email app as a fallback…');
+      showStatus('error');
       setTimeout(() => { window.location.href = buildMailto(intakeForm); }, 900);
     } finally {
       intakeSubmit.disabled = false;
@@ -223,15 +232,19 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
 }
 
 // terminal typing effect
+// Plain text, not HTML entities. The typing effect reveals a character at a
+// time, so an entity like `&gt;` spends a frame half-written and renders as a
+// literal `&g` on screen. These strings are written into textContent, which
+// also means nothing here can inject markup.
 const lines = [
   { text: '$ cindrasec scan --target yourcompany.com --mode passive', cls: '' },
-  { text: '&gt; resolving attack surface... 42 assets discovered', cls: 'dim' },
-  { text: '&gt; checking exposed configs, keys &amp; secrets...', cls: 'dim' },
+  { text: '> resolving attack surface... 42 assets discovered', cls: 'dim' },
+  { text: '> checking exposed configs, keys & secrets...', cls: 'dim' },
   { text: '[ok]  TLS / DNS posture verified', cls: 'ok' },
   { text: '[!]   possible exposed credential pattern found (1)', cls: 'warn' },
-  { text: '&gt; stage 2: verifying against live provider API...', cls: 'dim' },
+  { text: '> stage 2: verifying against live provider API...', cls: 'dim' },
   { text: '[verified] confirmed — active API key exposed', cls: 'verified' },
-  { text: '&gt; generating report...', cls: 'dim' },
+  { text: '> generating report...', cls: 'dim' },
   { text: 'scan complete — 1 verified finding · 0 false positives · 38s', cls: 'ok' }
 ];
 const termBody = document.getElementById('termBody');
@@ -248,11 +261,11 @@ function typeTerminal(){
     termBody.appendChild(row);
     const full = lines[li].text;
     let ci = 0;
-    if (reduceMotion){ row.innerHTML = full; li++; nextLine(); return; }
+    if (reduceMotion){ row.textContent = full; li++; nextLine(); return; }
     const speed = 14;
     const iv = setInterval(() => {
       ci += 2;
-      row.innerHTML = full.slice(0, ci);
+      row.textContent = full.slice(0, ci);
       if (ci >= full.length){ clearInterval(iv); li++; setTimeout(nextLine, 160); }
     }, speed);
   }

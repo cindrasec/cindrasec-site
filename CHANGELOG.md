@@ -1,5 +1,39 @@
 # Changelog
 
+## Delivery correctness pass (2026-08-04)
+
+### Fixed
+- **The service worker served the previous deploy.** It answered every request
+  cache-first and revalidated in the background, so a returning visitor saw the
+  last release on this visit and the current one on the next. The only lever
+  that shortened that window was bumping `CACHE_NAME` by hand — a step the
+  privacy-notice release already missed while changing `index.html`,
+  `bn/index.html` and `styles.css`. Documents, styles and scripts are now
+  network-first with the cache as an offline fallback; fonts, icons and images
+  stay cache-first. A deploy is live on the next request, and `CACHE_NAME` only
+  has to move when the precache *list* changes.
+- **`.nojekyll` added.** GitHub Pages runs Jekyll by default, and Jekyll skips
+  paths beginning with a dot — which silently excluded `/.well-known/security.txt`,
+  the disclosure contact a security vendor is least able to afford missing. The
+  site uses no Jekyll templating, so disabling it changes nothing else.
+- **`sitemap.xml` is generated, not hand-maintained.** It claimed `2026-07-31`
+  while both pages had been rebuilt on `2026-08-04`. `build.py` now emits it and
+  moves `lastmod` only when the built HTML actually changed, so an unchanged
+  rebuild stays byte-identical and no page is re-announced without cause.
+- **`sample-finding.pdf` no longer carries its toolchain in its metadata.** The
+  title read `onepager.html`, the creator `HeadlessChrome/141`, the producer
+  `Skia/PDF`. Retitled to the document's actual name; page content and rendering
+  are byte-for-byte unchanged.
+
+### Changed
+- **`manifest.json` declares an explicit `id`.** Install identity no longer
+  depends on `start_url` staying put.
+- **`_headers` documents why `style-src` allows `'unsafe-inline'`.** It is there
+  for `404.html`, which inlines its CSS so an error page costs one request. The
+  published pages ship a stricter `<meta>` CSP (`style-src 'self'`) and browsers
+  enforce the intersection, so the loosening never reaches them. It was reading
+  as drift; it is a deliberate floor.
+
 ## SEO fix — FAQ structured-data parity (2026-07-22)
 
 ### Fixed

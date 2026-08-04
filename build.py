@@ -44,6 +44,7 @@ import json
 import pathlib
 import re
 import sys
+from datetime import date
 
 ROOT = pathlib.Path(__file__).resolve().parent
 SRC = ROOT / "src" / "index.src.html"
@@ -319,15 +320,63 @@ def build(lang: str, html: str) -> str:
     return html.replace("<!DOCTYPE html>", "<!DOCTYPE html>\n" + banner.rstrip(), 1)
 
 
+SITEMAP = ROOT / "sitemap.xml"
+LASTMOD_RE = re.compile(r"<lastmod>(\d{4}-\d{2}-\d{2})</lastmod>")
+
+
+def write_sitemap(changed: bool) -> str:
+    """Emit sitemap.xml, carrying a <lastmod> that is actually true.
+
+    It used to be hand-edited, so it drifted: the file claimed 2026-07-31 while
+    both pages had been rebuilt on 2026-08-04. Search engines treat a lastmod
+    they can disprove as a reason to stop trusting the field at all.
+
+    The date only moves when the built HTML actually changed. Rebuilding an
+    unchanged source leaves the sitemap byte-identical, so a no-op build never
+    shows up as a diff and never re-announces pages that did not move.
+    """
+    previous = ""
+    if SITEMAP.exists():
+        found = LASTMOD_RE.search(SITEMAP.read_text(encoding="utf-8"))
+        previous = found.group(1) if found else ""
+    lastmod = date.today().isoformat() if (changed or not previous) else previous
+
+    alternates = "\n".join(
+        f'    <xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>'
+        for h, u in (("en", "https://cindrasec.com/"),
+                     ("bn", "https://cindrasec.com/bn/"),
+                     ("x-default", "https://cindrasec.com/"))
+    )
+    entries = "\n".join(
+        f"  <url>\n    <loc>{loc}</loc>\n{alternates}\n"
+        f"    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>weekly</changefreq>\n"
+        f"    <priority>{pri}</priority>\n  </url>"
+        for loc, pri in (("https://cindrasec.com/", "1.0"),
+                         ("https://cindrasec.com/bn/", "0.9"))
+    )
+    SITEMAP.write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+        '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        f"{entries}\n</urlset>\n",
+        encoding="utf-8",
+    )
+    return lastmod
+
+
 def main() -> int:
     source = SRC.read_text(encoding="utf-8")
     check = "--check" in sys.argv
     targets = {"en": ROOT / "index.html", "bn": ROOT / "bn" / "index.html"}
     stale = []
+    changed = False
     for lang, path in targets.items():
         html = build(lang, source)
+        current = path.read_text(encoding="utf-8") if path.exists() else ""
+        if current != html:
+            changed = True
         if check:
-            current = path.read_text(encoding="utf-8") if path.exists() else ""
             if current != html:
                 stale.append(str(path.relative_to(ROOT)))
         else:
@@ -346,6 +395,9 @@ def main() -> int:
             print("STALE — rebuild needed:", ", ".join(stale))
             return 1
         print("output is in sync with src/index.src.html")
+    else:
+        print(f"  sitemap.xml: lastmod={write_sitemap(changed)}"
+              f"{'' if changed else '  (unchanged — date preserved)'}")
     return 0
 
 

@@ -2,6 +2,7 @@
   "name": "Cindrasec — Attack Surface & AI Security",
   "short_name": "Cindrasec",
   "description": "Continuous, automated attack-surface and AI/LLM security monitoring.",
+  "id": ".",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

@@ -1,5 +1,25 @@
 # Changelog
 
+## Pricing — the Gig rejoins the local price book (2026-08-05)
+
+### Fixed
+- **The Productized Gig cost more than a Snapshot in taka.** It is described on
+  the same card as "the lowest-commitment way to start" and delivers in 2–4
+  hours, yet it was priced ৳16,000–55,000 against the Snapshot's ৳15,000–25,000
+  — a full external scan taking 3–5 days. In USD the order was correct
+  ($150–500 against $250–600), so the ladder inverted the moment a visitor
+  pressed the currency toggle, and it read wrong by default on the Bengali page,
+  which is the one the intended customer reads.
+
+  The cause was that the Gig's taka figure had been converted at the market rate
+  (~110 ৳/$) while Snapshot, Watch and the AI/LLM assessment were deliberately
+  localised (~60, ~33 and ~20 respectively). One tier was quoting an exchange
+  rate; the other three were quoting a price.
+
+  Now **৳7,000–15,000**, which puts the Gig's local discount at ~47–33× — between
+  Snapshot's and Watch's, so it obeys the same price book as everything else —
+  and tops the entry tier out exactly where the Snapshot begins.
+
 ## Delivery correctness pass (2026-08-04)
 
 ### Fixed

@@ -1,5 +1,9 @@
 # Cindrasec — https://cindrasec.com
 # We are a security firm; we hold ourselves to the disclosure standards we ask of others.
+#
+# RFC 9116 places this file at /.well-known/security.txt, and that is the canonical
+# location. This root-level copy exists because GitHub Pages does not reliably publish
+# dot-directories, and a disclosure contact that 404s is worse than a redundant one.
 Contact: mailto:contact@cindrasec.com
 Expires: 2027-07-15T00:00:00.000Z
 Preferred-Languages: en, bn

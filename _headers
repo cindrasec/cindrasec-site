@@ -11,6 +11,15 @@
 # The CSP <meta> tag in index.html provides in-page enforcement today, but
 # frame-ancestors, HSTS, X-Content-Type-Options and Permissions-Policy only
 # work as real HTTP headers — set them at the edge.
+#
+# ON style-src 'unsafe-inline' BELOW — it is deliberate, not drift.
+# This policy applies to /*, and 404.html carries its CSS in an inline <style>
+# block so an error page costs exactly one request no matter which missing URL
+# produced it. The pages that matter are stricter than this header: index.html
+# and bn/index.html each ship a <meta> CSP with `style-src 'self'`, and a browser
+# enforces every policy it receives, so the effective rule on those pages is the
+# intersection — 'self' only, no inline styles. Tightening the header here would
+# not harden them further; it would only leave the 404 page unstyled.
 
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload

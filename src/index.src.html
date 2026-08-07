@@ -589,6 +589,19 @@
         <p><span data-en>Toggle ৳ / $ above. The range depends only on scope size — you always get a fixed quote before paying.</span><span data-bn hidden lang="bn">উপরে ৳ / $ টগল করুন। দাম শুধু স্কোপের আকারের উপর নির্ভর করে — টাকা দেওয়ার আগে সবসময় ফিক্সড কোট পাবেন।</span></p>
       </div>
 
+      <!-- A second instance of the toggle, not a second control: #services has
+           the only one, and a visitor who reaches pricing via the "Pricing"
+           nav link (-> #pricing) or a direct #pricing link lands here having
+           scrolled straight past it, with no way to reach $ pricing short of
+           scrolling back up past the whole Services section. setCurrency() in
+           app.js already binds every [data-cur-btn] and toggles every
+           [data-cur] globally, so this needs no script change -- it is the
+           same two buttons, and clicking either one keeps both in sync. -->
+      <div class="currency-toggle" role="group" aria-label="Currency" data-bn-aria-label="মুদ্রা">
+        <button data-cur-btn="bdt" class="active" aria-pressed="true">৳ <span data-en>Bangladesh</span><span data-bn hidden lang="bn">বাংলাদেশ</span></button>
+        <button data-cur-btn="usd" aria-pressed="false">$ <span data-en>Global</span><span data-bn hidden lang="bn">গ্লোবাল</span></button>
+      </div>
+
       <div class="pilot-banner reveal">
         <div>
           <h3><span data-en>★ Founding cohort: your first Snapshot is free</span><span data-bn hidden lang="bn">★ ফাউন্ডিং কোহর্ট: আপনার প্রথম Snapshot ফ্রি</span></h3>

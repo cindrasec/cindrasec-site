@@ -1,5 +1,22 @@
 # Changelog
 
+## Pricing — the currency toggle reaches the pricing table (2026-08-07)
+
+### Fixed
+- **A visitor who clicked "Pricing" in the nav could never see USD.** The only
+  `৳ / $` toggle on the page lived in `#services`; the nav's "Pricing" link
+  (and any direct link to `#pricing`) scrolls straight to a separate section
+  further down, skipping over it entirely. That section's own copy says
+  "Toggle ৳ / $ above" — true only for a visitor who happened to scroll down
+  from the top of the page, not for anyone who arrived via the link meant to
+  take them there directly. A global visitor landing on `#pricing` had no
+  visible way to reach the USD figures the FAQ and JSON-LD both promise exist.
+
+  Added a second instance of the same toggle at the top of `#pricing`.
+  `setCurrency()` in `app.js` already binds every `[data-cur-btn]` and toggles
+  every `[data-cur]` element document-wide, so this needed no script change —
+  clicking either toggle keeps both in sync.
+
 ## Pricing — the Gig rejoins the local price book (2026-08-05)
 
 ### Fixed

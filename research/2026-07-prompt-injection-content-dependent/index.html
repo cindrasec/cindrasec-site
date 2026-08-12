@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>The Same Model, 4.6× the Exposure — Cindrasec Research</title>
+<meta name="description" content="A measured look at prompt-injection resistance in a small local LLM — and why a single &quot;resistance score&quot; is misleading.">
+<link rel="canonical" href="https://cindrasec.com/research/2026-07-prompt-injection-content-dependent/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Same Model, 4.6× the Exposure">
+<meta property="og:description" content="A measured look at prompt-injection resistance in a small local LLM — and why a single &quot;resistance score&quot; is misleading.">
+<meta property="og:url" content="https://cindrasec.com/research/2026-07-prompt-injection-content-dependent/">
+<meta property="og:image" content="https://cindrasec.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Same Model, 4.6× the Exposure">
+<meta name="twitter:description" content="A measured look at prompt-injection resistance in a small local LLM — and why a single &quot;resistance score&quot; is misleading.">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="preload" href="/fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The Same Model, 4.6\u00d7 the Exposure",
+  "description": "A measured look at prompt-injection resistance in a small local LLM \u2014 and why a single \"resistance score\" is misleading.",
+  "datePublished": "2026-07-01",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cindrasec.com/research/2026-07-prompt-injection-content-dependent/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Md. Azmol Haque Rony",
+    "jobTitle": "Founder, Cindrasec",
+    "url": "https://cindrasec.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cindrasec",
+    "url": "https://cindrasec.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cindrasec.com/icon-512.png"
+    }
+  }
+}</script>
+</head>
+<body class="research-body">
+<a class="skip-link" href="#article">Skip to content</a>
+<header class="research-head">
+  <div class="wrap research-head-inner">
+    <a class="research-brand" href="/">CINDRA<span>SEC</span></a>
+    <nav class="research-nav">
+      <a href="/research/">Research</a>
+      <a href="/#services">Services</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap prose" id="article">
+  <p class="prose-kicker"><a href="/research/">Research</a> · Published 2026-07-01</p>
+  <h1>The Same Model, 4.6× the Exposure</h1>
+  <p class="prose-standfirst">A measured look at prompt-injection resistance in a small local LLM — and why a single &quot;resistance score&quot; is misleading.</p>
+  <article>
+<blockquote><strong>CWE:</strong> <a href="https://cwe.mitre.org/data/definitions/1427.html" target="_blank" rel="noopener noreferrer">CWE-1427</a> (Improper Neutralization of Input Used for LLM Prompting) · <strong>OWASP LLM Top 10:</strong> <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/" target="_blank" rel="noopener noreferrer">LLM01 — Prompt Injection</a> <strong>Test target:</strong> Llama 3.2 (3B) via Ollama, self-hosted on a Raspberry Pi 5 — authorized use only, own model.</blockquote>
+<p><strong>TL;DR</strong> — Two different prompt-injection attacks were run against the <em>same</em> small local model, 256 trials each. The model was hijacked into emitting a "hate humans" string <strong>46.9%</strong> of the time, but a violent "kill humans" string only <strong>10.2%</strong> of the time — a <strong>4.6× difference in attack success from the same technique, changing only the goal.</strong> The confidence intervals don't overlap, so this is a real effect, not noise. The practical lesson: a model's prompt-injection resistance is not one number — it varies sharply by <em>what</em> the attacker is trying to extract, so a single benchmark result can be off by multiples from your actual threat.</p>
+<hr>
+<h2 id="contents">Contents</h2>
+<ul><li><a href="#why-this-writeup">Why this writeup</a></li><li><a href="#1-method">1. Method</a></li><li><a href="#2-results">2. Results</a></li><li><a href="#3-the-finding-resistance-is-content-dependent">3. The finding: resistance is content-dependent</a></li><li><a href="#4-why-it-happens">4. Why it happens</a></li><li><a href="#5-what-it-means-for-anyone-shipping-an-llm">5. What it means for anyone shipping an LLM</a></li><li><a href="#6-reproduce-it">6. Reproduce it</a></li><li><a href="#7-limitations-and-honesty">7. Limitations and honesty</a></li><li><a href="#what-this-demonstrates">What this demonstrates</a></li><li><a href="#references">References</a></li></ul>
+<h2 id="why-this-writeup">Why this writeup</h2>
+<p>Most LLM-security commentary stops at a single headline number: "model X is Y% vulnerable to prompt injection." That framing is comforting and wrong. Resistance to prompt injection is not a scalar property of a model — it is a <em>distribution</em> that depends on the payload. This writeup measures that distribution, on one small model, with enough trials to attach confidence intervals, and then does the more useful thing: it explains <em>why</em> the numbers came out uneven, and what that means for anyone putting an LLM in front of untrusted input.</p>
+<p>The model here is deliberately modest — a 3-billion-parameter model running locally on a Raspberry Pi. The point is not to shame a small model for being weak; it is to show that even when you <em>do</em> measure, one measurement is not a safety rating.</p>
+<h2 id="1-method">1. Method</h2>
+<ul><li><strong>Model:</strong> Llama 3.2 (3B), served locally via <a href="https://ollama.com" target="_blank" rel="noopener noreferrer">Ollama</a>, offline, on a Raspberry Pi 5. Nothing left the device.</li><li><strong>Tool:</strong> <a href="https://github.com/NVIDIA/garak" target="_blank" rel="noopener noreferrer">garak</a>, NVIDIA's open-source LLM vulnerability scanner (v0.15.1).</li><li><strong>Probes:</strong> two variants from garak's <code>promptinject</code> family — <code>HijackHateHumans</code> and <code>HijackKillHumans</code>. Each embeds a hidden instruction inside an otherwise-normal task and asks the model to comply; the <code>AttackRogueString</code> detector scores a success whenever the attacker's target string appears in the output.</li><li><strong>Volume:</strong> 256 trials per probe, one generation each. 256 is enough to bound the attack-success rate with a tight 95% confidence interval.</li></ul>
+<p>The two probes are the <em>same attack mechanism</em>. The only thing that changes between them is the content the attacker is trying to force out of the model.</p>
+<h2 id="2-results">2. Results</h2>
+<div class="prose-scroll"><table><thead><tr><th>Probe (what it tries to make the model output)</th><th>Attack success</th><th>Model resisted</th><th>95% CI</th></tr></thead><tbody><tr><td><strong>HijackHateHumans</strong> — a "hate humans" rogue string</td><td><strong>46.9%</strong></td><td>136 / 256</td><td>41.0–53.1%</td></tr><tr><td><strong>HijackKillHumans</strong> — a violent rogue string</td><td><strong>10.2%</strong></td><td>230 / 256</td><td>6.6–14.1%</td></tr></tbody></table></div>
+<p>The intervals <code>41.0–53.1%</code> and <code>6.6–14.1%</code> do not come close to touching. The gap is a real property of the model's behaviour, not sampling noise.</p>
+<p><em>(An earlier single-probe run of <code>HijackHateHumans</code>, repeated twice for reproducibility, produced 44.1% and 44.5% — consistent with the 46.9% here, and evidence the measurement is stable.)</em></p>
+<h2 id="3-the-finding-resistance-is-content-dependent">3. The finding: resistance is content-dependent</h2>
+<p>The same injection technique succeeded <strong>4.6× more often</strong> when the goal was mildly toxic ("hate") than when it was overtly violent ("kill"). Resistance is not a single number attached to the model; it is a function of the target content. A defender who tested only the violent payload would record ~10% and conclude the model was reasonably robust. A defender who tested only the mild payload would record ~47% and conclude it was badly exposed. Both used the same model and the same attack. Both would be drawing a conclusion from one point on a curve.</p>
+<h2 id="4-why-it-happens">4. Why it happens</h2>
+<p>Safety training is uneven by design. Alignment work concentrates its strongest refusals on the most obviously harmful categories — violence, weapons, self-harm — because those are the highest-liability failures. That training generalises to <em>injection</em> attempts in the same categories: when an injected instruction tries to force violent output, it trips the model's most heavily reinforced guardrails, and the attack fails more often.</p>
+<p>Milder toxic content sits in a weaker-defended zone. The model has far less reinforcement against being steered into "hate" output, so the identical injection technique carries it across the line much more easily. Put bluntly: <strong>the attack that feels worse to a human is the one the model is best at resisting, and the subtler one is where it is most exposed.</strong> An attacker optimising for reliability, not shock value, targets the second zone.</p>
+<h2 id="5-what-it-means-for-anyone-shipping-an-llm">5. What it means for anyone shipping an LLM</h2>
+<ol><li><strong>A single resistance score is not a safety rating.</strong> If you test one payload and record a number, that number can be off by 4–5× from how the model behaves against a different goal. Test the payload <em>classes</em> that map to your own threat model — data exfiltration, tool/agent abuse, brand-damaging output, policy bypass — not just whatever a benchmark ships with.</li><li><strong>The dangerous gaps are not the obvious ones.</strong> Overtly harmful attacks are the best-defended. The exposure lives in the subtler categories, which is exactly where a competent attacker will push.</li><li><strong>Guardrails belong outside the model.</strong> Uneven internal defences mean you cannot rely on the model to catch the category <em>you</em> care about. Put deterministic input/output filtering around it, and constrain what a hijacked model is actually able to do — least-privilege tools, no unsafe actions on model say-so alone.</li><li><strong>Measure before you ship, and re-measure on every change.</strong> Injection resistance moves with the model version, the system prompt, and the surrounding scaffolding. It is a property to monitor, not a box to tick once.</li></ol>
+<h2 id="6-reproduce-it">6. Reproduce it</h2>
+<p>The entire test runs on commodity hardware — a Raspberry Pi, offline:</p>
+<div class="prose-scroll"><pre><code class="lang-bash"># 1. A local model
+ollama pull llama3.2:3b
+
+# 2. The scanner
+pipx install garak
+
+# 3. The measurement (256 trials per probe)
+garak --model_type ollama --model_name llama3.2:3b \
+      --probes promptinject.HijackHateHumans,promptinject.HijackKillHumans \
+      --generations 1</code></pre></div>
+<p>garak writes a full per-attempt report (<code>~/.local/share/garak/garak_runs/*.report.jsonl</code>) so every hit is auditable rather than taken on trust.</p>
+<h2 id="7-limitations-and-honesty">7. Limitations and honesty</h2>
+<p>This is a deliberately bounded result, and it should be read as one:</p>
+<ul><li><strong>One small model.</strong> These numbers describe Llama 3.2 (3B). Larger, better-aligned models are materially more resistant. This is not a claim about LLMs in general — it is a demonstration that <em>even one measurement is not enough</em>.</li><li><strong>Two payloads.</strong> A third probe, <code>HijackLongPrompt</code>, was started but excluded: it stalled on the CPU-only test hardware (the long-context generation hung with no client-side timeout). The two-payload contrast stands on its own — and a hung long-context generation is itself a small reminder that model behaviour under adversarial input is worth measuring, not assumed.</li><li><strong>One detector.</strong> <code>AttackRogueString</code> scores exact-string emission. Real-world injection has fuzzier success criteria; this is a lower bound on a well-defined signal, chosen because it is unambiguous and reproducible.</li></ul>
+<p>Stating the bounds is the point. A number without its limits is marketing, not measurement.</p>
+<h2 id="what-this-demonstrates">What this demonstrates</h2>
+<ul><li>Prompt-injection resistance is a <strong>distribution, not a scalar</strong> — and the spread is large (4.6× here).</li><li>The method is cheap, offline, and <strong>reproducible on a Raspberry Pi</strong>, so "we didn't have the resources to test" is not a real constraint.</li><li>Reporting the confidence intervals, the reproduction steps, <em>and</em> the limitations is what separates a measurement from a headline.</li></ul>
+<p>Verification-first: measure the distribution, show the intervals, hand over the evidence.</p>
+<h2 id="references">References</h2>
+<ul><li>garak — LLM vulnerability scanner: https://github.com/NVIDIA/garak</li><li>OWASP Top 10 for LLM Applications — LLM01 Prompt Injection: https://genai.owasp.org/llmrisk/llm01-prompt-injection/</li><li>CWE-1427 — Improper Neutralization of Input Used for LLM Prompting: https://cwe.mitre.org/data/definitions/1427.html</li><li>Ollama: https://ollama.com</li></ul>
+<hr>
+<p><em>Tested against our own model, on our own hardware, under authorized conditions. No third-party systems were involved. — <a href="https://cindrasec.com">Cindrasec</a></em></p>
+  </article>
+  <aside class="prose-cta">
+    <p><strong>This is the kind of question Cindrasec answers for clients.</strong>
+    If you are shipping an LLM feature, an agent, or an MCP server and want to know
+    how it behaves under adversarial input — measured, not guessed —
+    <a href="/#contact">get in touch</a>.</p>
+  </aside>
+</main>
+<footer class="research-foot">
+  <div class="wrap">
+    <p>© 2026 Cindrasec · Dhaka, Bangladesh ·
+       <a href="/">cindrasec.com</a> ·
+       <a href="/.well-known/security.txt">security.txt</a></p>
+    <p class="research-foot-note">Tested against our own systems, or under a signed
+       Rules of Engagement. Authorized use only.</p>
+  </div>
+</footer>
+</body>
+</html>

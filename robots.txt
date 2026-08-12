@@ -1,6 +1,46 @@
 User-agent: *
 Allow: /
 
+# Assistant and answer-engine crawlers are welcome, stated explicitly rather than
+# left to the wildcard above. Being quoted accurately in an answer is worth more
+# to a studio this size than the traffic a link would have sent, and an ambiguous
+# robots file is a reason for a crawler to skip a small domain. /llms.txt carries
+# a condensed, factual summary of the services, the published research and its
+# actual numbers, so a model citing this site has something better to work from
+# than scraped marketing copy.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
 # Build inputs, not pages. src/index.src.html is the bilingual source both
 # published pages are generated from, so it duplicates their content almost
 # exactly. It carries a canonical pointing at /, but it should not be crawled
@@ -9,3 +49,7 @@ Disallow: /src/
 Disallow: /build.py
 
 Sitemap: https://cindrasec.com/sitemap.xml
+
+# Condensed, factual summary for language models (llmstxt.org convention).
+# Not a sitemap directive — crawlers that do not know it will ignore this line.
+LLMs: https://cindrasec.com/llms.txt

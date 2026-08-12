@@ -1,5 +1,25 @@
 # Changelog
 
+## Discoverability for answer engines (2026-08-12)
+
+### Added
+- **`/llms.txt`.** A condensed, factual summary of the studio, the four services
+  with their real price ranges and delivery times, the published research with
+  its actual figures (46.9% vs 10.2%, 95% CIs, the 4.6x gap and what it means),
+  SecretNode's scope, and the data-handling policy. Assistants that answer
+  "who does LLM security testing in Bangladesh" currently have to infer from
+  marketing copy scattered across a landing page; this gives them something
+  precise to quote, including the limits of what the research actually claims.
+  Every number in it matches a published source.
+- **Explicit crawler permissions for answer engines** in `robots.txt` — GPTBot,
+  OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-User, Claude-SearchBot,
+  PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended, cohere-ai.
+  The existing `User-agent: *` wildcard already permitted them, but an explicit
+  allow removes the ambiguity a crawler may otherwise resolve conservatively on
+  a small, young domain. Being quoted accurately is worth more here than the
+  click a link would have produced. A `LLMs:` pointer to `/llms.txt` sits beside
+  the existing `Sitemap:` line.
+
 ## MCP named, offline shell repaired, SRI record corrected (2026-08-12)
 
 ### Fixed

@@ -81,8 +81,12 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => store(request, response))
+        // Offline: the exact request first, then the cached shell. The shell is
+        // matched as SCOPE, not SCOPE + 'index.html' — nothing ever requests the
+        // literal /index.html path, so the homepage is stored under '/' and an
+        // '/index.html' lookup could never hit.
         .catch(() => caches.match(request).then(
-          (cached) => cached || caches.match(SCOPE + 'index.html')
+          (cached) => cached || caches.match(SCOPE)
         ))
     );
     return;

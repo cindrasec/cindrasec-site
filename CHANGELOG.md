@@ -1,5 +1,43 @@
 # Changelog
 
+## MCP named, offline shell repaired, SRI record corrected (2026-08-12)
+
+### Fixed
+- **The offline fallback could never fire.** When a document request failed and
+  the exact URL was not in the cache, the service worker fell back to
+  `caches.match(SCOPE + 'index.html')`. Nothing ever requests that literal path —
+  a browser asks for `/`, so `store()` files the homepage under `/` — which meant
+  the fallback key did not exist in the cache and the lookup always missed. An
+  offline visitor to any page they had not already loaded got the browser's
+  network-error screen instead of the site shell. The fallback now matches
+  `SCOPE`, which is the key the homepage is actually stored under. `CACHE_NAME`
+  is unchanged: the precache list did not change, and browsers reinstall a worker
+  whose bytes differ regardless.
+- **The changelog claimed a security control the site deliberately does not
+  ship.** The v2 entry below lists "Subresource integrity (`sha384`) on
+  `styles.css` and `app.js`" under Added, and nothing after it records what
+  happened next: SRI was removed in `4a45b89` because Cloudflare's edge
+  transforms rewrite the bytes, the browser's computed hash stops matching the
+  attribute, and it refuses to apply the stylesheet — the page rendered
+  completely unstyled in production. `README.md` documents the reasoning in
+  full and instructs against reintroducing it. The changelog never caught up, so
+  reading it top to bottom implied SRI was still active. That entry stays as
+  written — it was true on 2026-07-15 — and this note is the correction. First-
+  party, same-origin assets are covered by the strict CSP (`style-src 'self'`,
+  `script-src 'self'`); SRI defends against a tampered third-party CDN, which is
+  not the threat here.
+
+### Added
+- **MCP and agentic tool surfaces are named explicitly.** The AI/LLM card
+  offered "Agent / tool-abuse testing", which describes the category from the
+  outside; MCP is the term engineers building these systems actually use and
+  search for. Added a fourth line item covering tool poisoning, indirect
+  injection and consent flows, named MCP servers in the card description and the
+  pricing comparison row, and extended the `knowsAbout` array and meta keywords
+  with "MCP Security" and "Agentic AI Security". Both languages, no new claims
+  about measured results — the tooling exists, the trial counts behind it do not
+  yet meet the standard the published research holds itself to.
+
 ## Pricing — the currency toggle reaches the pricing table (2026-08-07)
 
 ### Fixed

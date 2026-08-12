@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Anatomy of an Exposed IAM Frontend — Cindrasec Research</title>
+<meta name="description" content="A total authentication bypass on a Google-acquisition asset — and a precise account of why it was fixed in nine days, and correctly rewarded $0.">
+<link rel="canonical" href="https://cindrasec.com/research/2026-05-exposed-iam-frontend-google-vrp/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Anatomy of an Exposed IAM Frontend">
+<meta property="og:description" content="A total authentication bypass on a Google-acquisition asset — and a precise account of why it was fixed in nine days, and correctly rewarded $0.">
+<meta property="og:url" content="https://cindrasec.com/research/2026-05-exposed-iam-frontend-google-vrp/">
+<meta property="og:image" content="https://cindrasec.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Anatomy of an Exposed IAM Frontend">
+<meta name="twitter:description" content="A total authentication bypass on a Google-acquisition asset — and a precise account of why it was fixed in nine days, and correctly rewarded $0.">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="preload" href="/fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Anatomy of an Exposed IAM Frontend",
+  "description": "A total authentication bypass on a Google-acquisition asset \u2014 and a precise account of why it was fixed in nine days, and correctly rewarded $0.",
+  "datePublished": "2026-05-01",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cindrasec.com/research/2026-05-exposed-iam-frontend-google-vrp/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Md. Azmol Haque Rony",
+    "jobTitle": "Founder, Cindrasec",
+    "url": "https://cindrasec.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cindrasec",
+    "url": "https://cindrasec.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cindrasec.com/icon-512.png"
+    }
+  }
+}</script>
+</head>
+<body class="research-body">
+<a class="skip-link" href="#article">Skip to content</a>
+<header class="research-head">
+  <div class="wrap research-head-inner">
+    <a class="research-brand" href="/">CINDRA<span>SEC</span></a>
+    <nav class="research-nav">
+      <a href="/research/">Research</a>
+      <a href="/#services">Services</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap prose" id="article">
+  <p class="prose-kicker"><a href="/research/">Research</a> · Published 2026-05-01</p>
+  <h1>Anatomy of an Exposed IAM Frontend</h1>
+  <p class="prose-standfirst">A total authentication bypass on a Google-acquisition asset — and a precise account of why it was fixed in nine days, and correctly rewarded $0.</p>
+  <article>
+<blockquote><strong>CWEs:</strong> <a href="https://cwe.mitre.org/data/definitions/287.html" target="_blank" rel="noopener noreferrer">CWE-287</a> (Improper Authentication) · <a href="https://cwe.mitre.org/data/definitions/1188.html" target="_blank" rel="noopener noreferrer">CWE-1188</a> (Use of Default Credentials) · <a href="https://cwe.mitre.org/data/definitions/319.html" target="_blank" rel="noopener noreferrer">CWE-319</a> (Cleartext Transmission) <strong>Asset class:</strong> Google acquisition (Photomath), Tier-1 per <code>external_domains_acquisitions.asciipb</code></blockquote>
+<p><strong>TL;DR</strong> — An administrative IAM interface sat exposed on the public internet on a Google-acquisition subdomain. The login accepted default credentials, then accepted <em>any</em> password, and the API behind it answered unauthenticated requests — a complete failure of the authentication layer. Google's product team triaged it P2/S2 and decommissioned it nine days after accepting the report. The VRP reward panel, separately, awarded credit and no cash. This writeup breaks down the exposure, then does the harder and more useful thing: it explains, at a mechanism level, <strong>why those two decisions are both correct and not in conflict</strong> — and what evidence would have moved it across the reward bar. Calibrating that gap is the real skill.</p>
+<hr>
+<h2 id="contents">Contents</h2>
+<ul><li><a href="#why-im-writing-this">Why I'm writing this</a></li><li><a href="#1-discovery--and-how-to-find-this-class-on-purpose">1. Discovery — and how to find this class on purpose</a></li><li><a href="#2-the-authentication-weakness">2. The authentication weakness</a></li><li><a href="#3-the-api-layer-behind-it">3. The API layer behind it</a></li><li><a href="#4-remediation">4. Remediation</a></li><li><a href="#5-root-cause-precisely-edge-fronted--google-operated">5. Root cause, precisely: edge-fronted ≠ Google-operated</a></li><li><a href="#6-why-this-was-correctly-not-rewarded--and-what-would-have-changed-that">6. Why this was correctly not rewarded — and what would have changed that</a></li><li><a href="#7-if-i-were-defending-this">7. If I were defending this</a></li><li><a href="#8-lessons-im-carrying-forward">8. Lessons I'm carrying forward</a></li><li><a href="#what-this-finding-demonstrates">What this finding demonstrates</a></li><li><a href="#timeline">Timeline</a></li><li><a href="#references">References</a></li></ul>
+<h2 id="why-i-m-writing-this">Why I'm writing this</h2>
+<p>Most bug-bounty writeups stop at "I found X, here's the payout." The more useful story is usually the gap between how severe a finding <em>looks</em> and how severe it <em>is</em> — because judging that gap correctly is the actual job, on both sides of a triage queue and on any security team.</p>
+<p>This finding looked critical on the surface: an unauthenticated administrative Identity-and-Access-Management (IAM) interface, exposed on the public internet, on a domain belonging to a Google acquisition. Google's product team agreed it was worth fixing (P2/S2) and remediated fast. The VRP reward panel decided, separately, that it did not merit a monetary reward — and after working through the evidence I think their reasoning was exactly right.</p>
+<p>So this does two things: it dissects the technical anatomy, and it explains — honestly, and at the level of <em>why the systems behaved this way</em> — why "fix fast" and "pay nothing" were both the correct calls. The second half is the part I'd want a hiring manager to read.</p>
+<h2 id="1-discovery-and-how-to-find-this-class-on-purpose">1. Discovery — and how to find this class on purpose</h2>
+<p>The asset was <code>rip.photomath.net</code>, a subdomain tied to a Google acquisition (Photomath). This did not surface by luck; it surfaced from a repeatable method for the highest-yield corner of a large acquisition-heavy scope — <strong>stale, un-migrated infrastructure from recently acquired companies</strong>:</p>
+<ol><li><strong>Enumerate the acquisition scope, not just the flagship.</strong> Google's own scope file <code>external_domains_acquisitions.asciipb</code> classifies acquisition domains by tier. <code>*.photomath.net</code> is in there at Tier 1. Acquisition subdomains are where integration debt lives.</li><li><strong>Passive subdomain expansion</strong> (certificate-transparency logs + historical DNS) surfaces hosts like <code>rip.</code> that never appear in the product's own navigation.</li><li><strong>Resolve-and-fingerprint every host</strong>, then filter hard for the tells of un-migrated infra rather than hardened production:</li></ol>
+<div class="prose-scroll"><table><thead><tr><th>Observation</th><th>How it was determined</th><th>Why it matters</th></tr></thead><tbody><tr><td>Served an admin UI (<code>GestionUsersRolesFrontend</code>)</td><td>Direct browser load</td><td>A privileged users/roles management surface</td></tr><tr><td><strong>Plain HTTP only; TLS failed on <code>:443</code></strong></td><td><code>unexpected eof</code> on the HTTPS handshake</td><td>A host outside the acquirer's standard TLS-terminating edge policy — a migration tell (CWE-319)</td></tr><tr><td><strong>Fronted by Google infrastructure</strong></td><td><code>Via: 1.1 google</code> header; GCP IP on resolution</td><td>Routes through Google's edge — but, as Section 5 shows, edge-fronted is <strong>not</strong> the same as operated-by-Google</td></tr><tr><td>Non-English admin strings (<code>Bienvenue administrateur</code>), placeholder text (<code>users works!</code>)</td><td>UI inspection</td><td>Source-company build, likely dev/sandbox, carried over unchanged in the acquisition</td></tr></tbody></table></div>
+<p>The pattern that should make an experienced hunter stop and look: <strong>a users/roles admin panel, reachable over plain HTTP, with no SSO / identity-aware proxy in front of it, on an acquisition-tier domain.</strong> Every one of those adjectives is a symptom of infrastructure that was inherited and never folded into the acquirer's security perimeter.</p>
+<h2 id="2-the-authentication-weakness">2. The authentication weakness</h2>
+<p>The login screen (<code>Bienvenue administrateur</code>) accepted the textbook default pair:</p>
+<div class="prose-scroll"><pre><code>email:    admin@photomath.net
+password: admin</code></pre></div>
+<p>That alone is CWE-1188 (default credentials). But probing further revealed something more fundamental: the portal accepted <em>any</em> arbitrary password string for the admin account. That moves it from "weak credentials" to <strong>CWE-287 (broken authentication)</strong> — the frontend performed no meaningful credential validation against a backend at all. The login was decorative.</p>
+<p>I confirmed this deliberately (login with random characters) rather than assuming it, because "default creds work" and "auth is entirely absent" are different severities and I wanted to claim only the one I could prove.</p>
+<p><strong>🎥 Proof — a successful login using a random password string, landing on the authenticated Roles dashboard (unedited screen recording):</strong></p>
+<p>https://github.com/user-attachments/assets/dca3d51d-7b64-480f-ab64-b3c625b54832</p>
+<h2 id="3-the-api-layer-behind-it">3. The API layer behind it</h2>
+<p>Logging in with a junk password landed on the full administrative dashboard — the visible result of the broken authentication above:</p>
+<p><em>The IAM dashboard (<code>/dashboard</code>) reached with no valid credentials — "Welcome, administrator", the Roles/Users management sidebar, the "New role" write control, and no real records (an empty sandbox).</em></p>
+<p>A UI-level bypass is a weak finding if the backend still enforces authorization independently. So the next question — the one that separates a screenshot from an actual finding — was: <strong>does the API behind this UI check auth on its own?</strong> It did not.</p>
+<div class="prose-scroll"><pre><code class="lang-http">GET /api/roles HTTP/1.1
+Host: rip.photomath.net
+# no auth headers, no session cookie
+
+HTTP/1.1 200 OK
+[]</code></pre></div>
+<p>![Unauthenticated GET /api/roles returns [] with a 200](./images/rip-api-roles-unauth.png)</p>
+<p>An unauthenticated GET returned an empty JSON array, not a <code>401</code>/<code>403</code>. An unauthenticated <code>OPTIONS</code> advertised the full write-capable method set:</p>
+<div class="prose-scroll"><pre><code class="lang-console">$ curl -i -s -k -X OPTIONS "http://rip.photomath.net/api/roles"
+HTTP/1.1 200 OK
+Allow: POST,GET,HEAD,OPTIONS
+Via: 1.1 google</code></pre></div>
+<p><code>Allow: POST,GET,HEAD,OPTIONS</code> shows the endpoint accepts writes (<code>POST</code>) with no auth. A <code>404</code> on an unmapped path returned Spring Boot's stock error page:</p>
+<p>So two independent controls — frontend authentication and backend authorization — were both absent on the same surface. That is the architecturally interesting part, and it is why the finding was <em>complete</em>: I didn't stop at "the login is fake," I demonstrated the data layer itself was open.</p>
+<blockquote><strong>Reproduction (read-only summary).</strong> 1. Resolve <code>rip.photomath.net</code> and load it over plain HTTP (<code>:443</code> fails the TLS handshake) — the admin UI (<code>GestionUsersRolesFrontend</code>) renders. 2. At the <code>Bienvenue administrateur</code> login, submit <code>admin@photomath.net</code> with <strong>any</strong> password string → lands on <code>/dashboard</code>. 3. <code>GET /api/roles</code> with <strong>no</strong> cookie or auth header → <code>200 OK</code>, body <code>[]</code> (not <code>401</code>/<code>403</code>). 4. <code>OPTIONS /api/roles</code> → <code>Allow: POST,GET,HEAD,OPTIONS</code> — write methods advertised without auth.  No writes were issued and no records were created or modified; steps 3–4 confirm the control failure without exercising the write path.</blockquote>
+<p><strong>Scope of testing.</strong> I confirmed read reachability and the advertised method set. I did <strong>not</strong> issue writes, create roles, or modify any state. Demonstrating reachability was sufficient to prove the control failure, and stopping there is what safe-harbor expectations require. Claiming the write path <em>worked</em> without exercising it would have been overclaiming; noting it was <em>advertised</em> is fact.</p>
+<h2 id="4-remediation">4. Remediation</h2>
+<p>Google's handling was fast and clean:</p>
+<ul><li><strong>Accepted within ~24 hours</strong> and filed to the responsible product team.</li><li><strong>Marked Fixed nine days after acceptance</strong> — the endpoint was decommissioned and the hostname began returning <code>NXDOMAIN</code>. I independently re-verified the <code>NXDOMAIN</code> and reported back.</li><li>Triaged internally as <strong>P2 / S2</strong>.</li></ul>
+<p><em>The tracker's own updates — accepted the day after reporting, marked fixed nine days later. I've kept Google's exact wording and omitted the sender addresses. And to calibrate it honestly: the celebratory "Nice catch!" is the program's <strong>standard acceptance template</strong>, not a personal accolade — the facts that actually carry weight are the P2/S2 triage and the confirmed fix.</em></p>
+<p>Note <em>how</em> it was fixed: not a code patch, not an auth middleware change — the record was pulled and the host stopped resolving. That detail is the whole key to the reward decision, and it's the subject of the next section.</p>
+<h2 id="5-root-cause-precisely-edge-fronted-google-operated">5. Root cause, precisely: edge-fronted ≠ Google-operated</h2>
+<p>This is the part most writeups skip, and it's the part that actually explains everything.</p>
+<p><code>rip.photomath.net</code> resolved to an address behind Google's edge and returned <code>Via: 1.1 google</code>. It is tempting — and I initially leaned this way — to read "traffic flows through Google's edge" as "this is a Google-operated production system." <strong>It isn't the same thing</strong>, and the difference is the entire finding:</p>
+<ul><li>A <strong>DNS record inherited from the acquisition</strong> still pointed at a deployment that was spun up by Photomath before the acquisition and never decommissioned or migrated. It was an <strong>orphaned frontend</strong>, not an integrated Google service.</li><li>Because it was never folded into the acquirer's perimeter, it sat <strong>outside the identity-aware proxy</strong> (no BeyondCorp/SSO gate) and <strong>outside standard edge TLS policy</strong> (plain HTTP, failed <code>:443</code>). Those weren't separate bugs — they're all the same symptom: <em>this box was never brought inside the fence.</em></li><li>The application was almost certainly a <strong>dev/sandbox build</strong> — French UI strings, <code>users works!</code> placeholder, and an empty <code>/api/roles</code>. There were no real users, credentials, or records behind it.</li><li>The fix being <strong>"pull the DNS record"</strong> rather than <strong>"patch the app"</strong> confirms the root cause: there was no owned, operated application to patch. The vulnerability lived in a <strong>dangling artifact that merely resolved through Google's infrastructure.</strong></li></ul>
+<p>This is the standard shape of <strong>acquisition-integration risk</strong>: when a company is acquired, its DNS zones, cloud projects, and half-forgotten deployments get migrated on a timeline, and stale records survive in the gap. They are absolutely worth finding and worth fixing — but their root cause is <em>inventory and hygiene</em>, not a defect in the acquirer's application code.</p>
+<h2 id="6-why-this-was-correctly-not-rewarded-and-what-would-have-changed-that">6. Why this was correctly not rewarded — and what would have changed that</h2>
+<p>It's easy to write "unauthenticated admin access + broken auth + exposed write API on a Tier-1 Google asset" and call it critical. I framed it strongly at first. But <strong>severity is realized impact on systems and data that actually matter</strong>, and the reward panel's rationale was precise (quoting their decision):</p>
+<blockquote><em>"…not located within a Google application, but was instead the result of stale DNS records. Because the vulnerability did not affect a system under our direct operational control, it does not qualify for a monetary reward…"</em></blockquote>
+<p>Three things cut against the dramatic reading, and all three follow directly from Section 5:</p>
+<ul><li><strong>(a) Non-production.</strong> Placeholder text and an empty <code>/api/roles</code> — an exposed admin panel over an empty sandbox is a genuine hygiene problem, not a data breach.</li><li><strong>(b) Hygiene, not application vulnerability.</strong> The fix was decommissioning a dangling endpoint. VRP rewards defects in systems Google operates, not orphaned artifacts that happen to resolve through its edge.</li><li><strong>(c) My strongest impact claim was speculative.</strong> In my appeal I leaned on a <strong>brand/phishing vector</strong> — that an attacker could harvest credentials from staff who recognized the trusted interface. That's a <em>hypothetical secondary</em> impact, not demonstrated harm, and it was adjectives, not a new fact. The panel reconsidered and upheld the original decision, correctly.</li></ul>
+<h3 id="the-distinction-that-decided-it-severity-track-reward-track">The distinction that decided it: severity track ≠ reward track</h3>
+<p>A P2/S2 <strong>"Fixed"</strong> is an <em>engineering</em> signal — the team judged it worth cleaning up. It is <strong>not</strong> a <em>reward</em> signal. The product team optimizes for "should this be cleaned up?"; the reward panel optimizes for "did this expose real risk in a system we operate?" Those are different questions with different answers, and conflating them is a common early mistake — one I made in the appeal.</p>
+<h3 id="what-would-have-crossed-the-reward-bar-the-useful-counterfactual">What <em>would</em> have crossed the reward bar (the useful counterfactual)</h3>
+<p>Knowing precisely what was missing is more valuable than the finding itself. Any <strong>one</strong> of these would likely have changed the outcome — and each is a concrete next test, not a wish:</p>
+<div class="prose-scroll"><table><thead><tr><th>If I had proven…</th><th>Why it crosses the bar</th></tr></thead><tbody><tr><td><code>/api/roles</code> returned <strong>real user records</strong> (actual PII, not <code>[]</code>)</td><td>Data exposure Google is responsible for — impact realized, not hypothetical</td></tr><tr><td>The <strong>write path</strong> (<code>POST /api/roles</code>) created a role that <strong>federated into an authenticated, Google-operated system</strong> (shared SSO/session)</td><td>Privilege escalation from a husk into production — pivot proven</td></tr><tr><td>The host <strong>shared a cookie domain</strong> (<code>.photomath.net</code>) or an <strong>OAuth <code>redirect_uri</code> allowlist</strong> with a <em>live, authenticated</em> production app</td><td>Session/token theft against real users — the classic dangling-subdomain chain</td></tr></tbody></table></div>
+<p>None applied here: empty sandbox, no shared authentication surface, no reachable production pivot. Recognizing that <em>before</em> escalating the appeal is exactly the calibration the second decision was testing for — and where I could have saved my own credibility.</p>
+<h2 id="7-if-i-were-defending-this">7. If I were defending this</h2>
+<p>The finding is more useful to a security team as a detection-and-prevention lesson than as a war story. If I owned this perimeter:</p>
+<p><strong>Detect</strong></p>
+<ul><li>Continuous <strong>certificate-transparency monitoring</strong> for every acquisition domain (<code>*.photomath.net</code> and siblings) — new and forgotten hosts both show up in CT.</li><li>A scheduled <strong>resolve-and-classify sweep</strong> of every subdomain in the acquisition-tier scope file, flagging: plain-HTTP admin UIs, hosts <em>not</em> behind the identity-aware proxy, and any <code>2xx</code> on an unauthenticated <code>/api/*</code>.</li><li><strong>Dangling-DNS reconciliation</strong>: diff the live DNS zone against the inventory of <em>intentionally operated</em> deployments; anything resolving without an owner is a finding by definition.</li></ul>
+<p><strong>Prevent</strong></p>
+<ul><li>Put <strong>all</strong> acquisition assets behind the identity-aware proxy (BeyondCorp-style) <strong>before</strong> the DNS cutover, so an un-migrated box fails closed instead of open.</li><li>Enforce <strong>HTTPS-only at the edge</strong> and deny plain HTTP — the failed <code>:443</code> here was a free early-warning signal that went unheeded.</li><li>Treat <strong>acquisition off-boarding</strong> as a checklist item: decommission source-company infra and records on a deadline, not "eventually."</li></ul>
+<p>The single control that would have prevented the entire exposure is the identity-aware proxy: with it, an orphaned admin panel is unreachable regardless of how broken its own auth is.</p>
+<h2 id="8-lessons-i-m-carrying-forward">8. Lessons I'm carrying forward</h2>
+<ul><li><strong>Prove impact; don't infer it from labels.</strong> "Tier 1" describes a domain's <em>potential</em> sensitivity, not the severity of any given finding on it. The data actually at risk is what counts.</li><li><strong>Distinguish hygiene from vulnerability — before writing.</strong> Dangling DNS, sandbox exposure, and stale endpoints are frequently valid-but-credit-only. Setting that expectation up front keeps the report honest and the appeal disciplined.</li><li><strong>Two-layer reasoning beats one-layer.</strong> Checking whether the backend independently enforced auth — not just the login form — is what made this complete. Always ask what the next control down is doing.</li><li><strong>Appeals need a new fact, not louder adjectives.</strong> If I can't add concrete, new evidence, escalating the language only erodes credibility with triagers. Restating impact in stronger words is exactly why my appeal didn't (and shouldn't have) changed the outcome.</li><li><strong>Edge-fronted is not operated-by.</strong> Where a request routes tells you nothing about who owns the risk. That one distinction is the difference between a rewardable finding and a hygiene note.</li><li><strong>Calibration is the skill.</strong> Anyone can find something that looks alarming. The professional move is stating accurately how much it matters — including, and especially, when the honest answer is "less than it first appeared."</li></ul>
+<h2 id="what-this-finding-demonstrates">What this finding demonstrates</h2>
+<p>Read as a work sample, the useful signals here aren't the bug itself — they're how it was handled:</p>
+<ul><li><strong>Targeted recon, not spray-and-pray</strong> — surfaced via the acquisition-tier scope file plus CT logs, a repeatable method for finding un-migrated infrastructure.</li><li><strong>Two-layer control analysis</strong> — I checked whether the backend enforced authorization independently of the login form, not just the UI.</li><li><strong>Minimal-impact testing</strong> — confirmed reachability and the advertised write methods without issuing a single write or touching any data.</li><li><strong>Severity calibration under pressure</strong> — argued the finding accurately, conceded where my appeal was speculative, and agreed with the credit-only outcome once the evidence was clear.</li><li><strong>Coordinated disclosure</strong> — reported through the vendor channel, waited for remediation, re-verified the fix (<code>NXDOMAIN</code>), and published only afterward.</li></ul>
+<h2 id="timeline">Timeline</h2>
+<div class="prose-scroll"><table><thead><tr><th>Date</th><th>Day</th><th>Event</th></tr></thead><tbody><tr><td>2026-05-05</td><td>0</td><td>Reported to Google VRP; automated acknowledgement</td></tr><tr><td>2026-05-06</td><td>+1</td><td><strong>Accepted</strong>; bug filed to the product team</td></tr><tr><td>2026-05-15</td><td>+10</td><td><strong>Marked Fixed</strong> — endpoint decommissioned, <code>NXDOMAIN</code>; I re-verified and confirmed</td></tr><tr><td>2026-05-29</td><td>+24</td><td>Reward panel: <strong>does not meet the bar</strong> → credit / Honorable Mention</td></tr><tr><td>2026-05-29</td><td>+24</td><td>I appealed for reconsideration</td></tr><tr><td>2026-06-02</td><td>+28</td><td>Appeal reviewed and <strong>upheld</strong> — credit-only confirmed (stale-DNS rationale)</td></tr></tbody></table></div>
+<h2 id="references">References</h2>
+<ul><li><strong>MITRE CWE</strong> — the weaknesses this finding maps to: <a href="https://cwe.mitre.org/data/definitions/287.html" target="_blank" rel="noopener noreferrer">CWE-287: Improper Authentication</a>, <a href="https://cwe.mitre.org/data/definitions/1188.html" target="_blank" rel="noopener noreferrer">CWE-1188: Use of Default Credentials</a>, <a href="https://cwe.mitre.org/data/definitions/319.html" target="_blank" rel="noopener noreferrer">CWE-319: Cleartext Transmission of Sensitive Information</a>.</li><li><strong><a href="https://bughunters.google.com/" target="_blank" rel="noopener noreferrer">Google Bug Hunters (VRP)</a></strong> — the program this was reported through; its rules define what qualifies for a monetary reward versus credit, and underpin the reward decision analyzed in Section 6.</li><li><strong>Dangling DNS / subdomain takeover</strong> — the risk class this belongs to: a DNS record that outlives the resource it points at. The detection and prevention controls in Section 7 are the defender's counterpart.</li></ul>
+<hr>
+<p><em>Reported through the Google Bug Hunters program (Issue 509594209). The affected endpoint was remediated and decommissioned (<code>NXDOMAIN</code>) by Google prior to publication. No data was accessed or modified beyond what was strictly necessary to confirm the exposure. This writeup reflects my own analysis and is not affiliated with or endorsed by Google.</em></p>
+  </article>
+  <aside class="prose-cta">
+    <p><strong>This is the kind of question Cindrasec answers for clients.</strong>
+    If you are shipping an LLM feature, an agent, or an MCP server and want to know
+    how it behaves under adversarial input — measured, not guessed —
+    <a href="/#contact">get in touch</a>.</p>
+  </aside>
+</main>
+<footer class="research-foot">
+  <div class="wrap">
+    <p>© 2026 Cindrasec · Dhaka, Bangladesh ·
+       <a href="/">cindrasec.com</a> ·
+       <a href="/.well-known/security.txt">security.txt</a></p>
+    <p class="research-foot-note">Tested against our own systems, or under a signed
+       Rules of Engagement. Authorized use only.</p>
+  </div>
+</footer>
+</body>
+</html>

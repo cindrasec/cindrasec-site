@@ -355,6 +355,36 @@ def write_sitemap(changed: bool) -> str:
         for loc, pri in (("https://cindrasec.com/", "1.0"),
                          ("https://cindrasec.com/bn/", "0.9"))
     )
+
+    # Research pages, discovered from research/src/*.md so a new writeup lands in
+    # the sitemap by existing rather than by anyone remembering to add it here.
+    # No hreflang block: these are English-only, and pointing them at the Bengali
+    # landing page would be a false alternate. changefreq is yearly because a
+    # published finding does not change — the date it was published is the honest
+    # lastmod, not the day the site was last rebuilt.
+    research_src = ROOT / "research" / "src"
+    research_entries = []
+    if research_src.is_dir():
+        for md in sorted(research_src.glob("*.md"), reverse=True):
+            slug = md.stem
+            found = re.match(r"^(\d{4})-(\d{2})", slug)
+            published = f"{found.group(1)}-{found.group(2)}-01" if found else lastmod
+            research_entries.append(
+                f"  <url>\n    <loc>https://cindrasec.com/research/{slug}/</loc>\n"
+                f"    <lastmod>{published}</lastmod>\n"
+                f"    <changefreq>yearly</changefreq>\n"
+                f"    <priority>0.8</priority>\n  </url>"
+            )
+        if research_entries:
+            research_entries.insert(
+                0,
+                f"  <url>\n    <loc>https://cindrasec.com/research/</loc>\n"
+                f"    <lastmod>{lastmod}</lastmod>\n"
+                f"    <changefreq>monthly</changefreq>\n"
+                f"    <priority>0.9</priority>\n  </url>",
+            )
+    if research_entries:
+        entries += "\n" + "\n".join(research_entries)
     SITEMAP.write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'

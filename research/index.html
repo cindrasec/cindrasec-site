@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<title>Research — Cindrasec</title>
+<meta name="description" content="Measured security research from Cindrasec: prompt-injection resistance, exposed attack surface, and disclosure writeups. Methods and limitations stated in full.">
+<link rel="canonical" href="https://cindrasec.com/research/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Research — Cindrasec">
+<meta property="og:description" content="Measured security research on AI/LLM systems and exposed attack surface.">
+<meta property="og:url" content="https://cindrasec.com/research/">
+<meta property="og:image" content="https://cindrasec.com/og-image.png">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.json">
+<link rel="preload" href="/fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Cindrasec Research",
+  "description": "Measured security research on AI/LLM systems and exposed attack surface.",
+  "url": "https://cindrasec.com/research/",
+  "hasPart": [
+    {
+      "@type": "TechArticle",
+      "headline": "The Same Model, 4.6\u00d7 the Exposure",
+      "url": "https://cindrasec.com/research/2026-07-prompt-injection-content-dependent/",
+      "datePublished": "2026-07-01"
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Anatomy of an Exposed IAM Frontend",
+      "url": "https://cindrasec.com/research/2026-05-exposed-iam-frontend-google-vrp/",
+      "datePublished": "2026-05-01"
+    }
+  ]
+}</script>
+</head>
+<body class="research-body">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="research-head">
+  <div class="wrap research-head-inner">
+    <a class="research-brand" href="/">CINDRA<span>SEC</span></a>
+    <nav class="research-nav">
+      <a href="/research/" aria-current="page">Research</a>
+      <a href="/#services">Services</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap prose" id="main">
+  <h1>Research</h1>
+  <p class="prose-standfirst">Measured work, with the method and the limits stated in
+  full. A number without its confidence interval is marketing; a finding without its
+  reproduction steps is an anecdote. Everything here is reproducible on commodity
+  hardware, and everything was tested against our own systems or under authorization.</p>
+  <ul class="research-list">
+    <li class="research-item">
+      <a class="research-item-link" href="/research/2026-07-prompt-injection-content-dependent/">
+        <h2>The Same Model, 4.6× the Exposure</h2>
+        <p>A measured look at prompt-injection resistance in a small local LLM — and why a single "resistance score" is misleading.</p>
+        <span class="research-item-date">2026-07-01</span>
+      </a>
+    </li>
+    <li class="research-item">
+      <a class="research-item-link" href="/research/2026-05-exposed-iam-frontend-google-vrp/">
+        <h2>Anatomy of an Exposed IAM Frontend</h2>
+        <p>A total authentication bypass on a Google-acquisition asset — and a precise account of why it was fixed in nine days, and correctly rewarded $0.</p>
+        <span class="research-item-date">2026-05-01</span>
+      </a>
+    </li>
+  </ul>
+</main>
+<footer class="research-foot">
+  <div class="wrap">
+    <p>© 2026 Cindrasec · Dhaka, Bangladesh ·
+       <a href="/">cindrasec.com</a> ·
+       <a href="/.well-known/security.txt">security.txt</a></p>
+  </div>
+</footer>
+</body>
+</html>

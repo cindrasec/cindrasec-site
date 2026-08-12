@@ -180,6 +180,11 @@
 }
 </script>
 <link rel="stylesheet" href="styles.css">
+<!-- Without JS, the scroll-reveal script never runs and .reveal elements would
+     stay at their opacity:0 starting state forever (see noscript.css). This
+     link is only fetched by browsers that don't execute the deferred script,
+     so JS-enabled visitors pay nothing for it. -->
+<noscript><link rel="stylesheet" href="noscript.css"></noscript>
 </head>
 <body>
 <noscript><div class="noscript-banner"><span data-en>This site works best with JavaScript enabled — you can still email contact@cindrasec.com directly.</span><span data-bn hidden lang="bn">JavaScript চালু থাকলে সাইটটি সবচেয়ে ভালো কাজ করে — চাইলে সরাসরি contact@cindrasec.com-এ ইমেইল করতে পারেন।</span></div></noscript>
@@ -238,6 +243,7 @@
           <span data-en>We find the spark<br>before it becomes a <span class="grad">fire.</span></span>
           <span data-bn hidden lang="bn">আগুন ছড়ানোর আগেই<br><span class="grad">আঁচ</span> খুঁজে বের করি।</span>
         </h1>
+        <p class="hero-kicker"><span data-en>Attack-surface monitoring, penetration testing, and AI/LLM security testing for startups and SMEs.</span><span data-bn hidden lang="bn">স্টার্টআপ ও SME-দের জন্য অ্যাটাক-সারফেস মনিটরিং, পেনিট্রেশন টেস্টিং, এবং AI/LLM সিকিউরিটি টেস্টিং।</span></p>
         <p class="sub">
           <span data-en>Continuous, automated attack-surface and AI-system monitoring for teams that can't afford an enterprise security budget — and can't afford a breach either.</span>
           <span data-bn hidden lang="bn">যাদের এন্টারপ্রাইজ সিকিউরিটি বাজেট নেই, কিন্তু ব্রিচ সহ্য করারও সামর্থ্য নেই — তাদের জন্য কন্টিনিউয়াস, স্বয়ংক্রিয় অ্যাটাক-সারফেস ও এআই-সিস্টেম মনিটরিং।</span>
@@ -278,6 +284,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>Free Tool</span><span data-bn hidden lang="bn">ফ্রি টুল</span></div>
         <h2><span data-en>How exposed are you, actually?</span><span data-bn hidden lang="bn">আসলে আপনি কতটা এক্সপোজড?</span></h2>
+        <p class="section-kicker"><span data-en>Free attack-surface risk calculator.</span><span data-bn hidden lang="bn">ফ্রি অ্যাটাক-সারফেস রিস্ক ক্যালকুলেটর।</span></p>
         <p><span data-en>Four questions, a rough exposure score, and a plain recommendation — calculated in your browser, nothing sent anywhere.</span><span data-bn hidden lang="bn">চারটি প্রশ্ন, একটি আনুমানিক এক্সপোজার স্কোর, এবং একটি সরাসরি সুপারিশ — আপনার ব্রাউজারেই হিসাব হয়, কোথাও পাঠানো হয় না।</span></p>
       </div>
 
@@ -353,6 +360,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>Services</span><span data-bn hidden lang="bn">সার্ভিসেস</span></div>
         <h2><span data-en>Four ways in — one engine underneath.</span><span data-bn hidden lang="bn">প্রবেশের চারটি পথ — একই ইঞ্জিন।</span></h2>
+        <p class="section-kicker"><span data-en>Attack-surface scanning, continuous monitoring, and AI/LLM security assessment services.</span><span data-bn hidden lang="bn">অ্যাটাক-সারফেস স্ক্যানিং, কন্টিনিউয়াস মনিটরিং, এবং AI/LLM সিকিউরিটি অ্যাসেসমেন্ট সার্ভিস।</span></p>
         <p><span data-en>Every offering runs on the same SecretNode scanning engine, so pricing stays low and delivery stays fast.</span><span data-bn hidden lang="bn">প্রতিটি সার্ভিস একই SecretNode ইঞ্জিনে চলে — তাই দাম কম, ডেলিভারি দ্রুত।</span></p>
       </div>
 
@@ -449,6 +457,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>Process</span><span data-bn hidden lang="bn">প্রসেস</span></div>
         <h2><span data-en>From intake to a verified report — nothing skipped.</span><span data-bn hidden lang="bn">ইনটেক থেকে যাচাইকৃত রিপোর্ট — কিছুই বাদ পড়ে না।</span></h2>
+        <p class="section-kicker"><span data-en>Our security assessment process, step by step.</span><span data-bn hidden lang="bn">আমাদের সিকিউরিটি অ্যাসেসমেন্ট প্রসেস, ধাপে ধাপে।</span></p>
         <p><span data-en>Two checkpoints are never automated away: authorization, and the final severity call on anything critical.</span><span data-bn hidden lang="bn">দুটি চেকপয়েন্ট কখনো স্বয়ংক্রিয় হয় না: অনুমোদন, এবং যেকোনো ক্রিটিক্যাল ফাইন্ডিংয়ের চূড়ান্ত সিভিয়ারিটি সিদ্ধান্ত।</span></p>
       </div>
       <div class="process">
@@ -468,6 +477,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>How We Work</span><span data-bn hidden lang="bn">আমরা যেভাবে কাজ করি</span></div>
         <h2><span data-en>Three rules that never bend.</span><span data-bn hidden lang="bn">তিনটি নিয়ম — কখনো ভাঙে না।</span></h2>
+        <p class="section-kicker"><span data-en>Authorized, ethical penetration testing — how we handle scope, data, and disclosure.</span><span data-bn hidden lang="bn">অনুমোদিত, নৈতিক পেনিট্রেশন টেস্টিং — স্কোপ, ডেটা ও ডিসক্লোজার আমরা যেভাবে সামলাই।</span></p>
       </div>
       <div class="rules-grid">
         <div class="rule reveal">
@@ -495,6 +505,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>Why Cindrasec</span><span data-bn hidden lang="bn">কেন Cindrasec</span></div>
         <h2><span data-en>The moat isn't the tool. It's how it's run.</span><span data-bn hidden lang="bn">আসল শক্তি টুল নয় — কীভাবে চালানো হয়, সেটাই।</span></h2>
+        <p class="section-kicker"><span data-en>Why teams choose Cindrasec for attack-surface and AI/LLM security.</span><span data-bn hidden lang="bn">অ্যাটাক-সারফেস ও AI/LLM সিকিউরিটির জন্য টিমগুলো কেন Cindrasec বেছে নেয়।</span></p>
         <p><span data-en>Anyone can copy a scanner. These five things compound instead.</span><span data-bn hidden lang="bn">স্ক্যানার যে কেউ কপি করতে পারে। কিন্তু এই পাঁচটি জিনিস সময়ের সঙ্গে বাড়ে।</span></p>
       </div>
       <div class="why-grid">
@@ -533,6 +544,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>Track Record</span><span data-bn hidden lang="bn">ট্র্যাক রেকর্ড</span></div>
         <h2><span data-en>Findings that were actually accepted — not hypotheticals.</span><span data-bn hidden lang="bn">বাস্তবে গৃহীত ফাইন্ডিংস — কল্পনা নয়।</span></h2>
+        <p class="section-kicker"><span data-en>Verified vulnerability research and a Google VRP disclosure track record.</span><span data-bn hidden lang="bn">যাচাইকৃত ভালনারেবিলিটি গবেষণা ও Google VRP ডিসক্লোজার ট্র্যাক রেকর্ড।</span></p>
         <p><span data-en>Cindrasec is new as a business, but the researcher behind it isn't new to disclosure. A sample of confirmed, redacted findings from the Google Vulnerability Reward Program:</span><span data-bn hidden lang="bn">ব্যবসা হিসেবে Cindrasec নতুন, কিন্তু গবেষক নতুন নন। Google VRP থেকে কিছু নিশ্চিত, রিড্যাক্টেড ফাইন্ডিং:</span></p>
       </div>
       <div class="proof-grid">
@@ -555,7 +567,7 @@
           <div class="tag"><span data-en>Included for calibration, not just wins</span><span data-bn hidden lang="bn">ক্যালিব্রেশনের জন্য রাখা — শুধু সাফল্য নয়</span></div>
         </div>
       </div>
-      <p class="proof-note reveal"><span data-en>The three above stay redacted until their disclosure timelines clear. Two other findings are published in full, in 9 languages — <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-05-exposed-iam-frontend-google-vrp.md" target="_blank" rel="noopener">the authentication bypass reported to Google VRP</a>, including why it resolved to credit rather than cash, and <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-07-prompt-injection-content-dependent.md" target="_blank" rel="noopener">a measured 4.6× gap in prompt-injection resistance</a> with full reproduction steps. See also a <a href="sample-finding.pdf" target="_blank" rel="noopener">sample client-facing report format (PDF)</a>.</span><span data-bn hidden lang="bn">উপরের তিনটি তাদের ডিসক্লোজার টাইমলাইন পার না হওয়া পর্যন্ত রিড্যাক্টেড থাকবে। আরও দুটি ফাইন্ডিং ৯টি ভাষায় সম্পূর্ণ প্রকাশিত — <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-05-exposed-iam-frontend-google-vrp.md" target="_blank" rel="noopener">Google VRP-তে রিপোর্ট করা অথেনটিকেশন বাইপাস</a>, সেই সঙ্গে কেন এটি ক্যাশ নয় ক্রেডিট হিসেবে নিষ্পত্তি হলো তার ব্যাখ্যা, এবং <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-07-prompt-injection-content-dependent.md" target="_blank" rel="noopener">প্রম্পট-ইনজেকশন রেজিস্ট্যান্সে পরিমাপ করা ৪.৬× ব্যবধান</a> — সম্পূর্ণ রিপ্রোডাকশন স্টেপসহ। সেই সঙ্গে দেখুন একটি <a href="sample-finding.pdf" target="_blank" rel="noopener">নমুনা ক্লায়েন্ট রিপোর্ট ফরম্যাট (PDF)</a>।</span></p>
+      <p class="proof-note reveal"><span data-en>The three above stay redacted until their disclosure timelines clear. Two other findings are published in full — <a href="/research/2026-05-exposed-iam-frontend-google-vrp/">the authentication bypass reported to Google VRP</a>, including why it resolved to credit rather than cash, and <a href="/research/2026-07-prompt-injection-content-dependent/">a measured 4.6× gap in prompt-injection resistance</a> with full reproduction steps — also on <a href="https://github.com/azmolhaque/security-writeups" target="_blank" rel="noopener">GitHub, translated into 9 languages</a>. See also a <a href="sample-finding.pdf" target="_blank" rel="noopener">sample client-facing report format (PDF)</a>.</span><span data-bn hidden lang="bn">উপরের তিনটি তাদের ডিসক্লোজার টাইমলাইন পার না হওয়া পর্যন্ত রিড্যাক্টেড থাকবে। আরও দুটি ফাইন্ডিং সম্পূর্ণ প্রকাশিত — <a href="/research/2026-05-exposed-iam-frontend-google-vrp/">Google VRP-তে রিপোর্ট করা অথেনটিকেশন বাইপাস</a>, সেই সঙ্গে কেন এটি ক্যাশ নয় ক্রেডিট হিসেবে নিষ্পত্তি হলো তার ব্যাখ্যা, এবং <a href="/research/2026-07-prompt-injection-content-dependent/">প্রম্পট-ইনজেকশন রেজিস্ট্যান্সে পরিমাপ করা ৪.৬× ব্যবধান</a> — সম্পূর্ণ রিপ্রোডাকশন স্টেপসহ — সেই সঙ্গে <a href="https://github.com/azmolhaque/security-writeups" target="_blank" rel="noopener">GitHub-এ ৯টি ভাষায় অনুবাদিত</a>। সেই সঙ্গে দেখুন একটি <a href="sample-finding.pdf" target="_blank" rel="noopener">নমুনা ক্লায়েন্ট রিপোর্ট ফরম্যাট (PDF)</a>।</span></p>
     </div>
   </section>
 
@@ -566,6 +578,7 @@
         <div>
           <div class="eyebrow"><span data-en>Founding Cohort</span><span data-bn hidden lang="bn">ফাউন্ডিং কোহর্ট</span></div>
           <h2><span data-en>Your first Snapshot is free — here's the deal.</span><span data-bn hidden lang="bn">আপনার প্রথম Snapshot ফ্রি — শর্তটা সহজ।</span></h2>
+          <p class="section-kicker"><span data-en>Free attack-surface security assessment for founding-cohort clients.</span><span data-bn hidden lang="bn">ফাউন্ডিং-কোহর্ট ক্লায়েন্টদের জন্য ফ্রি অ্যাটাক-সারফেস সিকিউরিটি অ্যাসেসমেন্ট।</span></p>
           <p><span data-en>We're onboarding a small number of pilot clients at no cost to build honest, redacted case studies. You get a real scan and a real report; we get proof. Every client works directly with the researcher behind the scan — not a support queue. Slots are limited by design, not marketing.</span><span data-bn hidden lang="bn">সৎ, রিড্যাক্টেড কেস স্টাডি তৈরি করতে আমরা অল্প কিছু পাইলট ক্লায়েন্টকে বিনামূল্যে অনবোর্ড করছি। আপনি পান আসল স্ক্যান ও আসল রিপোর্ট; আমরা পাই প্রমাণ। প্রতিটি ক্লায়েন্ট সরাসরি গবেষকের সঙ্গে কাজ করেন — সাপোর্ট কিউ নয়। স্লট সীমিত — ডিজাইনেই, মার্কেটিং নয়।</span></p>
           <div class="badge-row">
             <span class="trust-chip"><span data-en>Signed RoE on every engagement</span><span data-bn hidden lang="bn">প্রতিটি এনগেজমেন্টে স্বাক্ষরিত RoE</span></span>
@@ -588,6 +601,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>Pricing</span><span data-bn hidden lang="bn">প্রাইসিং</span></div>
         <h2><span data-en>Clear, fixed-scope pricing. No hourly billing.</span><span data-bn hidden lang="bn">স্পষ্ট, ফিক্সড-স্কোপ দাম। ঘণ্টা-হিসেবে বিল নয়।</span></h2>
+        <p class="section-kicker"><span data-en>Attack-surface and AI/LLM security assessment pricing.</span><span data-bn hidden lang="bn">অ্যাটাক-সারফেস ও AI/LLM সিকিউরিটি অ্যাসেসমেন্টের দাম।</span></p>
         <p><span data-en>Toggle ৳ / $ above. The range depends only on scope size — you always get a fixed quote before paying.</span><span data-bn hidden lang="bn">উপরে ৳ / $ টগল করুন। দাম শুধু স্কোপের আকারের উপর নির্ভর করে — টাকা দেওয়ার আগে সবসময় ফিক্সড কোট পাবেন।</span></p>
       </div>
 
@@ -696,6 +710,7 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span data-en>FAQ</span><span data-bn hidden lang="bn">সচরাচর জিজ্ঞাসা</span></div>
         <h2><span data-en>Before you reach out.</span><span data-bn hidden lang="bn">যোগাযোগের আগে।</span></h2>
+        <p class="section-kicker"><span data-en>Frequently asked questions about scope, legality, pricing, and data handling.</span><span data-bn hidden lang="bn">স্কোপ, বৈধতা, দাম ও ডেটা হ্যান্ডলিং নিয়ে সচরাচর জিজ্ঞাসা।</span></p>
       </div>
       <div class="faq reveal">
         <details open>

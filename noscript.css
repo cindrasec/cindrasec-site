@@ -1,0 +1,10 @@
+/* Loaded only when JavaScript is disabled or blocked (see the <noscript> link
+   in <head>). Without this, every element carrying .reveal stays at the
+   opacity:0 starting state defined in styles.css forever: the scroll-reveal
+   script that normally adds .is-visible on scroll never runs, so most of the
+   page -- the hero terminal, every card, every process step -- is present in
+   the DOM but permanently invisible. The noscript banner already tells a
+   visitor the site "works best with JavaScript enabled" and points them to
+   email as a fallback; that promise only holds if the content under the
+   banner is actually visible. */
+.reveal{ opacity:1 !important; transform:none !important; }

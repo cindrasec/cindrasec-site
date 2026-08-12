@@ -60,7 +60,7 @@ CLASS_RE = re.compile(r'\bclass="([^"]*)"')
 # root-absolute so /bn/ does not resolve them against /bn/.
 RELATIVE_ASSETS = [
     "icon.svg", "icon-192.png", "icon-512.png", "apple-touch-icon.png",
-    "manifest.json", "styles.css", "app.js", "sample-finding.pdf",
+    "manifest.json", "styles.css", "noscript.css", "app.js", "sample-finding.pdf",
     "fonts/inter-var.woff2", "fonts/space-grotesk-var.woff2",
     "fonts/jetbrains-mono-var.woff2",
 ]

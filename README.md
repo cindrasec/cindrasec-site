@@ -29,7 +29,7 @@ deployed on GitHub Pages behind Cloudflare.
 | `styles.css` | All styling + `@font-face` for the self-hosted fonts |
 | `app.js` | All behavior (external so the CSP can use `script-src 'self'` with no `unsafe-inline`) |
 | `fonts/*.woff2` | Self-hosted latin-subset variable fonts (Inter, Space Grotesk, JetBrains Mono) |
-| `sw.js` | Service worker — offline shell, cache-first. **Bump `CACHE_NAME` whenever shipped assets change** and keep `PRECACHE` in sync with the file list |
+| `sw.js` | Service worker — network-first for documents/styles/scripts, cache-first for fonts/icons. **Bump `CACHE_NAME` whenever any shipped asset's content changes** (not only when the `PRECACHE` list changes — see the comment at the top of the file for why) and keep `PRECACHE` in sync with the file list |
 | `404.html` | Branded not-found page (self-contained; absolute asset paths because it renders at any URL) |
 | `.well-known/security.txt` | Disclosure contact (RFC 9116). `Expires:` is set one year out — refresh it |
 | `_headers` | Canonical list of HTTP response headers to mirror in Cloudflare (see below) |
@@ -91,7 +91,8 @@ visitor's mail client pre-filled, and it also does that automatically on network
 - No console errors; Lighthouse ≥ 95 across Performance / Accessibility /
   Best Practices / SEO.
 - After any asset change: `sw.js` `CACHE_NAME` bumped, `PRECACHE` list matches shipped
-  files, SRI hashes regenerated.
+  files. (No SRI hashes to regenerate — see "No SRI on first-party assets" above;
+  reintroducing them is the one thing on this list that would break the page.)
 
 ## Editing content
 

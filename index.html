@@ -153,6 +153,11 @@
 }
 </script>
 <link rel="stylesheet" href="/styles.css">
+<!-- Without JS, the scroll-reveal script never runs and .reveal elements would
+     stay at their opacity:0 starting state forever (see noscript.css). This
+     link is only fetched by browsers that don't execute the deferred script,
+     so JS-enabled visitors pay nothing for it. -->
+<noscript><link rel="stylesheet" href="/noscript.css"></noscript>
 </head>
 <body>
 <noscript><div class="noscript-banner">This site works best with JavaScript enabled — you can still email contact@cindrasec.com directly.</div></noscript>
@@ -210,6 +215,7 @@
           We find the spark<br>before it becomes a <span class="grad">fire.</span>
           
         </h1>
+        <p class="hero-kicker">Attack-surface monitoring, penetration testing, and AI/LLM security testing for startups and SMEs.</p>
         <p class="sub">
           Continuous, automated attack-surface and AI-system monitoring for teams that can't afford an enterprise security budget — and can't afford a breach either.
           
@@ -250,6 +256,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">Free Tool</div>
         <h2>How exposed are you, actually?</h2>
+        <p class="section-kicker">Free attack-surface risk calculator.</p>
         <p>Four questions, a rough exposure score, and a plain recommendation — calculated in your browser, nothing sent anywhere.</p>
       </div>
 
@@ -325,6 +332,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">Services</div>
         <h2>Four ways in — one engine underneath.</h2>
+        <p class="section-kicker">Attack-surface scanning, continuous monitoring, and AI/LLM security assessment services.</p>
         <p>Every offering runs on the same SecretNode scanning engine, so pricing stays low and delivery stays fast.</p>
       </div>
 
@@ -421,6 +429,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">Process</div>
         <h2>From intake to a verified report — nothing skipped.</h2>
+        <p class="section-kicker">Our security assessment process, step by step.</p>
         <p>Two checkpoints are never automated away: authorization, and the final severity call on anything critical.</p>
       </div>
       <div class="process">
@@ -440,6 +449,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">How We Work</div>
         <h2>Three rules that never bend.</h2>
+        <p class="section-kicker">Authorized, ethical penetration testing — how we handle scope, data, and disclosure.</p>
       </div>
       <div class="rules-grid">
         <div class="rule reveal">
@@ -467,6 +477,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">Why Cindrasec</div>
         <h2>The moat isn't the tool. It's how it's run.</h2>
+        <p class="section-kicker">Why teams choose Cindrasec for attack-surface and AI/LLM security.</p>
         <p>Anyone can copy a scanner. These five things compound instead.</p>
       </div>
       <div class="why-grid">
@@ -505,6 +516,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">Track Record</div>
         <h2>Findings that were actually accepted — not hypotheticals.</h2>
+        <p class="section-kicker">Verified vulnerability research and a Google VRP disclosure track record.</p>
         <p>Cindrasec is new as a business, but the researcher behind it isn't new to disclosure. A sample of confirmed, redacted findings from the Google Vulnerability Reward Program:</p>
       </div>
       <div class="proof-grid">
@@ -527,7 +539,7 @@
           <div class="tag">Included for calibration, not just wins</div>
         </div>
       </div>
-      <p class="proof-note reveal">The three above stay redacted until their disclosure timelines clear. Two other findings are published in full, in 9 languages — <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-05-exposed-iam-frontend-google-vrp.md" target="_blank" rel="noopener">the authentication bypass reported to Google VRP</a>, including why it resolved to credit rather than cash, and <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-07-prompt-injection-content-dependent.md" target="_blank" rel="noopener">a measured 4.6× gap in prompt-injection resistance</a> with full reproduction steps. See also a <a href="/sample-finding.pdf" target="_blank" rel="noopener">sample client-facing report format (PDF)</a>.</p>
+      <p class="proof-note reveal">The three above stay redacted until their disclosure timelines clear. Two other findings are published in full — <a href="/research/2026-05-exposed-iam-frontend-google-vrp/">the authentication bypass reported to Google VRP</a>, including why it resolved to credit rather than cash, and <a href="/research/2026-07-prompt-injection-content-dependent/">a measured 4.6× gap in prompt-injection resistance</a> with full reproduction steps — also on <a href="https://github.com/azmolhaque/security-writeups" target="_blank" rel="noopener">GitHub, translated into 9 languages</a>. See also a <a href="/sample-finding.pdf" target="_blank" rel="noopener">sample client-facing report format (PDF)</a>.</p>
     </div>
   </section>
 
@@ -538,6 +550,7 @@
         <div>
           <div class="eyebrow">Founding Cohort</div>
           <h2>Your first Snapshot is free — here's the deal.</h2>
+          <p class="section-kicker">Free attack-surface security assessment for founding-cohort clients.</p>
           <p>We're onboarding a small number of pilot clients at no cost to build honest, redacted case studies. You get a real scan and a real report; we get proof. Every client works directly with the researcher behind the scan — not a support queue. Slots are limited by design, not marketing.</p>
           <div class="badge-row">
             <span class="trust-chip">Signed RoE on every engagement</span>
@@ -560,6 +573,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">Pricing</div>
         <h2>Clear, fixed-scope pricing. No hourly billing.</h2>
+        <p class="section-kicker">Attack-surface and AI/LLM security assessment pricing.</p>
         <p>Toggle ৳ / $ above. The range depends only on scope size — you always get a fixed quote before paying.</p>
       </div>
 
@@ -668,6 +682,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">FAQ</div>
         <h2>Before you reach out.</h2>
+        <p class="section-kicker">Frequently asked questions about scope, legality, pricing, and data handling.</p>
       </div>
       <div class="faq reveal">
         <details open>

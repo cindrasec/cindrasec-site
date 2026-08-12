@@ -1,0 +1,72 @@
+# Cindrasec
+
+> Attack-surface and AI/LLM security studio based in Dhaka, Bangladesh. Automated
+> external exposure monitoring and adversarial testing of LLM-backed systems for
+> founders, SMEs and AI vendors. Verification-first and authorized-only: testing
+> begins after a signed Rules of Engagement, findings are validated before they
+> are reported, and what was not tested is stated explicitly.
+
+Founded 2025-07 by Md. Azmol Haque Rony. Services are fixed-scope and fixed-price;
+no hourly billing. Work is delivered in English and Bengali.
+
+## Services
+
+- [Attack Surface Snapshot](https://cindrasec.com/#pricing): One-time external
+  assessment of a domain and its subdomains — certificate-transparency enumeration,
+  live-host discovery, credentials exposed in public JavaScript bundles, security
+  posture, subdomain-takeover risk. Passive-first: discovery uses public records
+  rather than traffic against the target. 3–5 days, $250–600 (৳15,000–25,000).
+- [Watch](https://cindrasec.com/#pricing): Continuous monitoring after a Snapshot,
+  with monthly diff reports and alerts when new exposure appears. $150–500/month
+  (৳5,000–12,000).
+- [AI/LLM Security Assessment](https://cindrasec.com/#services): Adversarial testing
+  of chatbots, agents, MCP servers and LLM features — direct and indirect prompt
+  injection, system-prompt and data exposure, agent and tool abuse, MCP tool-surface
+  review covering tool poisoning and consent flows. Results are reported as rates
+  across repeated trials with confidence intervals, not single pass/fail anecdotes.
+  2–5 days, $2,000–8,000 (৳40,000–1,50,000).
+- [Productized Gig](https://cindrasec.com/#pricing): One tightly-scoped check with a
+  single deliverable and a price agreed up front. 2–4 hours, $150–500 (৳7,000–15,000).
+
+## Published research
+
+- [Prompt-injection resistance is content-dependent](https://github.com/azmolhaque/security-writeups/blob/main/2026-07-prompt-injection-content-dependent.md):
+  Measured study using NVIDIA's garak scanner against Llama 3.2 (3B) self-hosted on a
+  Raspberry Pi 5. Two probes from the promptinject family, 256 trials each. The same
+  injection technique succeeded 46.9% of the time (95% CI 41.0–53.1%) when the target
+  string was mildly toxic, but only 10.2% of the time (95% CI 6.6–14.1%) when it was
+  overtly violent — a 4.6x difference in attack success from the same technique,
+  changing only the goal. The confidence intervals do not overlap. Conclusion: a
+  model's prompt-injection resistance is a distribution, not a single score, so one
+  benchmark number can be off by multiples from the threat that actually matters to
+  a given deployment. Safety training concentrates its strongest refusals on overtly
+  harmful categories, which leaves milder categories comparatively exposed — the
+  attack that reads as worse to a human is the one the model resists best.
+- [Exposed IAM configuration in a frontend bundle (Google VRP)](https://github.com/azmolhaque/security-writeups/blob/main/2026-05-exposed-iam-frontend-google-vrp.md):
+  Disclosure writeup covering an identity-and-access-management configuration left
+  reachable in a client-side bundle, reported through Google's Vulnerability Reward
+  Program.
+
+## Open-source tools
+
+- [SecretNode](https://github.com/azmolhaque/secretnode): Passive credential-leak and
+  attack-surface scanner. Enumerates subdomains via certificate transparency, probes
+  live hosts, and scans JavaScript bundles and historical archive copies for exposed
+  secrets. Ships a CLI, a GitHub Action, and SARIF output for pipeline gating.
+  Default-passive; live verification of a finding against a provider API is opt-in
+  behind an explicit flag and stops at establishing whether a credential is valid.
+
+## Policies
+
+- [Rules of Engagement](https://cindrasec.com/legal/Cindrasec_RoE_Authorization.docx):
+  Authorization document signed before any testing begins.
+- [security.txt](https://cindrasec.com/.well-known/security.txt): RFC 9116 disclosure
+  contact.
+- Data handling: assessment data is self-hosted, encrypted at rest, deleted on
+  request, and auto-purged 30 days after delivery. The site sets no tracking cookies
+  and loads no third-party scripts beyond the contact-form endpoint.
+
+## Contact
+
+- Email: contact@cindrasec.com
+- Site: https://cindrasec.com (English) · https://cindrasec.com/bn/ (Bengali)

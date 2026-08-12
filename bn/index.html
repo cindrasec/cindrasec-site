@@ -154,6 +154,11 @@
 }
 </script>
 <link rel="stylesheet" href="/styles.css">
+<!-- Without JS, the scroll-reveal script never runs and .reveal elements would
+     stay at their opacity:0 starting state forever (see noscript.css). This
+     link is only fetched by browsers that don't execute the deferred script,
+     so JS-enabled visitors pay nothing for it. -->
+<noscript><link rel="stylesheet" href="/noscript.css"></noscript>
 </head>
 <body>
 <noscript><div class="noscript-banner">JavaScript চালু থাকলে সাইটটি সবচেয়ে ভালো কাজ করে — চাইলে সরাসরি contact@cindrasec.com-এ ইমেইল করতে পারেন।</div></noscript>
@@ -211,6 +216,7 @@
           
           আগুন ছড়ানোর আগেই<br><span class="grad">আঁচ</span> খুঁজে বের করি।
         </h1>
+        <p class="hero-kicker">স্টার্টআপ ও SME-দের জন্য অ্যাটাক-সারফেস মনিটরিং, পেনিট্রেশন টেস্টিং, এবং AI/LLM সিকিউরিটি টেস্টিং।</p>
         <p class="sub">
           
           যাদের এন্টারপ্রাইজ সিকিউরিটি বাজেট নেই, কিন্তু ব্রিচ সহ্য করারও সামর্থ্য নেই — তাদের জন্য কন্টিনিউয়াস, স্বয়ংক্রিয় অ্যাটাক-সারফেস ও এআই-সিস্টেম মনিটরিং।
@@ -251,6 +257,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">ফ্রি টুল</div>
         <h2>আসলে আপনি কতটা এক্সপোজড?</h2>
+        <p class="section-kicker">ফ্রি অ্যাটাক-সারফেস রিস্ক ক্যালকুলেটর।</p>
         <p>চারটি প্রশ্ন, একটি আনুমানিক এক্সপোজার স্কোর, এবং একটি সরাসরি সুপারিশ — আপনার ব্রাউজারেই হিসাব হয়, কোথাও পাঠানো হয় না।</p>
       </div>
 
@@ -326,6 +333,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">সার্ভিসেস</div>
         <h2>প্রবেশের চারটি পথ — একই ইঞ্জিন।</h2>
+        <p class="section-kicker">অ্যাটাক-সারফেস স্ক্যানিং, কন্টিনিউয়াস মনিটরিং, এবং AI/LLM সিকিউরিটি অ্যাসেসমেন্ট সার্ভিস।</p>
         <p>প্রতিটি সার্ভিস একই SecretNode ইঞ্জিনে চলে — তাই দাম কম, ডেলিভারি দ্রুত।</p>
       </div>
 
@@ -422,6 +430,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">প্রসেস</div>
         <h2>ইনটেক থেকে যাচাইকৃত রিপোর্ট — কিছুই বাদ পড়ে না।</h2>
+        <p class="section-kicker">আমাদের সিকিউরিটি অ্যাসেসমেন্ট প্রসেস, ধাপে ধাপে।</p>
         <p>দুটি চেকপয়েন্ট কখনো স্বয়ংক্রিয় হয় না: অনুমোদন, এবং যেকোনো ক্রিটিক্যাল ফাইন্ডিংয়ের চূড়ান্ত সিভিয়ারিটি সিদ্ধান্ত।</p>
       </div>
       <div class="process">
@@ -441,6 +450,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">আমরা যেভাবে কাজ করি</div>
         <h2>তিনটি নিয়ম — কখনো ভাঙে না।</h2>
+        <p class="section-kicker">অনুমোদিত, নৈতিক পেনিট্রেশন টেস্টিং — স্কোপ, ডেটা ও ডিসক্লোজার আমরা যেভাবে সামলাই।</p>
       </div>
       <div class="rules-grid">
         <div class="rule reveal">
@@ -468,6 +478,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">কেন Cindrasec</div>
         <h2>আসল শক্তি টুল নয় — কীভাবে চালানো হয়, সেটাই।</h2>
+        <p class="section-kicker">অ্যাটাক-সারফেস ও AI/LLM সিকিউরিটির জন্য টিমগুলো কেন Cindrasec বেছে নেয়।</p>
         <p>স্ক্যানার যে কেউ কপি করতে পারে। কিন্তু এই পাঁচটি জিনিস সময়ের সঙ্গে বাড়ে।</p>
       </div>
       <div class="why-grid">
@@ -506,6 +517,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">ট্র্যাক রেকর্ড</div>
         <h2>বাস্তবে গৃহীত ফাইন্ডিংস — কল্পনা নয়।</h2>
+        <p class="section-kicker">যাচাইকৃত ভালনারেবিলিটি গবেষণা ও Google VRP ডিসক্লোজার ট্র্যাক রেকর্ড।</p>
         <p>ব্যবসা হিসেবে Cindrasec নতুন, কিন্তু গবেষক নতুন নন। Google VRP থেকে কিছু নিশ্চিত, রিড্যাক্টেড ফাইন্ডিং:</p>
       </div>
       <div class="proof-grid">
@@ -528,7 +540,7 @@
           <div class="tag">ক্যালিব্রেশনের জন্য রাখা — শুধু সাফল্য নয়</div>
         </div>
       </div>
-      <p class="proof-note reveal">উপরের তিনটি তাদের ডিসক্লোজার টাইমলাইন পার না হওয়া পর্যন্ত রিড্যাক্টেড থাকবে। আরও দুটি ফাইন্ডিং ৯টি ভাষায় সম্পূর্ণ প্রকাশিত — <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-05-exposed-iam-frontend-google-vrp.md" target="_blank" rel="noopener">Google VRP-তে রিপোর্ট করা অথেনটিকেশন বাইপাস</a>, সেই সঙ্গে কেন এটি ক্যাশ নয় ক্রেডিট হিসেবে নিষ্পত্তি হলো তার ব্যাখ্যা, এবং <a href="https://github.com/azmolhaque/security-writeups/blob/main/2026-07-prompt-injection-content-dependent.md" target="_blank" rel="noopener">প্রম্পট-ইনজেকশন রেজিস্ট্যান্সে পরিমাপ করা ৪.৬× ব্যবধান</a> — সম্পূর্ণ রিপ্রোডাকশন স্টেপসহ। সেই সঙ্গে দেখুন একটি <a href="/sample-finding.pdf" target="_blank" rel="noopener">নমুনা ক্লায়েন্ট রিপোর্ট ফরম্যাট (PDF)</a>।</p>
+      <p class="proof-note reveal">উপরের তিনটি তাদের ডিসক্লোজার টাইমলাইন পার না হওয়া পর্যন্ত রিড্যাক্টেড থাকবে। আরও দুটি ফাইন্ডিং সম্পূর্ণ প্রকাশিত — <a href="/research/2026-05-exposed-iam-frontend-google-vrp/">Google VRP-তে রিপোর্ট করা অথেনটিকেশন বাইপাস</a>, সেই সঙ্গে কেন এটি ক্যাশ নয় ক্রেডিট হিসেবে নিষ্পত্তি হলো তার ব্যাখ্যা, এবং <a href="/research/2026-07-prompt-injection-content-dependent/">প্রম্পট-ইনজেকশন রেজিস্ট্যান্সে পরিমাপ করা ৪.৬× ব্যবধান</a> — সম্পূর্ণ রিপ্রোডাকশন স্টেপসহ — সেই সঙ্গে <a href="https://github.com/azmolhaque/security-writeups" target="_blank" rel="noopener">GitHub-এ ৯টি ভাষায় অনুবাদিত</a>। সেই সঙ্গে দেখুন একটি <a href="/sample-finding.pdf" target="_blank" rel="noopener">নমুনা ক্লায়েন্ট রিপোর্ট ফরম্যাট (PDF)</a>।</p>
     </div>
   </section>
 
@@ -539,6 +551,7 @@
         <div>
           <div class="eyebrow">ফাউন্ডিং কোহর্ট</div>
           <h2>আপনার প্রথম Snapshot ফ্রি — শর্তটা সহজ।</h2>
+          <p class="section-kicker">ফাউন্ডিং-কোহর্ট ক্লায়েন্টদের জন্য ফ্রি অ্যাটাক-সারফেস সিকিউরিটি অ্যাসেসমেন্ট।</p>
           <p>সৎ, রিড্যাক্টেড কেস স্টাডি তৈরি করতে আমরা অল্প কিছু পাইলট ক্লায়েন্টকে বিনামূল্যে অনবোর্ড করছি। আপনি পান আসল স্ক্যান ও আসল রিপোর্ট; আমরা পাই প্রমাণ। প্রতিটি ক্লায়েন্ট সরাসরি গবেষকের সঙ্গে কাজ করেন — সাপোর্ট কিউ নয়। স্লট সীমিত — ডিজাইনেই, মার্কেটিং নয়।</p>
           <div class="badge-row">
             <span class="trust-chip">প্রতিটি এনগেজমেন্টে স্বাক্ষরিত RoE</span>
@@ -561,6 +574,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">প্রাইসিং</div>
         <h2>স্পষ্ট, ফিক্সড-স্কোপ দাম। ঘণ্টা-হিসেবে বিল নয়।</h2>
+        <p class="section-kicker">অ্যাটাক-সারফেস ও AI/LLM সিকিউরিটি অ্যাসেসমেন্টের দাম।</p>
         <p>উপরে ৳ / $ টগল করুন। দাম শুধু স্কোপের আকারের উপর নির্ভর করে — টাকা দেওয়ার আগে সবসময় ফিক্সড কোট পাবেন।</p>
       </div>
 
@@ -669,6 +683,7 @@
       <div class="section-head reveal">
         <div class="eyebrow">সচরাচর জিজ্ঞাসা</div>
         <h2>যোগাযোগের আগে।</h2>
+        <p class="section-kicker">স্কোপ, বৈধতা, দাম ও ডেটা হ্যান্ডলিং নিয়ে সচরাচর জিজ্ঞাসা।</p>
       </div>
       <div class="faq reveal">
         <details open>

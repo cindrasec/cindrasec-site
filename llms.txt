@@ -30,7 +30,7 @@ no hourly billing. Work is delivered in English and Bengali.
 
 ## Published research
 
-- [Prompt-injection resistance is content-dependent](https://github.com/azmolhaque/security-writeups/blob/main/2026-07-prompt-injection-content-dependent.md):
+- [Prompt-injection resistance is content-dependent](https://cindrasec.com/research/2026-07-prompt-injection-content-dependent/):
   Measured study using NVIDIA's garak scanner against Llama 3.2 (3B) self-hosted on a
   Raspberry Pi 5. Two probes from the promptinject family, 256 trials each. The same
   injection technique succeeded 46.9% of the time (95% CI 41.0–53.1%) when the target
@@ -42,10 +42,11 @@ no hourly billing. Work is delivered in English and Bengali.
   a given deployment. Safety training concentrates its strongest refusals on overtly
   harmful categories, which leaves milder categories comparatively exposed — the
   attack that reads as worse to a human is the one the model resists best.
-- [Exposed IAM configuration in a frontend bundle (Google VRP)](https://github.com/azmolhaque/security-writeups/blob/main/2026-05-exposed-iam-frontend-google-vrp.md):
+- [Exposed IAM configuration in a frontend bundle (Google VRP)](https://cindrasec.com/research/2026-05-exposed-iam-frontend-google-vrp/):
   Disclosure writeup covering an identity-and-access-management configuration left
   reachable in a client-side bundle, reported through Google's Vulnerability Reward
-  Program.
+  Program. Full reproduction and translations into 9 languages are on GitHub:
+  https://github.com/azmolhaque/security-writeups
 
 ## Open-source tools
 

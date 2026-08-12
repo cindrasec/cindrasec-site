@@ -10,17 +10,31 @@
 // index.html, bn/index.html and styles.css and left the cache name at v10 — which
 // is a reliable sign it will be missed again.
 //
-// Freshness no longer depends on remembering anything:
+// A visitor with a working connection no longer depends on remembering anything:
 //
 //   documents, styles, scripts  ->  network-first; cache is an offline fallback only
 //   fonts, icons, images        ->  cache-first (immutable in practice)
 //
-// A deploy is live on the very next request, and CACHE_NAME now only has to change
-// when the precache LIST changes — not when the contents of those files change.
+// A deploy is live on the very next request over a working connection. But the
+// bump discipline isn't fully gone, and claiming it was is what caused the next
+// bug: store() writes every successful network-first fetch into whatever cache
+// CACHE_NAME currently names, and that entry sits there — potentially serving
+// as the .catch() fallback on a later failed fetch — until either a fresh
+// successful fetch overwrites it or a CACHE_NAME change makes activate() delete
+// the whole cache. Browsers only re-install a worker whose *script bytes*
+// changed, so an unbumped CACHE_NAME after a content-only change leaves the old
+// worker running indefinitely with its stale entries intact — a mobile visitor
+// whose fetch fails once can be served pre-change bytes with no ceiling on how
+// old they are. That's exactly what happened to /research/'s styles.css. So:
+// CACHE_NAME still has to change on every deploy that touches a network-first
+// asset's content, not only when the PRECACHE list changes — the difference
+// from the old cache-first worker is that a bump now only protects the
+// fallback path, rather than being the only thing standing between a visitor
+// and last week's deploy.
 //
 // Paths are derived from the registration scope, so this works at a domain root or
 // under a GitHub Pages project subpath (https://username.github.io/repo-name/).
-const CACHE_NAME = 'cindrasec-v11';
+const CACHE_NAME = 'cindrasec-v12';
 const SCOPE = self.registration.scope;
 
 // Only genuinely static assets are precached. HTML, CSS and JS are deliberately

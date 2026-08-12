@@ -164,6 +164,11 @@ nav.links a:hover{ color:var(--cream); }
 .section-head{ max-width:640px; margin-bottom:52px; }
 .section-head h2{ font-size:clamp(26px,3.4vw,38px); margin-bottom:14px; }
 .section-head p{ color:var(--muted); font-size:16px; }
+/* Plain-language restatement of the h2 above, for search and assistive tech --
+   the h2 itself stays brand-voice on purpose (see CHANGELOG). Sits between the
+   heading and the flowing intro paragraph, not in place of it. */
+.section-kicker,.hero-kicker{ color:var(--muted-2); font-size:15px; font-weight:600; margin:2px 0 14px; }
+.hero-kicker{ margin:10px 0 18px; }
 
 /* ---------- SERVICES ---------- */
 .currency-toggle{ display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:4px; margin-bottom:40px; font-family:'JetBrains Mono','Noto Sans Bengali',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:13px; }

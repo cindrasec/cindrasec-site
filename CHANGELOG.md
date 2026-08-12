@@ -1,5 +1,77 @@
 # Changelog
 
+## Correcting the service-worker's own claim about itself (2026-08-12)
+
+### Fixed
+- **The comment at the top of `sw.js` said freshness "no longer depends on
+  remembering anything" and that `CACHE_NAME` "only has to change when the
+  precache LIST changes." Both are wrong, and the v12 bump earlier today is
+  the proof.** `store()` writes every network-first fetch into whatever cache
+  `CACHE_NAME` currently names; that entry is the `.catch()` fallback on a
+  later failed fetch, and it sits there until a fresh successful fetch
+  overwrites it or a `CACHE_NAME` change forces `activate()` to delete it.
+  Browsers only reinstall a worker whose script bytes changed, so leaving
+  `CACHE_NAME` untouched after a content-only change (as happened when the
+  research-page CSS shipped) leaves the old worker running indefinitely with
+  stale entries a mobile visitor's failed fetch can still surface — no age
+  ceiling. Rewrote the comment to say what's actually true: the bump
+  discipline now protects the fallback path instead of being the only thing
+  standing between a visitor and last week's deploy, but it did not go away.
+  `README.md`'s "What's in the repo" table and post-deploy checklist matched
+  the old, incorrect claim and are corrected to match.
+- **`README.md`'s post-deploy checklist told a future maintainer to
+  regenerate SRI hashes** — two sections above the one explaining, in detail,
+  why SRI must never be reintroduced (it broke production once, `4a45b89`).
+  Removed the contradiction.
+
+## Accessibility pass: content invisible without JS, plain-language subheads (2026-08-12)
+
+### Fixed
+- **Every `.reveal` element was permanently invisible with JavaScript disabled.**
+  `styles.css` sets `.reveal{ opacity:0 }` and only `app.js`'s scroll observer
+  ever adds the `.is-visible` class that reveals it — which covers nearly
+  every section on the page, including the hero terminal. A visitor with JS
+  blocked (the exact audience the `<noscript>` banner is written for) saw the
+  banner's promise that the site "works best with JavaScript enabled" but not
+  a broken one — in practice most of the page was present in the DOM and
+  unreadable. Added `noscript.css`, loaded only via a `<noscript><link>` (so
+  JS-enabled visitors fetch nothing extra), that forces `.reveal` to its
+  visible state. `styles.css`'s existing `prefers-reduced-motion` override
+  uses the identical pattern, so this closes the same gap for the no-JS case.
+
+### Added
+- **A plain-language subhead under every major section heading.** The brand
+  voice headings (`We find the spark before it becomes a fire`, `Three rules
+  that never bend`, `The moat isn't the tool`, …) carry no search-relevant
+  keywords, and two sections (How We Work, FAQ) had no descriptive line at
+  all beneath their `<h2>`. Added a small `.section-kicker` line under each —
+  bilingual, plainly worded, sitting between the heading and the existing
+  flowing intro paragraph rather than replacing anything.
+
+## Service-worker cache bump; llms.txt points at the site, not GitHub (2026-08-12)
+
+### Fixed
+- **`CACHE_NAME` `cindrasec-v11` → `cindrasec-v12`.** The research pages added
+  CSS to `styles.css` without bumping the cache name. Documents, styles and
+  scripts are network-first (see the strategy note at the top of `sw.js`), so
+  a fresh visitor was never affected — but a returning visitor whose worker was
+  still install-pinned to `v11` could be served the precache's stale copy on a
+  slow or offline network path before the network-first fetch settled. This is
+  the exact edge case the file's own comment warns about: `CACHE_NAME` "only
+  has to change when the precache LIST changes," and the list didn't change
+  here, but a build did land that assumes the new styles are already cached.
+  Confirmed on a real device: `/research/` rendered unstyled on a phone
+  carrying the old worker while `curl` showed the correct `styles.css` live.
+  One-line bump, no logic change.
+- **`llms.txt` linked the two research writeups to raw GitHub instead of the
+  cindrasec.com pages that now exist for them.** Both writeups were published
+  under `/research/` in the previous entry below, each with its own canonical
+  tag, but `llms.txt` was never updated to match — so a model citing this
+  file would send readers, and search-ranking signal, to GitHub instead of
+  the domain the rest of the site is built to establish authority for. Both
+  entries in the "Published research" section now point at
+  `cindrasec.com/research/...`.
+
 ## Discoverability for answer engines (2026-08-12)
 
 ### Added

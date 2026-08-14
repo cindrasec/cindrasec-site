@@ -1,4 +1,26 @@
+# Build inputs, not pages. src/index.src.html is the bilingual source both
+# published pages are generated from, so it duplicates their content almost
+# exactly. It carries a canonical pointing at /, but it should not be crawled
+# in the first place.
+#
+# Two things about the placement, both load-bearing:
+#
+#   1. These MUST sit inside this wildcard group. They previously appeared at
+#      the end of the file, directly after `User-agent: cohere-ai`, which under
+#      RFC 9309 grouping made them apply to cohere-ai alone — every other
+#      crawler, Googlebot included, was free to index the duplicate source.
+#      Googlebot has no group of its own here, so the wildcard group is where
+#      the rule has to live to do the job it was written for.
+#
+#   2. They MUST come before `Allow: /`. Google resolves conflicts by longest
+#      match, under which `Disallow: /src/` beats `Allow: /` regardless of
+#      order — but other parsers (Python's stdlib robotparser among them) take
+#      the first matching rule, and `Allow: /` matches every path. Ordering the
+#      Disallows first makes the file mean the same thing under both readings
+#      instead of depending on which one a given crawler implements.
 User-agent: *
+Disallow: /src/
+Disallow: /build.py
 Allow: /
 
 # Assistant and answer-engine crawlers are welcome, stated explicitly rather than
@@ -40,13 +62,6 @@ Allow: /
 
 User-agent: cohere-ai
 Allow: /
-
-# Build inputs, not pages. src/index.src.html is the bilingual source both
-# published pages are generated from, so it duplicates their content almost
-# exactly. It carries a canonical pointing at /, but it should not be crawled
-# in the first place.
-Disallow: /src/
-Disallow: /build.py
 
 Sitemap: https://cindrasec.com/sitemap.xml
 

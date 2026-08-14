@@ -1,5 +1,47 @@
 # Changelog
 
+## robots.txt: the crawl-block that only applied to one bot (2026-08-13)
+
+### Fixed
+- **`Disallow: /src/` and `Disallow: /build.py` applied to `cohere-ai` alone.** They sat
+  at the very end of the file, directly after `User-agent: cohere-ai`, and under RFC 9309
+  a rule belongs to the user-agent group that precedes it. So the one crawler that could
+  not index the duplicate source was a mid-tier AI crawler, while Googlebot — the only
+  one whose opinion on duplicate content actually matters — was free to index
+  `src/index.src.html`, which reproduces both published pages almost verbatim. The
+  comment above those lines said the file "should not be crawled in the first place";
+  it had not been achieving that for any crawler that mattered.
+
+  Moved into the `User-agent: *` group, which is the group Googlebot matches.
+
+- **Ordered the `Disallow` lines before `Allow: /`.** Google resolves conflicting rules
+  by longest match, under which `Disallow: /src/` wins regardless of order. Other
+  parsers — Python's stdlib `robotparser` among them — return the first matching rule,
+  and `Allow: /` matches every path, so under that reading the disallow never fired.
+  Verified with a real parser before and after: the previous arrangement left `/src/`
+  fetchable, the new one blocks it under both interpretations.
+
+### Noted — not a repository change
+Cloudflare is prepending a **managed robots.txt block** to what this repo serves, and it
+disallows exactly the crawlers this file deliberately allows: `GPTBot`, `ClaudeBot`,
+`Google-Extended` and `Applebot-Extended` (plus Amazonbot, Bytespider, CCBot,
+meta-externalagent). The live file therefore contains two `User-agent: *` groups and two
+`User-agent: GPTBot` groups with contradictory directives — precisely the "ambiguous
+robots file" this file's own comment warns is "a reason for a crawler to skip a small
+domain."
+
+Scope, stated accurately rather than alarmingly: **Googlebot is not blocked**, so search
+indexing and the Search Console submission are unaffected — `Google-Extended` governs
+Gemini training, not search. Nor are `OAI-SearchBot`, `Claude-SearchBot`,
+`PerplexityBot`, `ChatGPT-User` or `cohere-ai`. The blocked set is the bulk-crawl and
+training bots. It still contradicts a deliberate decision recorded in this repo, and the
+resolution is a Cloudflare dashboard setting (AI crawler blocking, default-on for new
+zones), not a change here.
+
+Found by SecretNode's own deep scan of cindrasec.com, which flagged the disallow-all —
+correctly, against the served file, though not against the committed one.
+
+
 ## Correcting the service-worker's own claim about itself (2026-08-12)
 
 ### Fixed

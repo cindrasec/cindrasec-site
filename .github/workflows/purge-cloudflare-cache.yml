@@ -44,45 +44,18 @@ permissions:
 
 jobs:
   purge:
-    # The job runs on every deployment_status event and decides inside the step,
-    # rather than filtering here with `if:`. A job skipped by `if:` produces no
-    # log, so when the condition is wrong there is nothing to read and the
-    # workflow is indistinguishable from one that is working — which is how the
-    # previous `workflow_run` mistake survived two deploys unnoticed. Deciding in
-    # the step costs a few seconds of runner time and leaves a record of what the
-    # event actually contained.
+    # Only after a Pages deploy that actually succeeded. A purge after a failed
+    # build would evict good content and repopulate from an origin that never
+    # changed. deployment_status also fires for the in_progress and queued
+    # states, so without the state check this would purge mid-deploy — the exact
+    # race the workflow exists to avoid.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment_status.environment == 'github-pages')
     runs-on: ubuntu-latest
     steps:
-      - name: Check the deployment state
-        id: gate
-        env:
-          EVENT: ${{ github.event_name }}
-          STATE: ${{ github.event.deployment_status.state }}
-          ENVIRONMENT: ${{ github.event.deployment_status.environment }}
-          DEPLOY_ENV: ${{ github.event.deployment.environment }}
-          REF: ${{ github.event.deployment.ref }}
-        run: |
-          echo "event=${EVENT} state=${STATE} environment=${ENVIRONMENT} deployment.environment=${DEPLOY_ENV} ref=${REF}"
-
-          # A manual dispatch is always deliberate.
-          if [ "${EVENT}" = "workflow_dispatch" ]; then
-            echo "proceed=true" >> "$GITHUB_OUTPUT"; exit 0
-          fi
-
-          # Only after a deploy that actually succeeded. deployment_status also
-          # fires for queued and in_progress; purging on those would reintroduce
-          # the mid-deploy race this workflow exists to avoid, and a purge after
-          # a failed build would evict good content and repopulate it from an
-          # origin that never changed.
-          if [ "${STATE}" != "success" ]; then
-            echo "::notice::state=${STATE}, not a completed deploy — nothing to purge."
-            echo "proceed=false" >> "$GITHUB_OUTPUT"; exit 0
-          fi
-
-          echo "proceed=true" >> "$GITHUB_OUTPUT"
-
       - name: Purge
-        if: steps.gate.outputs.proceed == 'true'
         env:
           CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}

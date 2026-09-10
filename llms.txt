@@ -89,8 +89,11 @@ no hourly billing. Work is delivered in English and Bengali.
 - Data handling: assessment data is self-hosted, encrypted at rest, deleted on
   request, and auto-purged 30 days after delivery. Separately from client data, the
   public site runs Google Analytics 4 and sets `_ga` cookies; page views, coarse
-  location, device and referrer are collected. The exposure estimator is not part of
-  that — it scores in the browser and transmits nothing. Full detail at
+  location, device and referrer are collected, plus an event recording that the
+  enquiry form was submitted and from which page, language, service and organisation
+  type — the name, email, domain and message in that form go only to Web3Forms and
+  the Cindrasec inbox, never to Google. The exposure estimator is not part of any of
+  it — it scores in the browser and transmits nothing. Full detail at
   https://cindrasec.com/#privacy
 
 ## Contact

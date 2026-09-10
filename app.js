@@ -182,6 +182,31 @@ function showStatus(key, cls){
   formStatus.textContent = formCopy(key);
 }
 
+// Report a completed enquiry to GA4. Fired only after Web3Forms confirms the
+// message was accepted — an attempt that ends in the mailto fallback is not
+// counted, because there is no way to observe whether the visitor actually sent
+// the mail, and a lead count that includes unsent drafts is worse than no count.
+//
+// What is deliberately NOT sent: name, email, domain, message. Those are the
+// enquiry itself and they belong in the inbox, not in an analytics property.
+// What is sent is the attribution already carried in hidden fields plus the
+// path, which is what answers the only question worth asking of this event —
+// which page and which language produced the enquiry.
+//
+// The language key here is `content_group`, matching the dimension analytics.js
+// sets on page_view, so the split reads the same way on both. It deliberately
+// does not reuse `language`: that name is in ATTRIBUTION_FIELDS, so a page could
+// ship it as a hidden input, and this value would silently overwrite it.
+function reportLead(f){
+  if (typeof gtag !== 'function') return;   // blocked, or the tag failed to load
+  gtag('event', 'generate_lead', {
+    ...Object.fromEntries(attribution(f)),
+    service: fieldValue(f, 'service') || undefined,
+    page_path: location.pathname,
+    content_group: document.documentElement.lang === 'bn' ? 'Bengali' : 'English',
+  });
+}
+
 const SUBMIT_COOLDOWN_MS = 20000;
 let lastSubmitAt = 0;
 
@@ -229,6 +254,10 @@ if (intakeForm) {
       });
       const data = await res.json();
       if (data.success){
+        // Before reset(). The hidden attribution inputs would survive it (reset
+        // restores default values, which for those is the value attribute), but
+        // the service select would not.
+        reportLead(intakeForm);
         intakeForm.reset();
         showStatus('success');
       } else {

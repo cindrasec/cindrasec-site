@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Healthcare Security — Cindrasec | Patient data, tested by a clinician</title>
+<meta name="description" content="Security assessment for hospitals, diagnostic chains, clinics and health-tech — by a registered nurse turned security researcher. Google VRP credited twice. Dhaka, Bangladesh and worldwide.">
+<meta name="keywords" content="healthcare security, patient data security, hospital information system security, health tech security, HIPAA, PHI, Bangladesh, diagnostic centre, telemedicine security, medical data breach">
+<meta name="author" content="Md. Azmol Haque Rony — Cindrasec">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0F1217">
+
+<link rel="canonical" href="https://cindrasec.com/healthcare/">
+<link rel="alternate" hreflang="en" href="https://cindrasec.com/healthcare/">
+<link rel="alternate" hreflang="x-default" href="https://cindrasec.com/healthcare/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cindrasec">
+<meta property="og:title" content="Healthcare Security — tested by someone who worked the ward">
+<meta property="og:description" content="Security assessment for hospitals, diagnostic chains and health-tech, by a registered nurse turned security researcher. Google VRP credited twice.">
+<meta property="og:url" content="https://cindrasec.com/healthcare/">
+<meta property="og:image" content="https://cindrasec.com/og-image.png">
+
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+  .hc-hero{padding:92px 24px 64px;}
+  .hc-hero h1{font-size:clamp(1.95rem,5.4vw,3.05rem);line-height:1.12;max-width:19ch;}
+  .hc-hero .accent{color:var(--ember-2);}
+  .hc-lede{font-size:clamp(1.04rem,2.3vw,1.2rem);color:var(--muted);max-width:62ch;margin-top:22px;}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+  .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+        border-radius:999px;padding:8px 16px;font-size:13.5px;color:var(--cream);}
+  .chip b{color:var(--cyan);font-weight:600;}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
+
+  .pull{border-left:3px solid var(--cyan);padding:10px 0 10px 20px;margin:26px 0;
+        font-size:clamp(1.08rem,2.6vw,1.32rem);line-height:1.55;color:var(--cream);max-width:56ch;}
+  .pull cite{display:block;margin-top:12px;font-size:.82rem;font-style:normal;color:var(--muted-2);
+             font-family:"JetBrains Mono",monospace;letter-spacing:.04em;}
+
+  /* failure register — the list is the proof */
+  .fails{display:grid;gap:2px;background:var(--line);border:1px solid var(--line);
+         border-radius:var(--radius);overflow:hidden;margin-top:10px;}
+  .fail{background:var(--ink-2);padding:22px 24px;display:grid;grid-template-columns:38px 1fr;gap:18px;}
+  .fail .n{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ember-1);padding-top:4px;}
+  .fail h3{font-size:1.04rem;margin:0 0 7px;}
+  .fail p{color:var(--muted);margin:0;font-size:.96rem;}
+  @media(max-width:520px){.fail{grid-template-columns:1fr;gap:6px}.fail .n{padding-top:0}}
+
+  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:10px;}
+  .hc-card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px;}
+  .hc-card h3{font-size:1.1rem;margin:0 0 10px;}
+  .hc-card p{color:var(--muted);margin:0;font-size:.96rem;}
+  .hc-card .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:11.5px;
+                letter-spacing:.09em;color:var(--cyan);margin-bottom:12px;}
+
+  .ops{background:linear-gradient(180deg,var(--ink-2),var(--ink));border:1px solid var(--line);
+       border-radius:var(--radius);padding:34px 28px;}
+  .ops ul{margin:16px 0 0;padding-left:20px;color:var(--muted);}
+  .ops li{margin-bottom:10px;}
+  .ops li b{color:var(--cream);}
+
+  .ptable{width:100%;border-collapse:collapse;margin-top:10px;}
+  .ptable th,.ptable td{text-align:left;padding:15px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .ptable th:last-child,.ptable td:last-child{text-align:right;white-space:nowrap;}
+  .ptable th{color:var(--muted);font-size:13px;}
+  .ptable td b{color:var(--cream);}
+  .ptable .amt{color:var(--ember-1);font-weight:600;}
+  .ptable-wrap{overflow-x:auto;}
+
+  .honest{border:1px dashed var(--muted-2);border-radius:var(--radius);padding:24px 26px;margin-top:12px;}
+  .honest h3{font-size:1.05rem;margin:0 0 12px;}
+  .honest p{color:var(--muted);margin:0 0 10px;font-size:.96rem;}
+  .honest p:last-child{margin-bottom:0;}
+
+  .lang-switch{display:inline-flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px;}
+  .lang-switch a{padding:6px 14px;border-radius:999px;font-size:13px;text-decoration:none;color:var(--muted);
+                 font-family:"JetBrains Mono",monospace;}
+  footer.hc{padding:48px 24px 64px;border-top:1px solid var(--line);color:var(--muted-2);font-size:14px;}
+  .foot-row{display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header style="padding:20px 24px;border-bottom:1px solid var(--line);">
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;">
+    <a href="/" style="text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;">
+      CINDRA<span style="color:var(--ember-2)">SEC</span>
+    </a>
+    <nav class="lang-switch" aria-label="Sections">
+      <a href="/">All services</a>
+      <a href="/bn/" hreflang="bn">বাংলা</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ───────────────────────── HERO -->
+<section class="hc-hero">
+  <div class="wrap">
+    <div class="eyebrow">Healthcare · Hospitals · Diagnostics · Health tech</div>
+    <h1>The ward system has one login.<br><span class="accent">Everyone uses it.</span></h1>
+    <p class="hc-lede">
+      You know that already. So do I &mdash; I used it too. I spent five years in
+      ICU and emergency wards, at CMH, the Ministry of Health, and with
+      Médecins Sans Frontières in Cox's Bazar, before I moved into security.
+    </p>
+    <p class="hc-lede">
+      I now find what systems like that expose, and I write it up so your team
+      can fix it. Not as a vendor reading from a checklist &mdash; as somebody who
+      has stood at that terminal at three in the morning.
+    </p>
+
+    <div class="chips">
+      <span class="chip"><b>Google</b> VRP &mdash; credited twice</span>
+      <span class="chip"><b>UNICEF</b> &mdash; acknowledged, 13,000+ accounts</span>
+      <span class="chip">Registered nurse, BNMC</span>
+      <span class="chip">Bengali &amp; English</span>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contact">Request a free Snapshot →</a>
+      <a class="btn btn-ghost" href="https://bughunters.google.com/profile/ad2e0cfb-0fde-42ea-8716-798c912861d4" target="_blank" rel="noopener">Verify with Google</a>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── WHY THIS IS DIFFERENT -->
+<section>
+  <div class="wrap">
+    <div class="section-kicker">
+      <div class="eyebrow">Why this is different</div>
+      <h2>Most security testers have never seen a hospital run.</h2>
+    </div>
+    <p class="hc-lede" style="max-width:64ch;">
+      They will scan your systems competently and hand you a report full of
+      findings that assume a software company's workflow. Then they will
+      recommend something operationally impossible, like disabling a shared
+      account that four shifts depend on, and the report goes in a drawer.
+    </p>
+
+    <div class="pull">
+      A finding nobody can act on is a finding written badly.
+      <cite>The working rule behind every report I deliver</cite>
+    </div>
+
+    <p class="hc-lede" style="max-width:64ch;">
+      I write remediation that accounts for how the ward actually works &mdash;
+      what can change on Monday, what needs the vendor, and what needs a
+      process change before any technical fix will hold.
+    </p>
+  </div>
+</section>
+
+<!-- ───────────────────────── WHAT I LOOK FOR -->
+<section>
+  <div class="wrap">
+    <div class="section-kicker">
+      <div class="eyebrow">The register</div>
+      <h2>What I look for, and why I know where to look.</h2>
+    </div>
+    <p class="hc-lede" style="max-width:64ch;margin-bottom:26px;">
+      These are the patterns that recur in clinical systems. Not theory &mdash;
+      the things that are usually there.
+    </p>
+
+    <div class="fails">
+      <div class="fail">
+        <span class="n">01</span>
+        <div>
+          <h3>Patient records reachable by changing a number</h3>
+          <p>The report URL ends in an ID. Change the ID, get someone else's
+             results. No login bypass needed &mdash; the system simply never checks
+             whether this user should see this patient. The single most common
+             serious flaw in health systems, and the easiest to test for.</p>
+        </div>
+      </div>
+      <div class="fail">
+        <span class="n">02</span>
+        <div>
+          <h3>Lab results on predictable links</h3>
+          <p>Test result PDFs served from a path a patient can guess, with no
+             authentication at all, because the link was meant to be
+             convenient for people who cannot manage a password.</p>
+        </div>
+      </div>
+      <div class="fail">
+        <span class="n">03</span>
+        <div>
+          <h3>Shared clinical accounts</h3>
+          <p>One login for the ward, the password on a note by the monitor,
+             unchanged for years, still active for staff who left. The audit
+             trail says the account did it, which means it says nothing.</p>
+        </div>
+      </div>
+      <div class="fail">
+        <span class="n">04</span>
+        <div>
+          <h3>The HIS the vendor installed and nobody has touched since</h3>
+          <p>Running an unsupported version, on an operating system past
+             end-of-life, with default administrative credentials that were
+             never changed because nobody knew they existed.</p>
+        </div>
+      </div>
+      <div class="fail">
+        <span class="n">05</span>
+        <div>
+          <h3>Real patient data in the test environment</h3>
+          <p>Because testing with realistic data was easier. The staging server
+             has no monitoring, weaker credentials, and is often the only one
+             reachable from the public internet.</p>
+        </div>
+      </div>
+      <div class="fail">
+        <span class="n">06</span>
+        <div>
+          <h3>Backups in public storage</h3>
+          <p>A database dump placed in cloud storage for a migration and left
+             there. Indexed, downloadable, and containing every record the
+             system has ever held.</p>
+        </div>
+      </div>
+      <div class="fail">
+        <span class="n">07</span>
+        <div>
+          <h3>Credentials shipped to the browser</h3>
+          <p>API keys and database strings inside the JavaScript your patient
+             portal serves to anyone who opens it. This is my core specialism
+             and it is present far more often than people expect.</p>
+        </div>
+      </div>
+      <div class="fail">
+        <span class="n">08</span>
+        <div>
+          <h3>Clinical data moving through personal messaging</h3>
+          <p>Ward WhatsApp groups carrying patient photographs and results,
+             because the official system is too slow to use during a shift.
+             A process problem no scanner will ever find, and one I will
+             raise because I know it is happening.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── AI -->
+<section>
+  <div class="wrap">
+    <div class="section-kicker">
+      <div class="eyebrow">AI in clinical settings</div>
+      <h2>If you have added a chatbot, the risk changed shape.</h2>
+    </div>
+
+    <div class="split">
+      <div class="hc-card">
+        <span class="tag">RETRIEVAL</span>
+        <h3>It reads documents it did not write</h3>
+        <p>An assistant answering from your policies, guidelines or patient
+           notes will act on instructions hidden inside that content. The user
+           never sees them. In your logs it looks like the patient asked.</p>
+      </div>
+      <div class="hc-card">
+        <span class="tag">TOOL ACCESS</span>
+        <h3>It can do things, not just say things</h3>
+        <p>Book, cancel, look up, message. If the rule about who may do what
+           lives in the prompt rather than behind the tool, persuading the
+           model is enough. No injection required.</p>
+      </div>
+      <div class="hc-card">
+        <span class="tag">CROSS-PATIENT</span>
+        <h3>Context leaks between people</h3>
+        <p>Where one model instance serves many patients, the question is
+           whether anything from one conversation can surface in another. It
+           is a question with a testable answer.</p>
+      </div>
+      <div class="hc-card">
+        <span class="tag">CLINICAL SAFETY</span>
+        <h3>Confident wrong answers</h3>
+        <p>A model that will not say "I don't know" is a clinical risk, not
+           just a quality problem. I test what it does at the edge of its
+           knowledge, and whether it escalates to a human when it should.</p>
+      </div>
+    </div>
+
+    <p class="hc-lede" style="max-width:64ch;margin-top:26px;">
+      I build these systems as well as test them &mdash; an open-source gateway
+      guardrail and an injection-hardened agent pipeline, both public on
+      <a href="https://github.com/azmolhaque" target="_blank" rel="noopener" style="color:var(--cyan)">GitHub</a>.
+      I am not reselling somebody else's scanner output.
+    </p>
+  </div>
+</section>
+
+<!-- ───────────────────────── OPERATIONAL -->
+<section>
+  <div class="wrap">
+    <div class="ops">
+      <div class="eyebrow">How testing works here</div>
+      <h2>A ward system cannot go down. I know that.</h2>
+      <p class="hc-lede" style="max-width:62ch;margin-top:16px;">
+        This is where most assessments go wrong in a clinical setting. Testing
+        that would be routine against a software product is unacceptable
+        against a system somebody is using to check a drug dose.
+      </p>
+      <ul>
+        <li><b>Passive first.</b> Most of what I find comes from what your
+            systems already show the public internet &mdash; no requests that touch
+            clinical workflow at all.</li>
+        <li><b>Rate-limited, and scheduled around you.</b> Testing windows are
+            agreed, blackout periods respected, and nothing runs during a
+            handover or a known peak.</li>
+        <li><b>Never destructive.</b> No load testing, nothing that could
+            degrade availability, and no action that writes to or alters a
+            record.</li>
+        <li><b>Real patient data is never extracted.</b> Where a finding
+            exposes it, I evidence that the exposure exists and stop. The data
+            itself is not retained, and no clinical record is read beyond
+            confirming the flaw is real.</li>
+        <li><b>One phone call stops everything.</b> Any time, any reason, no
+            explanation needed. Work halts within the hour.</li>
+        <li><b>Critical findings reach you the same day</b> &mdash; not held back
+            for the final report.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── OFFER -->
+<section>
+  <div class="wrap">
+    <div class="section-kicker">
+      <div class="eyebrow">Engagements</div>
+      <h2>Fixed scope, fixed price, nothing hourly.</h2>
+    </div>
+
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead>
+          <tr><th>Engagement</th><th>What it covers</th><th>Time</th><th>Price</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Snapshot</b></td>
+            <td>External surface and exposed-credential scan across your public
+                systems &mdash; portal, booking, results delivery. Verified report,
+                walkthrough call, free re-check.</td>
+            <td>3–5 working days</td>
+            <td class="amt">৳15,000–25,000</td>
+          </tr>
+          <tr>
+            <td><b>Patient Data Review</b></td>
+            <td>Snapshot plus authorization testing across roles &mdash; can a
+                receptionist reach a consultant's records, can one patient
+                reach another's, does the audit trail mean anything.</td>
+            <td>1–2 weeks</td>
+            <td class="amt">By scope</td>
+          </tr>
+          <tr>
+            <td><b>Clinical AI Review</b></td>
+            <td>Prompt injection through retrieved content, tool and booking
+                abuse, cross-patient context leakage, and behaviour at the
+                edge of the model's knowledge.</td>
+            <td>1 week</td>
+            <td class="amt">By scope</td>
+          </tr>
+          <tr>
+            <td><b>Watch</b></td>
+            <td>Continuous monitoring with a monthly diff report and alerts
+                when something new opens up.</td>
+            <td>Monthly · cancel anytime</td>
+            <td class="amt">৳5,000–12,000/mo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="hc-lede" style="max-width:62ch;margin-top:22px;">
+      International engagements are quoted in USD. Bangladeshi organisations
+      are quoted in taka, at Bangladeshi rates &mdash; that is deliberate, and it
+      is not a lesser service.
+    </p>
+  </div>
+</section>
+
+<!-- ───────────────────────── HONESTY -->
+<section>
+  <div class="wrap">
+    <div class="section-kicker">
+      <div class="eyebrow">Before you ask</div>
+      <h2>What I don't do.</h2>
+    </div>
+
+    <div class="honest">
+      <h3>I do not certify compliance.</h3>
+      <p>I am not an auditor and I will not sign anything claiming your
+         organisation meets HIPAA, HITRUST, ISO 27001 or any other standard.
+         What I provide is a technical assessment with evidence, which is
+         often what an auditor or an enterprise customer actually asks you
+         for &mdash; but the certification itself is somebody else's signature.</p>
+
+      <h3>I do not do full-scope penetration tests.</h3>
+      <p>Network, physical and social-engineering engagements need a team and
+         credentials I do not yet hold. I will tell you that rather than do it
+         thinly, and where I can I will point you to someone who can.</p>
+
+      <h3>I do not test anything without written permission.</h3>
+      <p>Not a preview, not a demonstration, not a free look. A signed Rules of
+         Engagement comes first, every time, including for the free Snapshot.
+         If someone shows you findings from your systems before you hired
+         them, that tells you something about how they work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-kicker">
+      <div class="eyebrow">Get started</div>
+      <h2>Start with the free Snapshot.</h2>
+    </div>
+    <p class="hc-lede">
+      A real scan and a real report, at no cost, under a signed authorization.
+      If there is nothing there, I will tell you that plainly &mdash; and that is
+      a good result, not a wasted week.
+    </p>
+
+    <form class="contact-form" id="intakeForm" aria-label="Healthcare Snapshot request">
+      <input type="text" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="vertical" value="Healthcare">
+      <div class="row2">
+        <div>
+          <label for="hc-name">Name</label>
+          <input id="hc-name" name="name" type="text" required autocomplete="name" placeholder="Your name" maxlength="100">
+        </div>
+        <div>
+          <label for="hc-email">Email</label>
+          <input id="hc-email" name="email" type="email" required autocomplete="email" placeholder="you@organisation.com" maxlength="150">
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="hc-org">Organisation type</label>
+          <select id="hc-org" name="orgtype">
+            <option>Hospital</option>
+            <option>Diagnostic centre / lab</option>
+            <option>Clinic or chamber</option>
+            <option>Telemedicine or health app</option>
+            <option>Health NGO</option>
+            <option>Health-tech company</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="hc-domain">Domain / system</label>
+          <input id="hc-domain" name="domain" type="text" placeholder="example.com" maxlength="150">
+        </div>
+      </div>
+      <div>
+        <label for="hc-msg">What worries you?</label>
+        <textarea id="hc-msg" name="message" rows="4" maxlength="1500" placeholder="What the system does, who uses it, and what prompted you to look into this."></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" id="intakeSubmit">Request a Snapshot →</button>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite" hidden></div>
+        <div id="formCopy" hidden aria-hidden="true">
+          <span data-key="cooldown">Please wait a few seconds before sending again.</span>
+          <span data-key="sending">Sending your request…</span>
+          <span data-key="success">&#10003; Request sent — we&rsquo;ll reply within a day. Thank you.</span>
+          <span data-key="error">Couldn&rsquo;t send from here — opening your email app as a fallback…</span>
+        </div>
+
+      <p class="mono" style="color:var(--muted-2);font-size:13px;margin-top:14px;">
+        Your details are used only to reply. No system is touched until a Rules
+        of Engagement document is signed by both of us.
+      </p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="hc">
+  <div class="wrap foot-row">
+    <span>Cindrasec · Md. Azmol Haque Rony · Dhaka, Bangladesh</span>
+    <span class="mono">Authorized targets only. Always.</span>
+  </div>
+</footer>
+
+<script src="/app.js" defer></script>
+</body>
+</html>

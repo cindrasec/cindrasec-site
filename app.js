@@ -4,16 +4,26 @@
 'use strict';
 
 // mobile nav
+//
+// Guarded because this file is no longer loaded by one page. Until the landing
+// pages arrived, index.html and bn/index.html were the only documents that
+// pulled app.js in, and both carry the hamburger — so an unguarded
+// `hamburger.addEventListener` never threw. The first page to load app.js
+// without a mobile nav would have died on that line, taking every listener
+// below it with it, including the contact form. A page that silently stops
+// submitting leads is not a failure anyone notices from the outside.
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
-hamburger.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  hamburger.setAttribute('aria-expanded', String(open));
-});
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  navLinks.classList.remove('open');
-  hamburger.setAttribute('aria-expanded', 'false');
-}));
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(open));
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }));
+}
 
 // Language is no longer a client-side toggle. English lives at / and Bengali at
 // /bn/, generated from one source by build.py, joined by reciprocal hreflang.
@@ -119,15 +129,40 @@ const intakeForm = document.getElementById('intakeForm');
 const formStatus = document.getElementById('formStatus');
 const intakeSubmit = document.getElementById('intakeSubmit');
 
+// Read a field that may not exist on this page. The landing pages carry a
+// narrower form than the homepage — /healthcare/ has no `service` select, and
+// each page adds its own attribution field — so every access here has to be
+// optional. `f.service.value` on a page without that field throws inside the
+// submit handler, which lands in the catch block and looks to the visitor like
+// a network failure rather than a bug.
+function fieldValue(f, name){
+  const el = f.elements[name];
+  return el && typeof el.value === 'string' ? el.value.trim() : '';
+}
+
+// Where the lead came from. Each landing page ships exactly one of these as a
+// hidden input; the homepage ships none. Without carrying them through, the
+// pages are indistinguishable in the inbox and there is no way to tell which
+// one earns anything.
+const ATTRIBUTION_FIELDS = ['vertical', 'orgtype', 'language'];
+
+function attribution(f){
+  return ATTRIBUTION_FIELDS
+    .map(name => [name, fieldValue(f, name)])
+    .filter(([, value]) => value);
+}
+
 function buildMailto(f){
-  const subject = `Snapshot Request — ${f.service.value}`;
+  const service = fieldValue(f, 'service');
+  const subject = service ? `Snapshot Request — ${service}` : 'Snapshot Request';
   const body = [
-    `Name: ${f.name.value.trim()}`,
-    `Email: ${f.email.value.trim()}`,
-    `Interested in: ${f.service.value}`,
-    f.domain.value.trim() ? `Domain / target: ${f.domain.value.trim()}` : null,
+    `Name: ${fieldValue(f, 'name')}`,
+    `Email: ${fieldValue(f, 'email')}`,
+    service ? `Interested in: ${service}` : null,
+    fieldValue(f, 'domain') ? `Domain / target: ${fieldValue(f, 'domain')}` : null,
+    ...attribution(f).map(([name, value]) => `${name}: ${value}`),
     '',
-    f.message.value.trim() || '(no additional message)'
+    fieldValue(f, 'message') || '(no additional message)'
   ].filter(Boolean).join('\n');
   return `mailto:contact@cindrasec.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
@@ -168,21 +203,28 @@ if (intakeForm) {
       return;
     }
 
-    intakeSubmit.disabled = true;
+    if (intakeSubmit) intakeSubmit.disabled = true;
     showStatus('sending');
     try {
+      const service = fieldValue(intakeForm, 'service');
+      const source = attribution(intakeForm).map(([, value]) => value).join(' · ');
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: `New Snapshot request — ${intakeForm.service.value}`,
+          // The subject line is the only part of this that gets read at a
+          // glance on a phone, so the landing page's own label goes in it.
+          subject: ['New Snapshot request', source || service]
+            .filter(Boolean).join(' — '),
           from_name: 'Cindrasec Website',
-          name: intakeForm.name.value.trim(),
-          email: intakeForm.email.value.trim(),
-          service: intakeForm.service.value,
-          domain: intakeForm.domain.value.trim(),
-          message: intakeForm.message.value.trim(),
+          name: fieldValue(intakeForm, 'name'),
+          email: fieldValue(intakeForm, 'email'),
+          service,
+          domain: fieldValue(intakeForm, 'domain'),
+          message: fieldValue(intakeForm, 'message'),
+          page: location.pathname,
+          ...Object.fromEntries(attribution(intakeForm)),
         }),
       });
       const data = await res.json();
@@ -196,7 +238,7 @@ if (intakeForm) {
       showStatus('error');
       setTimeout(() => { window.location.href = buildMailto(intakeForm); }, 900);
     } finally {
-      intakeSubmit.disabled = false;
+      if (intakeSubmit) intakeSubmit.disabled = false;
     }
   });
 }
@@ -271,10 +313,20 @@ function typeTerminal(){
   }
   nextLine();
 }
-const termObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting){ typeTerminal(); termObserver.disconnect(); } });
-}, { threshold: 0.3 });
-termObserver.observe(document.querySelector('.terminal'));
+// Guarded for the same reason as the mobile nav above: the landing pages have
+// no terminal, and `observe(null)` throws. That throw lands here, at the very
+// bottom of the file, so what it actually killed was the service-worker
+// registration below it — the pages loaded, the form worked, and offline
+// support silently never installed. Worth stating because it is the failure
+// this file keeps producing: one missing element on a new page taking out
+// every unrelated feature that happens to be initialised after it.
+const terminal = document.querySelector('.terminal');
+if (terminal) {
+  const termObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ typeTerminal(); termObserver.disconnect(); } });
+  }, { threshold: 0.3 });
+  termObserver.observe(terminal);
+}
 
 // service worker registration — safe no-op on file:// or unsupported browsers
 if ('serviceWorker' in navigator && location.protocol === 'https:') {

@@ -1,0 +1,56 @@
+/* Bengali deltas for /bn/healthcare/. Loaded after healthcare.css.
+   ================================================================
+   Bengali sets taller than Latin — conjuncts and matras stack above and below
+   the base line — so the same font-size needs more leading and a shorter
+   measure to stay readable. These rules are the entire difference between the
+   two healthcare pages.
+
+   NOT scoped with html[lang="bn"], on purpose. That prefix would raise every
+   selector here from (0,0,1) to (0,1,1) and change which rule wins wherever
+   styles.css already has a more specific one — measured, not theoretical: it
+   moved h2 line-height from 29.7px to 31.05px and swapped the .tag font stack
+   off JetBrains Mono. Matching the original specificity and relying on load
+   order is what keeps the cascade identical to the inline block this replaced. */
+
+body{font-family:"Noto Sans Bengali",Inter,system-ui,sans-serif;line-height:1.78;}
+h1,h2,h3,.brand-word{font-family:"Noto Sans Bengali","Space Grotesk",sans-serif;line-height:1.38;}
+.eyebrow,.mono,.btn,.tag{font-family:"Noto Sans Bengali","JetBrains Mono",ui-monospace,monospace;letter-spacing:0;}
+
+.hc-hero h1{font-size:clamp(1.8rem,5vw,2.85rem);line-height:1.3;max-width:22ch;}
+/* Only the two properties that actually differ. Restating margin-top here (it
+   is 22px in both languages) would re-override the .mt-16 / .mt-26 utilities
+   from healthcare.css, because this file loads later at equal specificity —
+   which is exactly how two paragraphs lost their spacing on the first attempt. */
+.hc-lede{font-size:clamp(1.02rem,2.3vw,1.16rem);max-width:60ch;}
+.hc-lede--wide{max-width:62ch;}
+
+.pull{font-size:clamp(1.05rem,2.5vw,1.26rem);line-height:1.6;max-width:54ch;}
+.pull cite{display:block;margin-top:12px;font-size:.82rem;font-style:normal;color:var(--muted-2);
+           font-family:inherit;letter-spacing:normal;}
+
+.fail .n{padding-top:6px;}
+/* healthcare.css zeroes this under 520px, where .fail stacks to one column and
+   the number sits on its own line. A media query adds no specificity, so that
+   reset loses to the line above purely on load order — which cost the Bengali
+   page 6px on each of its eight rows, 48px of drift that only appeared at
+   mobile widths. Restated here so the stacked layout matches again. */
+@media(max-width:520px){ .fail .n{padding-top:0;} }
+.fail h3{font-size:1.02rem;margin:0 0 7px;}
+.fail p{color:var(--muted);margin:0;font-size:.95rem;}
+
+.hc-card h3{font-size:1.06rem;margin:0 0 10px;}
+.hc-card p{color:var(--muted);margin:0;font-size:.95rem;}
+/* font-family repeated because healthcare.css sets it at (0,2,0), which outranks
+   the .tag rule above — without this line the Bengali stack is dropped. */
+.hc-card .tag{display:inline-block;font-family:"Noto Sans Bengali","JetBrains Mono",ui-monospace,monospace;
+              font-size:11.5px;letter-spacing:.08em;color:var(--cyan);margin-bottom:12px;}
+
+.ops li{margin-bottom:11px;}
+
+.honest h3{font-size:1.03rem;margin:0 0 12px;}
+.honest p{color:var(--muted);margin:0 0 14px;font-size:.95rem;}
+.honest p:last-child{margin-bottom:0;}
+
+.lang-switch a{padding:6px 14px;border-radius:999px;font-size:13px;text-decoration:none;color:var(--muted);
+               font-family:inherit;}
+.lang-switch a[aria-current="true"]{background:var(--cyan);color:var(--ink);font-weight:600;}

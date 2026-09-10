@@ -1,0 +1,46 @@
+# Site invariants, run on every push and pull request.
+#
+# WHY THIS EXISTS
+# ---------------
+# `python3 build.py --check` has been in the README since the build script was
+# written, and nothing ever ran it. A check that exists but is never executed
+# provides the reassurance of a check without any of the protection — which is
+# how the generated pages once kept a measurement ID the sources had already
+# replaced, and how two landing pages ran a weaker CSP than the rest of the
+# site for several deploys.
+#
+# Both commands are pure-stdlib and take under a second. There is no reason for
+# them to live only in a README code block.
+
+name: Checks
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # Fails if index.html / bn/index.html are stale with respect to
+      # src/index.src.html — i.e. someone edited the source and forgot to
+      # rebuild, or edited the generated output directly.
+      - name: Generated pages are in sync with their source
+        run: python3 build.py --check
+
+      # CSP consistency, analytics wiring, internal links, sitemap coverage and
+      # service-worker precache targets. See the module docstring for why each
+      # check is there; every one of them corresponds to a bug this repo has
+      # actually shipped.
+      - name: Site invariants
+        run: python3 check_site.py

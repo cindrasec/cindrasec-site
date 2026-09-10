@@ -1,0 +1,95 @@
+/* Styles for the healthcare landing pages (/healthcare/ and /bn/healthcare/).
+   =========================================================================
+   WHY THIS FILE EXISTS
+   Both pages previously carried this CSS in a <style> block plus a dozen
+   inline style="" attributes, which forced their CSP to `style-src 'self'
+   'unsafe-inline'` while every other page on the site runs `style-src 'self'`.
+   Two pages weaker than the rest is a real gap, not a cosmetic one:
+   'unsafe-inline' re-permits injected style attributes, which is the
+   ingredient CSS-based data exfiltration and UI-redressing need. Moving the
+   rules into a same-origin file lets both pages run the strict policy.
+
+   It is a separate file rather than an addition to styles.css because these
+   rules apply to two pages out of eight; folding them in would ship them to
+   every visitor of the homepage and the research writeups too.
+
+   LANGUAGE SCOPING
+   The Bengali deltas live in healthcare-bn.css, which /bn/healthcare/ loads
+   immediately after this file. They are deliberately NOT scoped with an
+   html[lang="bn"] prefix: that prefix raises specificity from (0,0,1) to
+   (0,1,1), which silently changes which rule wins wherever a more specific
+   selector in styles.css previously took precedence. Doing exactly that
+   regressed h2/h3 line-height and the .tag font stack on the Bengali page.
+   Same specificity, loaded later, is what reproduces the original cascade. */
+
+.hc-hero{padding:92px 24px 64px;}
+.hc-hero h1{font-size:clamp(1.95rem,5.4vw,3.05rem);line-height:1.12;max-width:19ch;}
+.accent{color:var(--ember-2);}
+.hc-lede{font-size:clamp(1.04rem,2.3vw,1.2rem);color:var(--muted);max-width:62ch;margin-top:22px;}
+/* Long-measure variant, previously an inline max-width on individual <p>s. */
+.hc-lede--wide{max-width:64ch;}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+      border-radius:999px;padding:8px 16px;font-size:13.5px;color:var(--cream);}
+.chip b{color:var(--cyan);font-weight:600;}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
+
+.pull{border-left:3px solid var(--cyan);padding:10px 0 10px 20px;margin:26px 0;
+      font-size:clamp(1.08rem,2.6vw,1.32rem);line-height:1.55;color:var(--cream);max-width:56ch;}
+.pull cite{display:block;margin-top:12px;font-size:.82rem;font-style:normal;color:var(--muted-2);
+           font-family:"JetBrains Mono",monospace;letter-spacing:.04em;}
+
+/* failure register — the list is the proof */
+.fails{display:grid;gap:2px;background:var(--line);border:1px solid var(--line);
+       border-radius:var(--radius);overflow:hidden;margin-top:10px;}
+.fail{background:var(--ink-2);padding:22px 24px;display:grid;grid-template-columns:38px 1fr;gap:18px;}
+.fail .n{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ember-1);padding-top:4px;}
+.fail h3{font-size:1.04rem;margin:0 0 7px;}
+.fail p{color:var(--muted);margin:0;font-size:.96rem;}
+@media(max-width:520px){.fail{grid-template-columns:1fr;gap:6px}.fail .n{padding-top:0}}
+
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:10px;}
+.hc-card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px;}
+.hc-card h3{font-size:1.1rem;margin:0 0 10px;}
+.hc-card p{color:var(--muted);margin:0;font-size:.96rem;}
+.hc-card .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:11.5px;
+              letter-spacing:.09em;color:var(--cyan);margin-bottom:12px;}
+
+.ops{background:linear-gradient(180deg,var(--ink-2),var(--ink));border:1px solid var(--line);
+     border-radius:var(--radius);padding:34px 28px;}
+.ops ul{margin:16px 0 0;padding-left:20px;color:var(--muted);}
+.ops li{margin-bottom:10px;}
+.ops li b{color:var(--cream);}
+
+.ptable{width:100%;border-collapse:collapse;margin-top:10px;}
+.ptable th,.ptable td{text-align:left;padding:15px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+.ptable th:last-child,.ptable td:last-child{text-align:right;white-space:nowrap;}
+.ptable th{color:var(--muted);font-size:13px;}
+.ptable td b{color:var(--cream);}
+.ptable .amt{color:var(--ember-1);font-weight:600;}
+.ptable-wrap{overflow-x:auto;}
+
+.honest{border:1px dashed var(--muted-2);border-radius:var(--radius);padding:24px 26px;margin-top:12px;}
+.honest h3{font-size:1.05rem;margin:0 0 12px;}
+.honest p{color:var(--muted);margin:0 0 10px;font-size:.96rem;}
+.honest p:last-child{margin-bottom:0;}
+
+.lang-switch{display:inline-flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px;}
+.lang-switch a{padding:6px 14px;border-radius:999px;font-size:13px;text-decoration:none;color:var(--muted);
+               font-family:"JetBrains Mono",monospace;}
+.lang-switch a[aria-current="true"]{background:var(--cyan);color:var(--ink);font-weight:600;}
+
+footer.hc{padding:48px 24px 64px;border-top:1px solid var(--line);color:var(--muted-2);font-size:14px;}
+.foot-row{display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;}
+
+/* --- the former inline style="" attributes ------------------------------- */
+.hc-topbar{padding:20px 24px;border-bottom:1px solid var(--line);}
+.hc-topbar .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;}
+.hc-brand{text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;
+          font-size:20px;letter-spacing:-.01em;}
+.link-cyan{color:var(--cyan);}
+.hc-note{color:var(--muted-2);font-size:13px;margin-top:14px;}
+.mt-16{margin-top:16px;}
+.mt-26{margin-top:26px;}
+.mb-26{margin-bottom:26px;}

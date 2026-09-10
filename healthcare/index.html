@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <!-- Google Analytics 4. The bootstrap lives in /analytics.js rather than inline
      because script-src is 'self' with no 'unsafe-inline' and there is no server
@@ -34,73 +34,17 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/healthcare.css">
 
-<style>
-  .hc-hero{padding:92px 24px 64px;}
-  .hc-hero h1{font-size:clamp(1.95rem,5.4vw,3.05rem);line-height:1.12;max-width:19ch;}
-  .hc-hero .accent{color:var(--ember-2);}
-  .hc-lede{font-size:clamp(1.04rem,2.3vw,1.2rem);color:var(--muted);max-width:62ch;margin-top:22px;}
-  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
-  .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
-        border-radius:999px;padding:8px 16px;font-size:13.5px;color:var(--cream);}
-  .chip b{color:var(--cyan);font-weight:600;}
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
-
-  .pull{border-left:3px solid var(--cyan);padding:10px 0 10px 20px;margin:26px 0;
-        font-size:clamp(1.08rem,2.6vw,1.32rem);line-height:1.55;color:var(--cream);max-width:56ch;}
-  .pull cite{display:block;margin-top:12px;font-size:.82rem;font-style:normal;color:var(--muted-2);
-             font-family:"JetBrains Mono",monospace;letter-spacing:.04em;}
-
-  /* failure register — the list is the proof */
-  .fails{display:grid;gap:2px;background:var(--line);border:1px solid var(--line);
-         border-radius:var(--radius);overflow:hidden;margin-top:10px;}
-  .fail{background:var(--ink-2);padding:22px 24px;display:grid;grid-template-columns:38px 1fr;gap:18px;}
-  .fail .n{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ember-1);padding-top:4px;}
-  .fail h3{font-size:1.04rem;margin:0 0 7px;}
-  .fail p{color:var(--muted);margin:0;font-size:.96rem;}
-  @media(max-width:520px){.fail{grid-template-columns:1fr;gap:6px}.fail .n{padding-top:0}}
-
-  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:10px;}
-  .hc-card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px;}
-  .hc-card h3{font-size:1.1rem;margin:0 0 10px;}
-  .hc-card p{color:var(--muted);margin:0;font-size:.96rem;}
-  .hc-card .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:11.5px;
-                letter-spacing:.09em;color:var(--cyan);margin-bottom:12px;}
-
-  .ops{background:linear-gradient(180deg,var(--ink-2),var(--ink));border:1px solid var(--line);
-       border-radius:var(--radius);padding:34px 28px;}
-  .ops ul{margin:16px 0 0;padding-left:20px;color:var(--muted);}
-  .ops li{margin-bottom:10px;}
-  .ops li b{color:var(--cream);}
-
-  .ptable{width:100%;border-collapse:collapse;margin-top:10px;}
-  .ptable th,.ptable td{text-align:left;padding:15px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
-  .ptable th:last-child,.ptable td:last-child{text-align:right;white-space:nowrap;}
-  .ptable th{color:var(--muted);font-size:13px;}
-  .ptable td b{color:var(--cream);}
-  .ptable .amt{color:var(--ember-1);font-weight:600;}
-  .ptable-wrap{overflow-x:auto;}
-
-  .honest{border:1px dashed var(--muted-2);border-radius:var(--radius);padding:24px 26px;margin-top:12px;}
-  .honest h3{font-size:1.05rem;margin:0 0 12px;}
-  .honest p{color:var(--muted);margin:0 0 10px;font-size:.96rem;}
-  .honest p:last-child{margin-bottom:0;}
-
-  .lang-switch{display:inline-flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px;}
-  .lang-switch a{padding:6px 14px;border-radius:999px;font-size:13px;text-decoration:none;color:var(--muted);
-                 font-family:"JetBrains Mono",monospace;}
-  footer.hc{padding:48px 24px 64px;border-top:1px solid var(--line);color:var(--muted-2);font-size:14px;}
-  .foot-row{display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;}
-</style>
 </head>
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<header style="padding:20px 24px;border-bottom:1px solid var(--line);">
-  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;">
-    <a href="/" style="text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;">
-      CINDRA<span style="color:var(--ember-2)">SEC</span>
+<header class="hc-topbar">
+  <div class="wrap">
+    <a href="/" class="hc-brand">
+      CINDRA<span class="accent">SEC</span>
     </a>
     <nav class="lang-switch" aria-label="Sections">
       <a href="/">All services</a>
@@ -148,7 +92,7 @@
       <div class="eyebrow">Why this is different</div>
       <h2>Most security testers have never seen a hospital run.</h2>
     </div>
-    <p class="hc-lede" style="max-width:64ch;">
+    <p class="hc-lede hc-lede--wide">
       They will scan your systems competently and hand you a report full of
       findings that assume a software company's workflow. Then they will
       recommend something operationally impossible, like disabling a shared
@@ -160,7 +104,7 @@
       <cite>The working rule behind every report I deliver</cite>
     </div>
 
-    <p class="hc-lede" style="max-width:64ch;">
+    <p class="hc-lede hc-lede--wide">
       I write remediation that accounts for how the ward actually works &mdash;
       what can change on Monday, what needs the vendor, and what needs a
       process change before any technical fix will hold.
@@ -175,7 +119,7 @@
       <div class="eyebrow">The register</div>
       <h2>What I look for, and why I know where to look.</h2>
     </div>
-    <p class="hc-lede" style="max-width:64ch;margin-bottom:26px;">
+    <p class="hc-lede hc-lede--wide mb-26">
       These are the patterns that recur in clinical systems. Not theory &mdash;
       the things that are usually there.
     </p>
@@ -298,10 +242,10 @@
       </div>
     </div>
 
-    <p class="hc-lede" style="max-width:64ch;margin-top:26px;">
+    <p class="hc-lede hc-lede--wide mt-26">
       I build these systems as well as test them &mdash; an open-source gateway
       guardrail and an injection-hardened agent pipeline, both public on
-      <a href="https://github.com/azmolhaque" target="_blank" rel="noopener" style="color:var(--cyan)">GitHub</a>.
+      <a href="https://github.com/azmolhaque" target="_blank" rel="noopener" class="link-cyan">GitHub</a>.
       I am not reselling somebody else's scanner output.
     </p>
   </div>
@@ -313,7 +257,7 @@
     <div class="ops">
       <div class="eyebrow">How testing works here</div>
       <h2>A ward system cannot go down. I know that.</h2>
-      <p class="hc-lede" style="max-width:62ch;margin-top:16px;">
+      <p class="hc-lede mt-16">
         This is where most assessments go wrong in a clinical setting. Testing
         that would be routine against a software product is unacceptable
         against a system somebody is using to check a drug dose.
@@ -390,7 +334,7 @@
       </table>
     </div>
 
-    <p class="hc-lede" style="max-width:62ch;margin-top:22px;">
+    <p class="hc-lede">
       International engagements are quoted in USD. Bangladeshi organisations
       are quoted in taka, at Bangladeshi rates &mdash; that is deliberate, and it
       is not a lesser service.
@@ -485,7 +429,7 @@
           <span data-key="error">Couldn&rsquo;t send from here — opening your email app as a fallback…</span>
         </div>
 
-      <p class="mono" style="color:var(--muted-2);font-size:13px;margin-top:14px;">
+      <p class="mono hc-note">
         Your details are used only to reply. No system is touched until a Rules
         of Engagement document is signed by both of us.
       </p>

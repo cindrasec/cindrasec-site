@@ -103,7 +103,14 @@ header.nav{
 .brand-word{ font-size:19px; color:var(--cream); }
 .brand-word .accent{ font-family:'JetBrains Mono','Noto Sans Bengali',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-weight:700; color:var(--ember-2); }
 nav.links{ display:flex; align-items:center; gap:28px; font-size:14.5px; }
-nav.links a{ text-decoration:none; color:var(--muted); transition:color .15s; }
+
+/* WCAG 2.2 AA (2.5.8 Target Size, Minimum) wants a 24x24 CSS-px target. These
+   links are 14.5px/13.5px text with no vertical padding, which lays out at
+   22.5px tall — 1.5px under, measured, not estimated. padding-block adds the
+   height to the hit area without moving anything: the header's own 16px
+   padding still sets its height, and in the mobile drop-down the extra 4px
+   top and bottom is spacing these cramped rows wanted anyway. */
+nav.links a{ text-decoration:none; color:var(--muted); transition:color .15s; padding-block:4px; }
 nav.links a:hover{ color:var(--cream); }
 .nav-right{ display:flex; align-items:center; gap:14px; }
 .lang-toggle{ display:flex; border:1px solid var(--line); border-radius:999px; padding:3px; font-family:'JetBrains Mono','Noto Sans Bengali',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:12px; }
@@ -236,7 +243,11 @@ nav.links a:hover{ color:var(--cream); }
 .est-verdict{ font-size:14.5px; color:var(--muted); line-height:1.55; }
 .est-verdict strong{ color:var(--cream); }
 .est-cta{ margin-top:auto; }
-.est-reset{ background:none; border:none; color:var(--muted-2); font-family:'JetBrains Mono','Noto Sans Bengali',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:12px; text-decoration:underline; cursor:pointer; padding:0; align-self:flex-start; }
+/* 12px text with padding:0 laid out at 16px tall — well under the 24px WCAG
+   2.2 AA minimum, and it is a real control, not a link inside a sentence, so
+   no exception applies. The negative margin cancels the padding in layout, so
+   the hit area grows to 24px and nothing on the card moves. */
+.est-reset{ background:none; border:none; color:var(--muted-2); font-family:'JetBrains Mono','Noto Sans Bengali',ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:12px; text-decoration:underline; cursor:pointer; padding:4px 0; margin-block:-4px; align-self:flex-start; }
 
 /* ---------- PROOF ---------- */
 .proof-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
@@ -319,7 +330,7 @@ footer{ border-top:1px solid var(--line); padding:44px 24px 30px; }
 .footer-inner{ max-width:var(--maxw); margin:0 auto; display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap; }
 .footer-tag{ color:var(--muted-2); font-size:13px; max-width:36ch; margin-top:10px; }
 .footer-links{ display:flex; gap:26px; flex-wrap:wrap; font-size:13.5px; }
-.footer-links a{ text-decoration:none; color:var(--muted); }
+.footer-links a{ text-decoration:none; color:var(--muted); padding-block:4px; }
 .footer-links a:hover{ color:var(--cream); }
 .footer-legal{ max-width:var(--maxw); margin:34px auto 0; padding-top:24px; border-top:1px solid var(--line); font-size:12px; color:var(--muted-2); }
 
@@ -507,7 +518,7 @@ footer{ border-top:1px solid var(--line); padding:44px 24px 30px; }
 .research-brand span{ color:var(--ember-2); }
 .research-nav{ display:flex; gap:20px; flex-wrap:wrap; }
 .research-nav a{
-  color:var(--muted-2); text-decoration:none; font-size:.9rem;
+  color:var(--muted-2); text-decoration:none; font-size:.9rem; padding-block:4px;
 }
 .research-nav a:hover,
 .research-nav a[aria-current="page"]{ color:var(--cyan); }
@@ -551,12 +562,34 @@ footer{ border-top:1px solid var(--line); padding:44px 24px 30px; }
 .prose code{
   font-family:'JetBrains Mono',ui-monospace,monospace; font-size:.86em;
   background:var(--ink-3); padding:.14em .42em; border-radius:6px; color:var(--ember-1);
+  /* Inline code is routinely a file path or an identifier with no spaces —
+     `~/.local/share/garak/garak_runs/*.report.jsonl` and the like. CSS finds no
+     break opportunity in those, so the element grew past the article and, with
+     `body{overflow-x:hidden}` below, the tail was CLIPPED rather than scrolled:
+     unreadable and unreachable at 390px and under.
+
+     `anywhere` rather than `break-word` on purpose. Both break a long word that
+     would overflow, but only `anywhere` also shrinks the element's min-content
+     width — and it was that min-content width forcing the ancestors wide, so
+     `break-word` would have left the container overflowing exactly as before. */
+  overflow-wrap:anywhere;
 }
 .prose pre{
   background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius);
   padding:16px 18px; margin:0; overflow-x:auto;
 }
-.prose pre code{ background:none; padding:0; color:var(--cream); font-size:.85rem; line-height:1.6; }
+/* Undo the inline-code wrapping inside fenced blocks. Those already sit in a
+   .prose-scroll container and are meant to scroll horizontally with their
+   indentation intact — wrapping a command mid-token would misrepresent it. */
+.prose pre code{ background:none; padding:0; color:var(--cream); font-size:.85rem; line-height:1.6; overflow-wrap:normal; }
+
+/* WCAG 2.2 AA (2.5.8). A contents entry whose whole content is a link is a
+   navigation target, not prose, so the "inline in a sentence" exception does
+   not cover it — these lay out at 20px. Padding an INLINE element expands the
+   hit area without growing the line box, so the 24px target is reached and the
+   text does not move; the surrounding line-height (~27px) leaves the enlarged
+   areas of adjacent lines from touching. */
+.prose li a, .prose blockquote a{ padding-block:2px; }
 
 /* Wide content scrolls inside its own container so the page body never does. */
 .prose-scroll{ overflow-x:auto; margin:0 0 20px; -webkit-overflow-scrolling:touch; }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <!-- Google Analytics 4. The bootstrap lives in /analytics.js rather than inline
      because script-src is 'self' with no 'unsafe-inline' and there is no server
@@ -36,74 +36,18 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/healthcare.css">
+<link rel="stylesheet" href="/healthcare-bn.css">
 
-<style>
-  body{font-family:"Noto Sans Bengali",Inter,system-ui,sans-serif;line-height:1.78;}
-  h1,h2,h3,.brand-word{font-family:"Noto Sans Bengali","Space Grotesk",sans-serif;line-height:1.38;}
-  .eyebrow,.mono,.btn,.tag{font-family:"Noto Sans Bengali","JetBrains Mono",ui-monospace,monospace;letter-spacing:0;}
-
-  .hc-hero{padding:92px 24px 64px;}
-  .hc-hero h1{font-size:clamp(1.8rem,5vw,2.85rem);line-height:1.3;max-width:22ch;}
-  .hc-hero .accent{color:var(--ember-2);}
-  .hc-lede{font-size:clamp(1.02rem,2.3vw,1.16rem);color:var(--muted);max-width:60ch;margin-top:22px;}
-  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
-  .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
-        border-radius:999px;padding:8px 16px;font-size:13.5px;color:var(--cream);}
-  .chip b{color:var(--cyan);font-weight:600;}
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
-
-  .pull{border-left:3px solid var(--cyan);padding:10px 0 10px 20px;margin:26px 0;
-        font-size:clamp(1.05rem,2.5vw,1.26rem);line-height:1.6;color:var(--cream);max-width:54ch;}
-  .pull cite{display:block;margin-top:12px;font-size:.82rem;font-style:normal;color:var(--muted-2);}
-
-  .fails{display:grid;gap:2px;background:var(--line);border:1px solid var(--line);
-         border-radius:var(--radius);overflow:hidden;margin-top:10px;}
-  .fail{background:var(--ink-2);padding:22px 24px;display:grid;grid-template-columns:38px 1fr;gap:18px;}
-  .fail .n{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ember-1);padding-top:6px;}
-  .fail h3{font-size:1.02rem;margin:0 0 7px;}
-  .fail p{color:var(--muted);margin:0;font-size:.95rem;}
-  @media(max-width:520px){.fail{grid-template-columns:1fr;gap:6px}.fail .n{padding-top:0}}
-
-  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:10px;}
-  .hc-card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px;}
-  .hc-card h3{font-size:1.06rem;margin:0 0 10px;}
-  .hc-card p{color:var(--muted);margin:0;font-size:.95rem;}
-  .hc-card .tag{display:inline-block;font-size:11.5px;letter-spacing:.08em;color:var(--cyan);margin-bottom:12px;}
-
-  .ops{background:linear-gradient(180deg,var(--ink-2),var(--ink));border:1px solid var(--line);
-       border-radius:var(--radius);padding:34px 28px;}
-  .ops ul{margin:16px 0 0;padding-left:20px;color:var(--muted);}
-  .ops li{margin-bottom:11px;}
-  .ops li b{color:var(--cream);}
-
-  .ptable{width:100%;border-collapse:collapse;margin-top:10px;}
-  .ptable th,.ptable td{text-align:left;padding:15px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
-  .ptable th:last-child,.ptable td:last-child{text-align:right;white-space:nowrap;}
-  .ptable th{color:var(--muted);font-size:13px;}
-  .ptable td b{color:var(--cream);}
-  .ptable .amt{color:var(--ember-1);font-weight:600;}
-  .ptable-wrap{overflow-x:auto;}
-
-  .honest{border:1px dashed var(--muted-2);border-radius:var(--radius);padding:24px 26px;margin-top:12px;}
-  .honest h3{font-size:1.03rem;margin:0 0 12px;}
-  .honest p{color:var(--muted);margin:0 0 14px;font-size:.95rem;}
-  .honest p:last-child{margin-bottom:0;}
-
-  .lang-switch{display:inline-flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px;}
-  .lang-switch a{padding:6px 14px;border-radius:999px;font-size:13px;text-decoration:none;color:var(--muted);}
-  .lang-switch a[aria-current="true"]{background:var(--cyan);color:var(--ink);font-weight:600;}
-  footer.hc{padding:48px 24px 64px;border-top:1px solid var(--line);color:var(--muted-2);font-size:14px;}
-  .foot-row{display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;}
-</style>
 </head>
 <body>
 
 <a class="skip-link" href="#main">মূল অংশে যান</a>
 
-<header style="padding:20px 24px;border-bottom:1px solid var(--line);">
-  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;">
-    <a href="/bn/" style="text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;">
-      CINDRA<span style="color:var(--ember-2)">SEC</span>
+<header class="hc-topbar">
+  <div class="wrap">
+    <a href="/bn/" class="hc-brand">
+      CINDRA<span class="accent">SEC</span>
     </a>
     <nav class="lang-switch" aria-label="ভাষা নির্বাচন">
       <a href="/healthcare/" hreflang="en">EN</a>
@@ -150,7 +94,7 @@
       <div class="eyebrow">পার্থক্যটা কোথায়</div>
       <h2>বেশিরভাগ নিরাপত্তা পরীক্ষক কখনো হাসপাতাল চলতে দেখেননি।</h2>
     </div>
-    <p class="hc-lede" style="max-width:62ch;">
+    <p class="hc-lede hc-lede--wide">
       তাঁরা দক্ষতার সাথেই স্ক্যান করবেন, আর এমন একটা রিপোর্ট দেবেন যেখানে ধরে
       নেওয়া হয়েছে আপনি একটা সফটওয়্যার কোম্পানি। তারপর এমন সুপারিশ আসবে যেটা
       বাস্তবে সম্ভব নয় — যেমন এমন একটা শেয়ার্ড অ্যাকাউন্ট বন্ধ করে দেওয়া যেটার
@@ -162,7 +106,7 @@
       <cite>প্রতিটি রিপোর্টের পেছনে যে নিয়মটা কাজ করে</cite>
     </div>
 
-    <p class="hc-lede" style="max-width:62ch;">
+    <p class="hc-lede hc-lede--wide">
       আমি সমাধান লিখি ওয়ার্ড আসলে কীভাবে চলে সেটা মাথায় রেখে — কোনটা সোমবারেই
       বদলানো যায়, কোনটার জন্য ভেন্ডর লাগবে, আর কোনটার জন্য আগে প্রক্রিয়া বদলাতে
       হবে, নাহলে কোনো কারিগরি সমাধানই টিকবে না।
@@ -177,7 +121,7 @@
       <div class="eyebrow">যা খুঁজি</div>
       <h2>কোথায় খুঁজতে হয়, সেটা আমি জানি।</h2>
     </div>
-    <p class="hc-lede" style="max-width:62ch;margin-bottom:26px;">
+    <p class="hc-lede hc-lede--wide mb-26">
       এগুলো তত্ত্ব নয়। ক্লিনিক্যাল সিস্টেমে এই জিনিসগুলো বারবার পাওয়া যায়।
     </p>
 
@@ -296,10 +240,10 @@
       </div>
     </div>
 
-    <p class="hc-lede" style="max-width:62ch;margin-top:26px;">
+    <p class="hc-lede hc-lede--wide mt-26">
       আমি এই ধরনের সিস্টেম শুধু পরীক্ষা করি না, বানাইও — একটি ওপেন-সোর্স গেটওয়ে
       গার্ডরেল আর ইনজেকশন-প্রতিরোধী এজেন্ট পাইপলাইন, দুটোই
-      <a href="https://github.com/azmolhaque" target="_blank" rel="noopener" style="color:var(--cyan)">GitHub</a>-এ
+      <a href="https://github.com/azmolhaque" target="_blank" rel="noopener" class="link-cyan">GitHub</a>-এ
       উন্মুক্ত। অন্য কারো স্ক্যানারের রিপোর্ট আমি বিক্রি করি না।
     </p>
   </div>
@@ -311,7 +255,7 @@
     <div class="ops">
       <div class="eyebrow">পরীক্ষা কীভাবে হয়</div>
       <h2>ওয়ার্ডের সিস্টেম বন্ধ হতে পারে না। আমি জানি।</h2>
-      <p class="hc-lede" style="max-width:60ch;margin-top:16px;">
+      <p class="hc-lede mt-16">
         এখানেই বেশিরভাগ নিরাপত্তা পরীক্ষা ভুল হয়। একটা সফটওয়্যার প্রোডাক্টে যে
         পরীক্ষা স্বাভাবিক, সেটাই এমন একটা সিস্টেমে অগ্রহণযোগ্য যেটা দিয়ে কেউ এই
         মুহূর্তে ওষুধের ডোজ দেখছেন।
@@ -470,7 +414,7 @@
           <span data-key="error">এখান থেকে পাঠানো গেল না — বিকল্প হিসেবে আপনার ইমেইল অ্যাপ খোলা হচ্ছে…</span>
         </div>
 
-      <p class="mono" style="color:var(--muted-2);font-size:13px;margin-top:14px;">
+      <p class="mono hc-note">
         আপনার তথ্য শুধু উত্তর দেওয়ার জন্য ব্যবহার করা হয়। দুই পক্ষ অনুমতিপত্রে
         স্বাক্ষর না করা পর্যন্ত কোনো সিস্টেম স্পর্শ করা হয় না।
       </p>

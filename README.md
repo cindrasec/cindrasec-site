@@ -80,6 +80,47 @@ visitor's mail client pre-filled, and it also does that automatically on network
    the proxy (orange cloud) may be re-enabled. SSL/TLS mode **Full** (never Flexible).
 4. Add the response headers from `_headers` as Cloudflare Transform Rules (see above).
 
+## Edge caching (optional, and only worth it with the purge in place)
+
+Cloudflare does not cache HTML by default — only static extensions — so on a site
+that is almost entirely HTML the hit rate sits near zero. A 24-hour sample read
+**9 cached against 283 uncached**: essentially every request travelling back to
+GitHub Pages. Part of that is by design, since `sw.js` precaches the fonts and
+caches CSS/JS, so the requests that *would* be edge hits never reach the edge.
+
+To cache HTML at the edge, add **Cloudflare → Caching → Cache Rules**:
+
+| Field | Value |
+|---|---|
+| When incoming requests match | `Hostname equals cindrasec.com` (add `www` if proxied) |
+| Cache eligibility | Eligible for cache |
+| Edge TTL | Override origin — **5 minutes** to start |
+| Browser TTL | Respect origin |
+
+**Start short.** The site has already served stale bytes to visitors twice (both
+recorded in the comment at the top of `sw.js`), and a long edge TTL adds a third
+independent cache that can do it again. Five minutes is self-healing: worst case a
+visitor sees the previous build for a few minutes with no intervention. Lengthen it
+only once the purge below has proven itself over a few deploys.
+
+### Purge on deploy
+
+`.github/workflows/purge-cloudflare-cache.yml` purges the zone after each successful
+Pages deploy. It triggers on the *completion* of GitHub's own
+"pages build and deployment" workflow rather than on `push`, because a purge fired at
+push time races the deploy and generally loses — evicting the cache while the origin
+still serves the old build, which then gets cached again with a fresh TTL.
+
+Two repository secrets enable it (**Settings → Secrets and variables → Actions**);
+without them the workflow logs a notice and exits green rather than failing every push:
+
+- `CLOUDFLARE_API_TOKEN` — a token with **Zone → Cache Purge → Purge** on this zone
+  only. Do not reuse an account-wide token.
+- `CLOUDFLARE_ZONE_ID` — Cloudflare → the domain's **Overview** page, right column.
+
+This purge has no effect on a visitor's service worker, which caches independently.
+That remains governed by bumping `CACHE_NAME`.
+
 ## Post-deploy checklist
 
 - `https://cindrasec.com` loads with a valid cert; `www` → apex works.

@@ -1,0 +1,77 @@
+# Purge the Cloudflare edge cache after GitHub Pages has finished deploying.
+#
+# WHY THIS TRIGGERS ON workflow_run AND NOT ON push
+# -------------------------------------------------
+# Pages deploys asynchronously. A purge fired on `push` races the deploy and
+# usually loses: Cloudflare drops the cached copy, the next visitor's request
+# reaches an origin that is still serving the PREVIOUS build, and that stale
+# response is what gets cached — now with a fresh TTL. The purge would make
+# staleness *worse* and look like it had worked.
+#
+# "pages build and deployment" is the workflow GitHub itself runs for
+# deploy-from-a-branch. Waiting for it to complete means the origin is already
+# serving the new bytes before anything is purged.
+#
+# WHAT THIS DOES NOT FIX
+# ----------------------
+# A visitor's own service worker (sw.js) caches independently of Cloudflare, and
+# a purge here does nothing to it. That is still governed by CACHE_NAME, which
+# still has to be bumped on any deploy that changes a network-first asset. Two
+# separate caches, two separate disciplines — see the comment at the top of
+# sw.js for why the second one exists.
+
+name: Purge Cloudflare cache
+
+on:
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+  # Manual trigger, for when the edge is serving something stale and you want it
+  # gone without pushing an empty commit to force a deploy.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  purge:
+    # Only after a deploy that actually succeeded, and only for main. A purge
+    # after a failed build would evict good content and repopulate from an
+    # origin that never changed.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          set -euo pipefail
+
+          # Skip rather than fail when the secrets are not configured. A red X
+          # on every push would train the eye to ignore this workflow, which is
+          # the opposite of what a deploy check is for.
+          if [ -z "${CF_API_TOKEN}" ] || [ -z "${CF_ZONE_ID}" ]; then
+            echo "::notice::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ZONE_ID not set — skipping purge."
+            echo "Set both under Settings → Secrets and variables → Actions to enable it."
+            exit 0
+          fi
+
+          response=$(curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}')
+
+          # Cloudflare answers 200 with {"success":false} on a permission or
+          # zone-id error, so the HTTP status alone proves nothing.
+          if printf '%s' "$response" | grep -q '"success":true'; then
+            echo "Cache purged."
+          else
+            echo "::error::Purge failed. Cloudflare said:"
+            printf '%s\n' "$response"
+            exit 1
+          fi

@@ -4,8 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Google Analytics 4. The bootstrap lives in /analytics.js rather than inline
+     because script-src is 'self' with no 'unsafe-inline' and there is no server
+     here to mint a nonce — an inline block would be refused and the tag would
+     collect nothing while appearing installed. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGJJP5FDKS"></script>
+<script src="/analytics.js" defer></script>
 <title>Cindrasec — Attack Surface &amp; AI/LLM Security Monitoring</title>
 <meta name="description" content="Automated attack-surface & AI/LLM security monitoring for founders & SMEs — Bangladesh & worldwide. Verification-first, authorized-only. First Snapshot free.">
 <meta name="keywords" content="attack surface management, AI security, LLM security, MCP security, agentic AI security, penetration testing, prompt injection, exposed secrets, security monitoring, Bangladesh, cybersecurity for startups">
@@ -468,7 +474,7 @@
         <div class="rule reveal">
           <div class="rule-num">RULE 02</div>
           <h3>Your data stays minimal and mortal</h3>
-          <p>Scan data lives on self-hosted infrastructure, encrypted at rest, kept only as long as the engagement needs it — and deleted on request. No third-party analytics, no trackers, no cookies on this site either.</p>
+          <p>Scan data lives on self-hosted infrastructure, encrypted at rest, kept only as long as the engagement needs it — and deleted on request. This site itself runs Google Analytics; what it collects is set out in full under <a href="#privacy">Privacy</a>.</p>
         </div>
         <div class="rule reveal">
           <div class="rule-num">RULE 03</div>
@@ -800,11 +806,11 @@
     <div class="wrap">
       <div class="eyebrow">Privacy</div>
       <h2>What this site collects, and what we do with it</h2>
-      <p class="privacy-lead">Short version: nothing, unless you send the form. A security studio that quietly tracked its visitors would be worth exactly nothing to you.</p>
+      <p class="privacy-lead">Short version: which pages you read, and whatever you type into the form. Google Analytics runs on this site and sets cookies — named below, because a security studio that tracked its visitors <em>quietly</em> would be worth exactly nothing to you.</p>
 
       <details>
         <summary>Just visiting</summary>
-        <p>No cookies, no analytics, no tracking pixels, no fingerprinting, and nothing written to browser storage. Fonts are served from this domain, so no font CDN sees your visit either. The exposure estimator scores entirely inside your browser — your answers are never transmitted, to us or to anyone. The only file cached on your device is the page itself, so it works offline.</p>
+        <p>Google Analytics 4 runs on every page. It records which pages you view, roughly where you are (country and city, derived from an IP address Google discards rather than stores), your device and browser, and which site or search sent you. It sets cookies named <code>_ga</code> and <code>_ga_*</code> to recognise a returning browser, and writes them to browser storage. No tracking pixels beyond that, and no fingerprinting. Fonts are served from this domain, so no font CDN sees your visit. The exposure estimator still scores entirely inside your browser — your answers are never transmitted, to us or to anyone, including Google. To opt out, use your browser's tracking protection or an ad blocker; both stop it, and nothing on this site breaks when you do.</p>
       </details>
 
       <details>
@@ -819,7 +825,7 @@
 
       <details>
         <summary>Who else touches your data</summary>
-        <p>Two services, both named: Web3Forms delivers the contact form, and GitHub Pages hosts this site and therefore sees the usual web-server request logs. That is the complete list. This page makes exactly one cross-origin request in its entire lifetime, and only when you press Send.</p>
+        <p>Four, all named: <b>Google Analytics</b> receives the page views described above; <b>Web3Forms</b> delivers the contact form; <b>GitHub Pages</b> hosts this site and sees the usual web-server request logs; and <b>Cloudflare</b> sits in front of it as CDN and sees the same requests in transit. That is the complete list. Google is the only one of the four that receives anything before you interact with the page.</p>
       </details>
 
       <details>
@@ -827,7 +833,7 @@
         <p>Email contact@cindrasec.com and ask. We will tell you what we hold about you, correct it, or delete it — within 30 days, and usually the same week. You do not need to give a reason, and you can withdraw an authorization to test in writing at any moment, at which point testing stops immediately.</p>
       </details>
 
-      <p class="privacy-foot">Last updated 31 July 2026. Questions about any of this go to <a href="mailto:contact@cindrasec.com">contact@cindrasec.com</a>.</p>
+      <p class="privacy-foot">Last updated 10 September 2026. Questions about any of this go to <a href="mailto:contact@cindrasec.com">contact@cindrasec.com</a>.</p>
     </div>
   </section>
 

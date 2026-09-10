@@ -87,8 +87,11 @@ no hourly billing. Work is delivered in English and Bengali.
 - [security.txt](https://cindrasec.com/.well-known/security.txt): RFC 9116 disclosure
   contact.
 - Data handling: assessment data is self-hosted, encrypted at rest, deleted on
-  request, and auto-purged 30 days after delivery. The site sets no tracking cookies
-  and loads no third-party scripts beyond the contact-form endpoint.
+  request, and auto-purged 30 days after delivery. Separately from client data, the
+  public site runs Google Analytics 4 and sets `_ga` cookies; page views, coarse
+  location, device and referrer are collected. The exposure estimator is not part of
+  that — it scores in the browser and transmits nothing. Full detail at
+  https://cindrasec.com/#privacy
 
 ## Contact
 

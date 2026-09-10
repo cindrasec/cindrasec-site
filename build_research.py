@@ -231,8 +231,14 @@ def page(meta: dict, body: str) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Google Analytics 4. The bootstrap lives in /analytics.js rather than inline
+     because script-src is 'self' with no 'unsafe-inline' and there is no server
+     here to mint a nonce — an inline block would be refused and the tag would
+     collect nothing while appearing installed. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGJJP5FDKS"></script>
+<script src="/analytics.js" defer></script>
 <title>{esc_t} — Cindrasec Research</title>
 <meta name="description" content="{esc_s}">
 <link rel="canonical" href="{url}">
@@ -324,7 +330,12 @@ def index_page(metas: list[dict]) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Google Analytics 4. Bootstrap in /analytics.js, not inline — script-src is
+     'self' and an inline block would be refused. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGJJP5FDKS"></script>
+<script src="/analytics.js" defer></script>
 <title>Research — Cindrasec</title>
 <meta name="description" content="Measured security research from Cindrasec: prompt-injection resistance, exposed attack surface, and disclosure writeups. Methods and limitations stated in full.">
 <link rel="canonical" href="{SITE}/research/">

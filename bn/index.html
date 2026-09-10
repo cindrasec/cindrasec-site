@@ -4,8 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Google Analytics 4. The bootstrap lives in /analytics.js rather than inline
+     because script-src is 'self' with no 'unsafe-inline' and there is no server
+     here to mint a nonce — an inline block would be refused and the tag would
+     collect nothing while appearing installed. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGJJP5FDKS"></script>
+<script src="/analytics.js" defer></script>
 <title>Cindrasec — অ্যাটাক সারফেস ও AI/LLM সিকিউরিটি মনিটরিং</title>
 <meta name="description" content="ফাউন্ডার ও ছোট ব্যবসার জন্য অটোমেটেড অ্যাটাক-সারফেস এবং AI/LLM সিকিউরিটি মনিটরিং — বাংলাদেশ ও বিশ্বজুড়ে। প্রমাণ-ভিত্তিক, শুধুমাত্র অনুমোদিত পরীক্ষা। প্রথম Snapshot ফ্রি।">
 <meta name="keywords" content="attack surface management, AI security, LLM security, MCP security, agentic AI security, penetration testing, prompt injection, exposed secrets, security monitoring, Bangladesh, cybersecurity for startups">
@@ -469,7 +475,7 @@
         <div class="rule reveal">
           <div class="rule-num">RULE 02</div>
           <h3>আপনার ডেটা — ন্যূনতম ও স্বল্পস্থায়ী</h3>
-          <p>স্ক্যান ডেটা self-hosted অবকাঠামোয় থাকে, encrypted-at-rest, এবং প্রয়োজন ফুরালে বা অনুরোধেই মুছে ফেলা হয়। এই সাইটেও কোনো ট্র্যাকার বা কুকি নেই।</p>
+          <p>স্ক্যান ডেটা self-hosted অবকাঠামোয় থাকে, encrypted-at-rest, এবং প্রয়োজন ফুরালে বা অনুরোধেই মুছে ফেলা হয়। এই সাইটটিতে Google Analytics চলে; ঠিক কী সংগ্রহ করা হয় তা <a href="#privacy">প্রাইভেসি</a> অংশে পুরোটা লেখা আছে।</p>
         </div>
         <div class="rule reveal">
           <div class="rule-num">RULE 03</div>
@@ -801,11 +807,11 @@
     <div class="wrap">
       <div class="eyebrow">প্রাইভেসি</div>
       <h2>এই সাইট কী সংগ্রহ করে, আর তা দিয়ে আমরা কী করি</h2>
-      <p class="privacy-lead">সংক্ষেপে: ফর্ম না পাঠালে কিছুই না। যে সিকিউরিটি স্টুডিও চুপচাপ তার ভিজিটরদের ট্র্যাক করে, আপনার কাছে তার মূল্য শূন্য।</p>
+      <p class="privacy-lead">সংক্ষেপে: আপনি কোন পেজগুলো পড়েন, আর ফর্মে যা লেখেন। এই সাইটে Google Analytics চলে এবং কুকি সেট করে — নিচে নাম ধরে বলা আছে, কারণ যে সিকিউরিটি স্টুডিও <em>চুপচাপ</em> তার ভিজিটরদের ট্র্যাক করে, আপনার কাছে তার মূল্য শূন্য।</p>
 
       <details>
         <summary>শুধু ভিজিট করছেন</summary>
-        <p>কোনো কুকি নেই, কোনো অ্যানালিটিক্স নেই, কোনো ট্র্যাকিং পিক্সেল নেই, কোনো ফিঙ্গারপ্রিন্টিং নেই, এবং ব্রাউজার স্টোরেজে কিছু লেখা হয় না। ফন্ট এই ডোমেইন থেকেই আসে, তাই কোনো ফন্ট CDN-ও আপনার ভিজিট দেখে না। এক্সপোজার এস্টিমেটর সম্পূর্ণ আপনার ব্রাউজারেই হিসাব করে — আপনার উত্তর কখনো কোথাও পাঠানো হয় না, আমাদের কাছেও না। আপনার ডিভাইসে শুধু পেজটিই ক্যাশ হয়, যাতে অফলাইনেও কাজ করে।</p>
+        <p>প্রতিটি পেজে Google Analytics 4 চলে। এটি রেকর্ড করে আপনি কোন পেজ দেখছেন, মোটামুটি কোথায় আছেন (দেশ ও শহর — যা বের করা হয় এমন একটি IP ঠিকানা থেকে, যেটি Google সংরক্ষণ না করে ফেলে দেয়), আপনার ডিভাইস ও ব্রাউজার, এবং কোন সাইট বা সার্চ থেকে এসেছেন। ফিরে আসা ব্রাউজার চিনতে এটি <code>_ga</code> ও <code>_ga_*</code> নামের কুকি সেট করে এবং ব্রাউজার স্টোরেজে লেখে। এর বাইরে কোনো ট্র্যাকিং পিক্সেল নেই, কোনো ফিঙ্গারপ্রিন্টিং নেই। ফন্ট এই ডোমেইন থেকেই আসে, তাই কোনো ফন্ট CDN আপনার ভিজিট দেখে না। এক্সপোজার এস্টিমেটর এখনো সম্পূর্ণ আপনার ব্রাউজারেই হিসাব করে — আপনার উত্তর কোথাও পাঠানো হয় না, আমাদের কাছেও না, Google-এর কাছেও না। বন্ধ করতে চাইলে ব্রাউজারের ট্র্যাকিং প্রোটেকশন বা অ্যাড ব্লকার ব্যবহার করুন; দুটোই কাজ করে, আর তাতে সাইটের কিছুই নষ্ট হয় না।</p>
       </details>
 
       <details>
@@ -820,7 +826,7 @@
 
       <details>
         <summary>আর কারা আপনার ডেটা স্পর্শ করে</summary>
-        <p>দুটি সার্ভিস, দুটিরই নাম বলা: Web3Forms যোগাযোগ ফর্ম পৌঁছে দেয়, আর GitHub Pages এই সাইট হোস্ট করে — ফলে সাধারণ ওয়েব-সার্ভার রিকোয়েস্ট লগ দেখে। তালিকা এটুকুই। এই পেজটি তার পুরো জীবদ্দশায় ঠিক একটি ক্রস-অরিজিন রিকোয়েস্ট করে, আর সেটিও কেবল যখন আপনি Send চাপেন।</p>
+        <p>চারটি, সবগুলোরই নাম বলা: <b>Google Analytics</b> উপরে বর্ণিত পেজ-ভিউ পায়; <b>Web3Forms</b> যোগাযোগ ফর্ম পৌঁছে দেয়; <b>GitHub Pages</b> এই সাইট হোস্ট করে এবং সাধারণ ওয়েব-সার্ভার রিকোয়েস্ট লগ দেখে; আর <b>Cloudflare</b> সামনে CDN হিসেবে থেকে চলার পথে একই রিকোয়েস্টগুলো দেখে। তালিকা এটুকুই। চারটির মধ্যে কেবল Google-ই পেজের সঙ্গে আপনার কোনো ইন্টারঅ্যাকশনের আগেই কিছু পায়।</p>
       </details>
 
       <details>
@@ -828,7 +834,7 @@
         <p>contact@cindrasec.com-এ ইমেইল করে জানতে চান। আমাদের কাছে আপনার সম্পর্কে কী আছে তা আমরা জানাব, সংশোধন করব, বা মুছে দেব — ৩০ দিনের মধ্যে, সাধারণত সেই সপ্তাহেই। কোনো কারণ দেখাতে হবে না, এবং টেস্ট করার অনুমতি আপনি যেকোনো মুহূর্তে লিখিতভাবে প্রত্যাহার করতে পারেন — তখনই টেস্টিং বন্ধ হয়ে যাবে।</p>
       </details>
 
-      <p class="privacy-foot">সর্বশেষ হালনাগাদ ৩১ জুলাই ২০২৬। এ বিষয়ে যেকোনো প্রশ্ন — <a href="mailto:contact@cindrasec.com">contact@cindrasec.com</a>।</p>
+      <p class="privacy-foot">সর্বশেষ হালনাগাদ ১০ সেপ্টেম্বর ২০২৬। এ বিষয়ে যেকোনো প্রশ্ন — <a href="mailto:contact@cindrasec.com">contact@cindrasec.com</a>।</p>
     </div>
   </section>
 

@@ -28,6 +28,29 @@ no hourly billing. Work is delivered in English and Bengali.
 - [Productized Gig](https://cindrasec.com/#pricing): One tightly-scoped check with a
   single deliverable and a price agreed up front. 2–4 hours, $150–500 (৳7,000–15,000).
 
+## Sector focus: healthcare
+
+- [Healthcare security](https://cindrasec.com/healthcare/) — also in
+  [Bengali](https://cindrasec.com/bn/healthcare/): The services above applied to
+  hospitals, diagnostic chains, clinics, telemedicine and health-tech. The
+  difference is background rather than methodology: five years working in ICU and
+  emergency wards — CMH, the Ministry of Health, and Médecins Sans Frontières in
+  Cox's Bazar — before moving into security. That matters at the remediation step.
+  The standard advice for a shared clinical account is to disable it, which is
+  operationally impossible when four shifts depend on it; remediation here is
+  written against what can change on Monday, what needs the vendor, and what needs
+  a process change before a technical fix will hold.
+  Exposures commonly checked: patient records reachable by changing an identifier,
+  lab results on predictable links, shared clinical accounts, vendor-installed
+  hospital information systems left unmaintained, real patient data in test
+  environments, backups in public storage, credentials shipped to the browser, and
+  clinical data moving through personal messaging apps. Where a health chatbot or
+  agent is deployed, the AI/LLM assessment above applies — documents it did not
+  write, actions rather than answers, context leaking between people, and
+  confidently wrong answers.
+  Explicitly not offered: compliance certification or attestation, full-scope
+  penetration testing, and any testing without written authorization.
+
 ## Published research
 
 - [Prompt-injection resistance is content-dependent](https://cindrasec.com/research/2026-07-prompt-injection-content-dependent/):

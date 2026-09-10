@@ -187,6 +187,14 @@
     <nav class="links" id="navLinks">
       <a href="#estimator">Risk Check</a>
       <a href="#services">Services</a>
+      <!-- The Bengali build needs its own URL here, not the English page: this
+           vertical exists at both /healthcare/ and /bn/healthcare/, and sending
+           a Bengali reader to the English one wastes the translation. The
+           per-language attribute override on the link below handles that.
+           (Spelling that attribute's name in a comment is what broke the first
+           build attempt — the "no other-language markers survived" assertion
+           greps the raw HTML, and a comment is raw HTML.) -->
+      <a href="/healthcare/">Healthcare</a>
       <a href="/research/">Research</a>
       <a href="#process">Process</a>
       <a href="#why">Why Us</a>
@@ -835,6 +843,7 @@
     </div>
     <div class="footer-links">
       <a href="#services">Services</a>
+      <a href="/healthcare/">Healthcare</a>
       <a href="/research/">Research</a>
       <a href="#process">Process</a>
       <a href="#pricing">Pricing</a>

@@ -356,6 +356,31 @@ def write_sitemap(changed: bool) -> str:
                          ("https://cindrasec.com/bn/", "0.9"))
     )
 
+    # Vertical landing pages. These are hand-authored rather than generated from
+    # src/index.src.html, so they are listed explicitly — but they get the same
+    # reciprocal hreflang treatment as the homepage, because each one genuinely
+    # exists in both languages. Their alternates point at each other, not at the
+    # homepage pair above: telling a crawler that /healthcare/'s Bengali version
+    # is /bn/ would be a false alternate, and Google drops hreflang clusters that
+    # do not reciprocate exactly.
+    vertical_entries = []
+    for slug, pri in (("healthcare", "0.8"),):
+        en = f"https://cindrasec.com/{slug}/"
+        bn = f"https://cindrasec.com/bn/{slug}/"
+        pair = "\n".join(
+            f'    <xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>'
+            for h, u in (("en", en), ("bn", bn), ("x-default", en))
+        )
+        for loc in (en, bn):
+            vertical_entries.append(
+                f"  <url>\n    <loc>{loc}</loc>\n{pair}\n"
+                f"    <lastmod>{lastmod}</lastmod>\n"
+                f"    <changefreq>monthly</changefreq>\n"
+                f"    <priority>{pri}</priority>\n  </url>"
+            )
+    if vertical_entries:
+        entries += "\n" + "\n".join(vertical_entries)
+
     # Research pages, discovered from research/src/*.md so a new writeup lands in
     # the sitemap by existing rather than by anyone remembering to add it here.
     # No hreflang block: these are English-only, and pointing them at the Bengali

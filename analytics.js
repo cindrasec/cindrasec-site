@@ -25,7 +25,7 @@ function gtag() { dataLayer.push(arguments); }
 
 gtag('js', new Date());
 
-gtag('config', 'G-9B4D7PCBEJ', {
+gtag('config', 'G-G55N8ZL68Z', {
   // The bilingual build means / and /bn/ are separate URLs for the same page.
   // Without this the reports read as two unrelated sites and the language split
   // — the thing actually worth knowing here — has to be reconstructed by hand.

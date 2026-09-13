@@ -237,7 +237,7 @@ def page(meta: dict, body: str) -> str:
      because script-src is 'self' with no 'unsafe-inline' and there is no server
      here to mint a nonce — an inline block would be refused and the tag would
      collect nothing while appearing installed. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9B4D7PCBEJ"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G55N8ZL68Z"></script>
 <script src="/analytics.js" defer></script>
 <title>{esc_t} — Cindrasec Research</title>
 <meta name="description" content="{esc_s}">
@@ -334,7 +334,7 @@ def index_page(metas: list[dict]) -> str:
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <!-- Google Analytics 4. Bootstrap in /analytics.js, not inline — script-src is
      'self' and an inline block would be refused. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9B4D7PCBEJ"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G55N8ZL68Z"></script>
 <script src="/analytics.js" defer></script>
 <title>Research — Cindrasec</title>
 <meta name="description" content="Measured security research from Cindrasec: prompt-injection resistance, exposed attack surface, and disclosure writeups. Methods and limitations stated in full.">

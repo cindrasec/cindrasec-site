@@ -1,0 +1,49 @@
+# Does the edge actually send the security headers this repo declares?
+#
+# WHY THIS IS SEPARATE FROM checks.yml
+# ------------------------------------
+# Every other check in this repo reads the working tree. This one reads
+# production, and it exists because the gap between the two is a real blind
+# spot: GitHub Pages cannot set HTTP headers, so `_headers` is inert and its
+# policy only takes effect when someone re-types it into a Cloudflare Transform
+# Rule by hand. Editing the file therefore changes nothing, and the rule drifts
+# without any diff, any error, or any visible symptom.
+#
+# That is not hypothetical. The rule was written before Google Analytics
+# existed, so it omitted googletagmanager.com. A browser enforces the
+# INTERSECTION of every policy it receives, so the tag was blocked on every page
+# for days while the deployed file served the correct measurement ID, the tag
+# URL loaded normally when typed into the address bar (a top-level navigation is
+# bound by no page CSP), and every offline check passed. The only visible
+# symptom was an empty Analytics property.
+#
+# Runs after each deploy and once a day, because the rule can also be changed in
+# the Cloudflare dashboard with no commit here at all.
+
+name: Live headers
+
+on:
+  deployment_status:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    # deployment_status also fires for queued and in_progress; checking a
+    # half-deployed site would report failures that mean nothing.
+    if: >-
+      github.event_name != 'deployment_status' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment_status.environment == 'github-pages')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Edge headers match _headers
+        run: python3 check_site.py --live

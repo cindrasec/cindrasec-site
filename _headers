@@ -1,7 +1,19 @@
 # Response headers for cindrasec.com.
 #
 # GitHub Pages cannot set custom HTTP headers, so this file is not applied by
-# Pages itself. It serves two purposes:
+# Pages itself.
+#
+# EDITING THIS FILE CHANGES NOTHING IN PRODUCTION ON ITS OWN.
+# The policy below only takes effect once someone copies it into the Cloudflare
+# Transform Rule by hand. That gap has already cost real time: the rule was
+# created before Google Analytics was added, so it omitted googletagmanager.com,
+# and because a browser enforces the INTERSECTION of every policy it receives,
+# the tag was blocked on every page for days — while the deployed files carried
+# the right measurement ID, the tag URL loaded fine when typed into the address
+# bar, and every offline check passed. `python3 check_site.py --live` now
+# compares the live header against this file, and .github/workflows/
+# live-headers.yml runs it after each deploy and daily. If you change the CSP
+# here, change the Cloudflare rule in the same sitting or that workflow goes red. It serves two purposes:
 #   1. The canonical reference for the headers that MUST be configured at the
 #      edge — in Cloudflare, via Rules -> Transform Rules -> Modify Response
 #      Header (or a Snippet), mirroring every header below.

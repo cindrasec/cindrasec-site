@@ -191,10 +191,86 @@ def check_service_worker():
             fail(f"sw.js precaches {asset}, which does not exist — install() rejects and the worker never activates")
 
 
+
+# ---------------------------------------------------------------------------
+# Live-site checks. Only run with --live, because they need the network and the
+# deployed site, not the working tree.
+# ---------------------------------------------------------------------------
+
+LIVE_ORIGIN = "https://cindrasec.com"
+
+
+def _headers_csp():
+    """The Content-Security-Policy the repo says the edge must send."""
+    if not os.path.exists("_headers"):
+        return None
+    for raw in read("_headers").splitlines():
+        line = raw.strip()
+        if line.lower().startswith("content-security-policy:"):
+            return line.split(":", 1)[1].strip()
+    return None
+
+
+def check_live_headers():
+    """Compare the CSP the edge actually sends against the one _headers declares.
+
+    This is the one failure mode nothing else here can see. GitHub Pages cannot
+    set headers, so _headers is inert and its CSP is applied by hand as a
+    Cloudflare Transform Rule. Editing the file therefore changes nothing in
+    production, and the rule drifts silently.
+
+    It happened: the rule was written before Analytics existed, so it omitted
+    googletagmanager.com. A browser enforces the intersection of every policy it
+    receives, so the tag was blocked on every page while the file served the
+    right measurement ID, the tag URL loaded fine when typed into the address
+    bar (a top-level navigation is bound by no page CSP), and every offline
+    check passed. Analytics collected nothing for days.
+    """
+    import urllib.request
+
+    declared = _headers_csp()
+    if not declared:
+        fail("_headers has no Content-Security-Policy line to compare against")
+        return
+
+    try:
+        req = urllib.request.Request(LIVE_ORIGIN + "/", headers={"User-Agent": "cindrasec-check"})
+        with urllib.request.urlopen(req, timeout=20) as res:
+            sent = res.headers.get("Content-Security-Policy")
+    except Exception as err:                                    # noqa: BLE001
+        fail(f"could not fetch {LIVE_ORIGIN}/ to check its headers: {err}")
+        return
+
+    if not sent:
+        fail(
+            "the live site sends no Content-Security-Policy header. _headers is "
+            "inert on GitHub Pages, so the policy only exists if it is configured "
+            "as a Cloudflare Transform Rule."
+        )
+        return
+
+    want = {d.split()[0]: set(d.split()[1:]) for d in (x.strip() for x in declared.split(";")) if d}
+    got = {d.split()[0]: set(d.split()[1:]) for d in (x.strip() for x in sent.split(";")) if d}
+
+    for directive, sources in want.items():
+        live_sources = got.get(directive)
+        if live_sources is None:
+            fail(f"live CSP is missing the {directive} directive that _headers declares")
+            continue
+        missing = sources - live_sources
+        if missing:
+            fail(
+                f"live CSP {directive} is missing {sorted(missing)} — the browser enforces "
+                f"the intersection of every policy, so these are blocked in production "
+                f"however permissive the page's own meta tag is. Update the Cloudflare "
+                f"Transform Rule to match _headers."
+            )
+
 def main():
     if not os.path.exists("index.html"):
         print("run this from the repository root", file=sys.stderr)
         return 2
+    live = "--live" in sys.argv
     all_pages = pages()
     check_csp_present_and_consistent(all_pages)
     check_no_inline_styles_under_strict_csp(all_pages)
@@ -202,6 +278,8 @@ def main():
     check_internal_links(all_pages)
     check_sitemap(all_pages)
     check_service_worker()
+    if live:
+        check_live_headers()
 
     if failures:
         print(f"{len(failures)} problem(s) found across {len(all_pages)} pages:\n")

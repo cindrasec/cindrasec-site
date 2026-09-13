@@ -1,0 +1,15 @@
+/* Styles for the temporary /ga-debug.html diagnostic. External rather than
+   inline so the page can run the same strict style-src 'self' as the rest of
+   the site — a diagnostic that needed a weaker policy than the pages it is
+   diagnosing would be measuring the wrong thing. */
+body{margin:0;padding:18px;background:#0F1217;color:#F4F1EA;
+     font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:15px;line-height:1.5;}
+h1{font-size:19px;margin:0 0 6px;}
+p.sub{color:#9AA0A8;margin:0 0 20px;font-size:13px;}
+h2{font-size:15px;margin:26px 0 10px;color:#33E0C8;border-bottom:1px solid rgba(244,241,234,.12);padding-bottom:6px;}
+.row{margin:0 0 12px;}
+.k{color:#9AA0A8;font-size:13px;}
+.v{word-break:break-all;overflow-wrap:anywhere;}
+.ok .v{color:#33E0C8;}
+.bad .v{color:#FF5A36;font-weight:700;}
+.warn .v{color:#FFC169;}

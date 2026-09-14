@@ -24,6 +24,7 @@ quote and require the same quote to close.
 
 import glob
 import io
+import json
 import os
 import re
 import sys
@@ -196,6 +197,52 @@ def check_hreflang_reciprocity(all_pages):
                     f"back to it. hreflang must be reciprocal or the whole cluster is ignored."
                 )
 
+
+def check_structured_data(all_pages):
+    """Every JSON-LD block must parse, and every @id reference must resolve.
+
+    Two failure modes, both invisible in a diff and both silent in a browser,
+    because a ld+json block is data and is never executed: a block with a stray
+    comma stops being structured data entirely, and a {"@id": ...} reference to
+    an entity nothing declares leaves a crawler with a broken graph.
+
+    The resolver has to descend into @graph. Written without that, it reported
+    the homepage's own #organization and #founder as dangling when they are
+    declared one level down — a false alarm that nearly caused a second,
+    duplicate Organization entity to be introduced to "fix" it.
+    """
+    declared, refs = {}, []
+
+    def walk(node, page):
+        if isinstance(node, dict):
+            if set(node.keys()) == {"@id"}:          # a pure reference
+                refs.append((page, node["@id"]))
+                return
+            if "@id" in node and "@type" in node:    # a declaration
+                declared[node["@id"]] = page
+            for value in node.values():
+                walk(value, page)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value, page)
+
+    for p in all_pages:
+        for raw in re.findall(
+            r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+            read(p), re.S | re.I,
+        ):
+            try:
+                walk(json.loads(raw), p)
+            except ValueError as err:
+                fail(f"{p}: JSON-LD block does not parse ({err}) — crawlers ignore it entirely")
+
+    for page, ref in refs:
+        if ref not in declared:
+            fail(
+                f"{page}: JSON-LD references {ref}, which no page declares. "
+                f"Declared ids: {sorted(declared) or 'none'}"
+            )
+
 def check_internal_links(all_pages):
     for p in all_pages:
         base = os.path.dirname(p)
@@ -324,6 +371,7 @@ def main():
     check_no_inline_styles_under_strict_csp(all_pages)
     check_analytics_consistent(all_pages)
     check_hreflang_reciprocity(all_pages)
+    check_structured_data(all_pages)
     check_internal_links(all_pages)
     check_sitemap(all_pages)
     check_service_worker()

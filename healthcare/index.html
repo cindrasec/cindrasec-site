@@ -37,6 +37,107 @@
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/healthcare.css">
 
+<!-- Structured data. Every offer below mirrors a row of the pricing table
+     visible on this page; the two rows priced "By scope" carry no price
+     rather than an invented one. provider references the Organization already
+     declared in the homepage @graph by @id, so this is the same organisation to a
+     crawler rather than a second, unrelated one. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Healthcare security assessment",
+  "serviceType": "Healthcare information security assessment",
+  "url": "https://cindrasec.com/healthcare/",
+  "inLanguage": "en",
+  "description": "Security assessment for hospitals, diagnostic chains, clinics and health-tech, by a registered nurse turned security researcher. Fixed scope and fixed price; testing begins only after a signed Rules of Engagement.",
+  "provider": {
+    "@id": "https://cindrasec.com/#organization"
+  },
+  "areaServed": [
+    "Bangladesh",
+    "Worldwide"
+  ],
+  "audience": {
+    "@type": "BusinessAudience",
+    "name": "Hospitals, diagnostic centres and labs, clinics and chambers, telemedicine and health apps, health NGOs, health-tech companies"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Healthcare engagements",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Snapshot",
+          "description": "External surface and exposed-credential scan across public systems — portal, booking, results delivery. Verified report, walkthrough call, free re-check. 3–5 working days."
+        },
+        "priceCurrency": "BDT",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "BDT",
+          "minPrice": 15000,
+          "maxPrice": 25000
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Patient Data Review",
+          "description": "Snapshot plus authorization testing across roles — whether a receptionist can reach a consultant's records, whether one patient can reach another's, and whether the audit trail means anything. 1–2 weeks."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Clinical AI Review",
+          "description": "Prompt injection through retrieved content, tool and booking abuse, cross-patient context leakage, and behaviour at the edge of the model's knowledge. 1 week."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Watch",
+          "description": "Continuous monitoring with a monthly diff report and alerts when something new opens up. Cancel anytime."
+        },
+        "priceCurrency": "BDT",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "priceCurrency": "BDT",
+          "minPrice": 5000,
+          "maxPrice": 12000,
+          "unitText": "MONTH",
+          "billingDuration": 1
+        }
+      }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Cindrasec",
+      "item": "https://cindrasec.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Healthcare",
+      "item": "https://cindrasec.com/healthcare/"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 

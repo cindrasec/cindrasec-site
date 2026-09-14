@@ -39,6 +39,104 @@
 <link rel="stylesheet" href="/healthcare.css">
 <link rel="stylesheet" href="/healthcare-bn.css">
 
+<!-- Structured data. প্রতিটি offer এই পেজের দৃশ্যমান মূল্য তালিকার একটি সারির
+     অনুরূপ; "স্কোপ অনুযায়ী" সারি দুটিতে কোনো মূল্য দেওয়া হয়নি। -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "স্বাস্থ্য খাতের তথ্য নিরাপত্তা মূল্যায়ন",
+  "serviceType": "স্বাস্থ্যসেবা তথ্য নিরাপত্তা মূল্যায়ন",
+  "url": "https://cindrasec.com/bn/healthcare/",
+  "inLanguage": "bn",
+  "description": "হাসপাতাল, ডায়াগনস্টিক চেইন, ক্লিনিক ও হেলথ-টেকের জন্য নিরাপত্তা মূল্যায়ন — একজন নিবন্ধিত নার্স থেকে নিরাপত্তা গবেষকের হাতে। নির্দিষ্ট স্কোপ, নির্দিষ্ট মূল্য; স্বাক্ষরিত অনুমতিপত্র ছাড়া কোনো পরীক্ষা শুরু হয় না।",
+  "provider": {
+    "@id": "https://cindrasec.com/#organization"
+  },
+  "areaServed": [
+    "বাংলাদেশ",
+    "বিশ্বব্যাপী"
+  ],
+  "audience": {
+    "@type": "BusinessAudience",
+    "name": "হাসপাতাল, ডায়াগনস্টিক সেন্টার ও ল্যাব, ক্লিনিক বা চেম্বার, টেলিমেডিসিন বা হেলথ অ্যাপ, স্বাস্থ্য বিষয়ক এনজিও, হেলথ-টেক কোম্পানি"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "স্বাস্থ্য খাতের প্যাকেজ",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Snapshot",
+          "description": "পাবলিক সিস্টেমে বাহ্যিক সারফেস ও ফাঁস হওয়া গোপন তথ্যের স্ক্যান। যাচাই করা রিপোর্ট, ওয়াকথ্রু কল, বিনামূল্যে পুনঃপরীক্ষা। ৩–৫ কর্মদিবস।"
+        },
+        "priceCurrency": "BDT",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "BDT",
+          "minPrice": 15000,
+          "maxPrice": 25000
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "রোগীর তথ্য পর্যালোচনা",
+          "description": "Snapshot-এর সাথে ভূমিকাভিত্তিক অনুমতি পরীক্ষা। ১–২ সপ্তাহ।"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "ক্লিনিক্যাল AI পর্যালোচনা",
+          "description": "প্রম্পট ইনজেকশন, টুল ও অ্যাপয়েন্টমেন্ট অপব্যবহার, এক রোগীর প্রসঙ্গ অন্যত্র ফাঁস, এবং মডেলের জ্ঞানের সীমানায় আচরণ। ১ সপ্তাহ।"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Watch",
+          "description": "নিয়মিত পর্যবেক্ষণ, মাসিক ডিফ রিপোর্ট, নতুন কিছু খুলে গেলে সতর্কবার্তা। যেকোনো সময় বাতিল।"
+        },
+        "priceCurrency": "BDT",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "priceCurrency": "BDT",
+          "minPrice": 5000,
+          "maxPrice": 12000,
+          "unitText": "MONTH",
+          "billingDuration": 1
+        }
+      }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Cindrasec",
+      "item": "https://cindrasec.com/bn/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "স্বাস্থ্য খাত",
+      "item": "https://cindrasec.com/bn/healthcare/"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 

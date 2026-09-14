@@ -233,24 +233,39 @@ if (intakeForm) {
     try {
       const service = fieldValue(intakeForm, 'service');
       const source = attribution(intakeForm).map(([, value]) => value).join(' · ');
+
+      // Web3Forms renders one labelled row per key it is given, including keys
+      // whose value is an empty string. The healthcare pages have no service
+      // select — they ask for organisation type instead — so `service` is
+      // always empty there and the enquiry arrived with a "Service" heading
+      // and nothing under it. `domain` and `message` are optional everywhere
+      // and would do the same. Build the payload in reading order and omit the
+      // optional fields that are empty, so the email only ever shows rows that
+      // actually carry an answer.
+      const payload = {
+        access_key: WEB3FORMS_KEY,
+        // The subject line is the only part of this that gets read at a
+        // glance on a phone, so the landing page's own label goes in it.
+        subject: ['New Snapshot request', source || service]
+          .filter(Boolean).join(' — '),
+        from_name: 'Cindrasec Website',
+        name: fieldValue(intakeForm, 'name'),
+        email: fieldValue(intakeForm, 'email'),
+      };
+      for (const [key, value] of [
+        ['service', service],
+        ['domain', fieldValue(intakeForm, 'domain')],
+        ['message', fieldValue(intakeForm, 'message')],
+      ]) {
+        if (value) payload[key] = value;
+      }
+      payload.page = location.pathname;
+      Object.assign(payload, Object.fromEntries(attribution(intakeForm)));
+
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          // The subject line is the only part of this that gets read at a
-          // glance on a phone, so the landing page's own label goes in it.
-          subject: ['New Snapshot request', source || service]
-            .filter(Boolean).join(' — '),
-          from_name: 'Cindrasec Website',
-          name: fieldValue(intakeForm, 'name'),
-          email: fieldValue(intakeForm, 'email'),
-          service,
-          domain: fieldValue(intakeForm, 'domain'),
-          message: fieldValue(intakeForm, 'message'),
-          page: location.pathname,
-          ...Object.fromEntries(attribution(intakeForm)),
-        }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (data.success){

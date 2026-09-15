@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Google Analytics 4. The bootstrap lives in /analytics.js rather than inline
+     because script-src is 'self' with no 'unsafe-inline' and there is no server
+     here to mint a nonce — an inline block would be refused and the tag would
+     collect nothing while appearing installed. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G55N8ZL68Z"></script>
+<script src="/analytics.js" defer></script>
+<title>The bug Google fixed in 9 days — and paid me $0 for — Cindrasec Research</title>
+<meta name="description" content="A short, plain-language story about a security finding, and why the most valuable thing I took from it wasn&#x27;t a payout.">
+<link rel="canonical" href="https://cindrasec.com/research/2026-09-15-the-9-day-fix-that-paid-nothing/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The bug Google fixed in 9 days — and paid me $0 for">
+<meta property="og:description" content="A short, plain-language story about a security finding, and why the most valuable thing I took from it wasn&#x27;t a payout.">
+<meta property="og:url" content="https://cindrasec.com/research/2026-09-15-the-9-day-fix-that-paid-nothing/">
+<meta property="og:image" content="https://cindrasec.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The bug Google fixed in 9 days — and paid me $0 for">
+<meta name="twitter:description" content="A short, plain-language story about a security finding, and why the most valuable thing I took from it wasn&#x27;t a payout.">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="preload" href="/fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The bug Google fixed in 9 days \u2014 and paid me $0 for",
+  "description": "A short, plain-language story about a security finding, and why the most valuable thing I took from it wasn't a payout.",
+  "datePublished": "2026-09-15",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cindrasec.com/research/2026-09-15-the-9-day-fix-that-paid-nothing/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Md. Azmol Haque Rony",
+    "jobTitle": "Founder, Cindrasec",
+    "url": "https://cindrasec.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cindrasec",
+    "url": "https://cindrasec.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cindrasec.com/icon-512.png"
+    }
+  }
+}</script>
+</head>
+<body class="research-body">
+<a class="skip-link" href="#article">Skip to content</a>
+<header class="research-head">
+  <div class="wrap research-head-inner">
+    <a class="research-brand" href="/">CINDRA<span>SEC</span></a>
+    <nav class="research-nav">
+      <a href="/research/">Research</a>
+      <a href="/#services">Services</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap prose" id="article">
+  <p class="prose-kicker"><a href="/research/">Research</a> · Published 2026-09-15</p>
+  <h1>The bug Google fixed in 9 days — and paid me $0 for</h1>
+  <p class="prose-standfirst">A short, plain-language story about a security finding, and why the most valuable thing I took from it wasn&#x27;t a payout.</p>
+  <article>
+<hr>
+<p>Every so often you find something on the internet that makes you sit up straight.</p>
+<p>I was looking through subdomains belonging to companies Google had acquired — the quiet corners of a big company, where infrastructure from the acquired business sometimes lingers for a while before it's fully absorbed. On one of them, <code>rip.photomath.net</code>, a login page loaded. Not a product. An <strong>admin panel</strong> — the kind of screen that manages users and their permissions.</p>
+<p>I tried the most obvious thing in the world: <code>admin</code> / <code>admin</code>. It let me in.</p>
+<p>Then I did something less obvious. I logged out and tried again with a <strong>completely random password</strong>. It let me in <em>again</em>. The login wasn't checking anything — it was a door with a painted-on lock. And when I looked at the API behind it, that answered too, with no login at all.</p>
+<p>On the surface, this looks like a five-alarm fire: an unauthenticated admin interface, on a Google-owned domain. My first instinct was to write it up as <strong>critical</strong>.</p>
+<h2 id="the-part-where-i-slowed-down">The part where I slowed down</h2>
+<p>Here's the thing I've learned to do before hitting "send": ask <em>what an attacker could actually do with this</em>, not what it looks like they could do.</p>
+<p>So I looked closer. The panel was empty — no real users, no real data. The interface had French placeholder text and a literal "it works!" debug string left in. Everything pointed to a <strong>forgotten test build</strong> from the acquired company that had never been switched off. It was reachable through Google's network, yes — but "reachable through Google" is not the same as "run by Google." That distinction turned out to be the whole story.</p>
+<p>I reported it. The next day, Google accepted it with a friendly "🎉 Nice catch!" and filed it to the product team. Nine days later, they fixed it — not by patching an app, but by simply <strong>removing the stale DNS record</strong> so the host stopped existing. Clean, fast, done.</p>
+<p>And the reward? <strong>Nothing.</strong> Credit and an honorable mention — no cash.</p>
+<h2 id="why-no-reward-was-the-right-call">Why "no reward" was the right call</h2>
+<p>It would be easy to feel shortchanged. I didn't — because once I understood the mechanism, their reasoning was airtight.</p>
+<p>A bug bounty pays for <strong>real risk to systems a company actually operates</strong>. What I'd found was a hygiene problem: a dangling record pointing at an empty test box that never held anyone's data. It absolutely deserved to be cleaned up (and it was, quickly). But it wasn't a break-in to something Google runs. Two different questions — "should we fix this?" and "did this expose real risk?" — with two different, and equally correct, answers.</p>
+<p>I actually appealed at first, leaning on a <em>what if an attacker phished someone with it</em> argument. The panel reconsidered and politely held their ground. They were right, and I was reaching. Recognizing that — before digging in — is the skill the second decision was quietly testing.</p>
+<h2 id="the-takeaway-i-actually-keep">The takeaway I actually keep</h2>
+<p>The lesson here isn't "I found a bug." It's this:</p>
+<blockquote><strong>In security, the professional move is stating accurately how much something matters — especially when the honest answer is "less than it first looked."</strong></blockquote>
+<p>Anyone can find something alarming and shout about it. Calibrated judgment — knowing the difference between a scary-looking screenshot and a real, exploitable risk — is what actually makes a security person worth trusting. It's what a triage team does all day. It's what keeps a report honest and an appeal disciplined.</p>
+<p>That's the muscle I trained on this one. No payout required.</p>
+<hr>
+<p><strong>Want the full breakdown?</strong> I wrote a detailed, evidence-backed technical writeup — the repeatable method for finding this class of forgotten infrastructure, the exact proof, the "edge-fronted ≠ operated" root cause, and a defender's plan to catch it early:</p>
+<ul><li><strong>Full writeup:</strong> <a href="/research/2026-05-exposed-iam-frontend-google-vrp/">Anatomy of an Exposed IAM Frontend — Google VRP</a></li></ul>
+<p><em>Reported via Google Bug Hunters (Issue 509594209). The endpoint was remediated before publication. No data was accessed or modified beyond what was needed to confirm the exposure.</em></p>
+<p>— <strong>Md. Azmol Haque Rony</strong> · <a href="https://github.com/azmolhaque" target="_blank" rel="noopener noreferrer">@azmolhaque</a> · <a href="https://www.linkedin.com/in/md-azmol-haque-rony" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+  </article>
+  <aside class="prose-cta">
+    <p><strong>This is the kind of question Cindrasec answers for clients.</strong>
+    If you are shipping an LLM feature, an agent, or an MCP server and want to know
+    how it behaves under adversarial input — measured, not guessed —
+    <a href="/#contact">get in touch</a>.</p>
+  </aside>
+</main>
+<footer class="research-foot">
+  <div class="wrap">
+    <p>© 2026 Cindrasec · Dhaka, Bangladesh ·
+       <a href="/">cindrasec.com</a> ·
+       <a href="/.well-known/security.txt">security.txt</a></p>
+    <p class="research-foot-note">Tested against our own systems, or under a signed
+       Rules of Engagement. Authorized use only.</p>
+  </div>
+</footer>
+</body>
+</html>

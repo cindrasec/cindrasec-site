@@ -179,13 +179,36 @@ def to_html(md: str) -> str:
 
 # ------------------------------------------------------------------- metadata
 
+def published_date(slug: str, fallback: str | None = None) -> str:
+    """The publication date a research slug names.
+
+    A slug may date itself to the day (2026-09-15-title) or only to the month
+    (2026-05-title). Month precision came first and is kept: those two writeups
+    are named for when the work happened, and a day would be invented. A
+    day-precise slug is taken at face value, because this feeds both the
+    article's schema.org datePublished and the sitemap's lastmod, and a piece
+    published on the 15th should not claim the 1st. The month branch only
+    matches when the slug carries no day, so existing pages are unaffected.
+
+    build.py imports this rather than keeping its own copy. It had one, and the
+    two drifted the moment day precision was added here: the page said
+    2026-09-15 while the sitemap it generated said 2026-09-01, for the same URL.
+    """
+    m = re.match(r"^(\d{4})-(\d{2})-(\d{2})(?:-|$)", slug)
+    if m:
+        return f"{m.group(1)}-{m.group(2)}-{m.group(3)}"
+    m = re.match(r"^(\d{4})-(\d{2})", slug)
+    if m:
+        return f"{m.group(1)}-{m.group(2)}-01"
+    return fallback or date.today().isoformat()
+
+
 def parse_meta(md: str, slug: str) -> dict:
     title = re.search(r"^#\s+(.*)$", md, re.M).group(1).strip()
     sub = re.search(r"^\*\*(.+?)\*\*\s*$", md, re.M)
     summary = re.sub(r"[*_`]", "", sub.group(1)).strip() if sub else ""
-    m = re.match(r"^(\d{4})-(\d{2})", slug)
-    published = f"{m.group(1)}-{m.group(2)}-01" if m else date.today().isoformat()
-    return {"title": title, "summary": summary, "published": published, "slug": slug}
+    return {"title": title, "summary": summary,
+            "published": published_date(slug), "slug": slug}
 
 
 def strip_front_matter(md: str) -> str:

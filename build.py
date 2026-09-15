@@ -46,6 +46,10 @@ import re
 import sys
 from datetime import date
 
+# One definition of a research slug's publication date, shared with the script
+# that renders the articles themselves. Two copies drifted once already.
+from build_research import published_date
+
 ROOT = pathlib.Path(__file__).resolve().parent
 SRC = ROOT / "src" / "index.src.html"
 
@@ -392,8 +396,7 @@ def write_sitemap(changed: bool) -> str:
     if research_src.is_dir():
         for md in sorted(research_src.glob("*.md"), reverse=True):
             slug = md.stem
-            found = re.match(r"^(\d{4})-(\d{2})", slug)
-            published = f"{found.group(1)}-{found.group(2)}-01" if found else lastmod
+            published = published_date(slug, fallback=lastmod)
             research_entries.append(
                 f"  <url>\n    <loc>https://cindrasec.com/research/{slug}/</loc>\n"
                 f"    <lastmod>{published}</lastmod>\n"

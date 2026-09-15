@@ -53,6 +53,17 @@ no hourly billing. Work is delivered in English and Bengali.
 
 ## Published research
 
+- [The bug Google fixed in 9 days — and paid me $0 for](https://cindrasec.com/research/2026-09-15-the-9-day-fix-that-paid-nothing/):
+  Plain-language companion to the Google VRP writeup below, about severity calibration
+  rather than technique. An unauthenticated admin panel on a Google-owned subdomain
+  looked critical: default credentials worked, so did a random password, and the API
+  behind it answered with no login at all. Closer reading showed an empty, forgotten
+  test build from an acquired company — reachable through Google's network but not run
+  by Google. Google accepted it, fixed it in nine days by removing the stale DNS
+  record, and paid nothing. The writeup argues that was the correct call, including
+  the author's own appeal being rightly rejected as speculative. Thesis: stating
+  accurately how much a finding matters — especially when the honest answer is "less
+  than it first looked" — is the skill that makes a security report trustworthy.
 - [Prompt-injection resistance is content-dependent](https://cindrasec.com/research/2026-07-prompt-injection-content-dependent/):
   Measured study using NVIDIA's garak scanner against Llama 3.2 (3B) self-hosted on a
   Raspberry Pi 5. Two probes from the promptinject family, 256 trials each. The same

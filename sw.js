@@ -34,7 +34,7 @@
 //
 // Paths are derived from the registration scope, so this works at a domain root or
 // under a GitHub Pages project subpath (https://username.github.io/repo-name/).
-const CACHE_NAME = 'cindrasec-v23';
+const CACHE_NAME = 'cindrasec-v24';
 const SCOPE = self.registration.scope;
 
 // Only genuinely static assets are precached. HTML, CSS and JS are deliberately

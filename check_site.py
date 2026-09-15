@@ -28,6 +28,7 @@ import json
 import os
 import re
 import sys
+import urllib.parse
 
 CSP_RX = re.compile(
     r'<meta[^>]*?http-equiv=["\']Content-Security-Policy["\'][^>]*?content=(["\'])(.*?)\1',
@@ -195,6 +196,55 @@ def check_hreflang_reciprocity(all_pages):
                 fail(
                     f"{url}: declares hreflang={lang} -> {target}, but {target} never points "
                     f"back to it. hreflang must be reciprocal or the whole cluster is ignored."
+                )
+
+
+def check_language_switcher_targets(all_pages):
+    """An in-page hreflang link must agree with the head's alternate for that language.
+
+    A link that says hreflang="bn" is claiming "the Bengali version of THIS page
+    is over there". /healthcare/'s switcher pointed at /bn/, the Bengali
+    homepage, while its own <link rel="alternate" hreflang="bn"> correctly named
+    /bn/healthcare/. The page therefore shipped two contradictory answers to the
+    same question, and a Bengali reader who clicked it lost the healthcare
+    content entirely and landed on the homepage.
+
+    check_hreflang_reciprocity could never see this: it reads only the <head>,
+    and the head was right. check_internal_links could never see it either,
+    because /bn/ exists — the link was not broken, it was aimed at the wrong
+    page, which no link checker can infer without the hreflang attribute to
+    compare against. The attribute is what makes the intent machine-checkable.
+
+    Consequence beyond the click: /bn/healthcare/ was left with exactly one
+    inbound internal link in the whole site, from /bn/. Both healthcare pages
+    were the only sitemap URLs Google had not indexed.
+    """
+    ANCHOR_RX = re.compile(r'<a\s[^>]*hreflang=["\']([^"\']+)["\'][^>]*>', re.I)
+    HREF_RX = re.compile(r'href=["\']([^"\']*)["\']', re.I)
+    ALT_RX = re.compile(
+        r'<link[^>]*rel=["\']alternate["\'][^>]*hreflang=["\']([^"\']+)["\'][^>]*href=["\']([^"\']+)["\']',
+        re.I,
+    )
+    SITE = "https://cindrasec.com"
+
+    for p in all_pages:
+        s = read(p)
+        url = SITE + "/" + (p[: -len("index.html")] if p.endswith("index.html") else p)
+        head = {lang: href for lang, href in ALT_RX.findall(s)}
+        if not head:
+            continue
+        for tag in ANCHOR_RX.finditer(s):
+            lang = tag.group(1)
+            href = HREF_RX.search(tag.group(0))
+            if not href or lang not in head:
+                continue
+            # Resolve against the page's own URL so './' and '/bn/' compare alike.
+            target = urllib.parse.urljoin(url, href.group(1))
+            if target != head[lang]:
+                fail(
+                    f"{p}: a link marked hreflang={lang} points at {target}, but the page's "
+                    f"<link rel=alternate hreflang={lang}> names {head[lang]}. One of the two "
+                    f"is wrong, and the reader follows the link."
                 )
 
 
@@ -442,6 +492,7 @@ def main():
     check_no_inline_styles_under_strict_csp(all_pages)
     check_analytics_consistent(all_pages)
     check_hreflang_reciprocity(all_pages)
+    check_language_switcher_targets(all_pages)
     check_structured_data(all_pages)
     check_robots_behaviour()
     check_internal_links(all_pages)

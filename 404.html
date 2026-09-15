@@ -5,8 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 — Nothing found in scope · Cindrasec</title>
 <meta name="robots" content="noindex">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; base-uri 'self'; object-src 'none'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Google Analytics 4, same bootstrap as every other page. This page was the
+     one exception, which made the privacy notice's "runs on every page" untrue
+     and left broken inbound links invisible — the 404 is the only place they
+     show up. GA records page_location as the URL that was actually requested,
+     so a missing path is reported as itself, while page_title is identical for
+     every 404 and makes them one filterable group in reports.
+
+     connect-src deliberately omits api.web3forms.com: there is no form here,
+     and this page renders at attacker-chosen URLs, so it gets the analytics
+     origins and nothing else. style-src keeps 'unsafe-inline' for the reason
+     documented in _headers — the CSS is inline so an error page costs exactly
+     one request no matter which missing URL produced it. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G55N8ZL68Z"></script>
+<script src="/analytics.js" defer></script>
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
 <style>
   /* self-hosted fonts — absolute paths because this page renders at any missing URL */

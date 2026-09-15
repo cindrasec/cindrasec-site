@@ -23,45 +23,96 @@ Disallow: /src/
 Disallow: /build.py
 Allow: /
 
-# Assistant and answer-engine crawlers are welcome, stated explicitly rather than
-# left to the wildcard above. Being quoted accurately in an answer is worth more
-# to a studio this size than the traffic a link would have sent, and an ambiguous
-# robots file is a reason for a crawler to skip a small domain. /llms.txt carries
-# a condensed, factual summary of the services, the published research and its
+# Two different jobs, two different answers.
+#
+# CITATION — welcome, and the reason /llms.txt exists. These agents fetch a page
+# live, at the moment someone asks a question, so that an assistant can quote it
+# and link back. Being quoted accurately in an answer is worth more to a studio
+# this size than the traffic a link would have sent, and an ambiguous robots file
+# is a reason for a crawler to skip a small domain. /llms.txt carries a
+# condensed, factual summary of the services, the published research and its
 # actual numbers, so a model citing this site has something better to work from
 # than scraped marketing copy.
-User-agent: GPTBot
-Allow: /
-
 User-agent: OAI-SearchBot
+Disallow: /src/
+Disallow: /build.py
 Allow: /
 
 User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
+Disallow: /src/
+Disallow: /build.py
 Allow: /
 
 User-agent: Claude-User
+Disallow: /src/
+Disallow: /build.py
 Allow: /
 
 User-agent: Claude-SearchBot
+Disallow: /src/
+Disallow: /build.py
 Allow: /
 
 User-agent: PerplexityBot
+Disallow: /src/
+Disallow: /build.py
 Allow: /
 
 User-agent: Perplexity-User
+Disallow: /src/
+Disallow: /build.py
 Allow: /
+
+# Search engines, stated explicitly for one reason: in production Cloudflare
+# prepends its own `User-agent: *` group saying `Allow: /` ahead of this file.
+# A parser that merges groups (Google's does) still honours the Disallows
+# below; one that takes the first matching group (Python's stdlib robotparser
+# among them) reads Cloudflare's and never reaches ours, leaving /src/ crawlable.
+# Naming these agents removes the guess — they match a group of their own and
+# never consult either wildcard.
+User-agent: Googlebot
+Disallow: /src/
+Disallow: /build.py
+Allow: /
+
+User-agent: Bingbot
+Disallow: /src/
+Disallow: /build.py
+Allow: /
+
+# TRAINING — declined. These are bulk crawlers that build training corpora
+# rather than answer a question in front of a reader, and the distinction is the
+# whole point: this site wants to be cited, not absorbed.
+#
+# This section previously said `Allow: /` for all four, which was written before
+# there was a training position at all and quietly conflated the two jobs above.
+# Cloudflare now serves a managed block ahead of this file asserting
+# `Content-Signal: search=yes,ai-train=no,use=reference` — a reservation of
+# rights under Article 4 of EU Directive 2019/790 — and disallows exactly these
+# agents. The file said the opposite of the header, which is the kind of
+# disagreement that makes a robots file mean whatever a given parser decides.
+#
+# Google-Extended and Applebot-Extended are not crawlers at all; they are
+# training opt-out tokens read by Gemini and Apple Intelligence. Googlebot and
+# Applebot are untouched, so search indexing is unaffected by either line.
+#
+# If this stance is ever reversed, change it in BOTH places — here and in
+# Cloudflare's AI Crawl Control -> Signals. Changing one alone recreates the
+# contradiction this section was written to end.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
 
 User-agent: Google-Extended
-Allow: /
+Disallow: /
 
 User-agent: Applebot-Extended
-Allow: /
+Disallow: /
 
 User-agent: cohere-ai
-Allow: /
+Disallow: /
 
 Sitemap: https://cindrasec.com/sitemap.xml
 

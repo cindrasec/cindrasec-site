@@ -243,6 +243,77 @@ def check_structured_data(all_pages):
                 f"Declared ids: {sorted(declared) or 'none'}"
             )
 
+
+def check_robots_behaviour():
+    """robots.txt must mean the same thing to a parser as it does to a reader.
+
+    Two bugs of this shape have already shipped in this file, both invisible on
+    inspection:
+
+    1. Groups do not inherit. A named agent with its own `Allow: /` group never
+       sees the wildcard group's `Disallow: /src/`, so every citation crawler
+       could reach the duplicate build source while the file appeared to forbid
+       it. True under every parser, not a parser quirk.
+
+    2. In production Cloudflare prepends a managed block containing its own
+       `User-agent: *` with `Allow: /`. A parser that takes the first matching
+       group reads Cloudflare's and never reaches ours, so the wildcard
+       protection silently depends on which parser is asking.
+
+    So this checks behaviour, not text: it reads each group's declared intent
+    from the file, then asks a real parser whether that intent holds — once on
+    the file alone, and once with a foreign wildcard group prepended, which is
+    what the live site actually serves.
+    """
+    import urllib.robotparser
+
+    if not os.path.exists("robots.txt"):
+        fail("robots.txt missing")
+        return
+    text = read("robots.txt")
+
+    # Declared intent: agent -> may it fetch "/"? Groups are blank-line separated.
+    intent = {}
+    agents = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        low = line.lower()
+        if low.startswith("user-agent:"):
+            agents.append(line.split(":", 1)[1].strip())
+        elif low.startswith(("allow:", "disallow:")) and agents:
+            rule, path = low.split(":", 1)
+            if path.strip() == "/":
+                for a in agents:
+                    intent[a] = rule == "allow"
+                agents = []
+        elif low.startswith("sitemap:"):
+            agents = []
+
+    # A second wildcard group that allows everything, prepended exactly as
+    # Cloudflare's managed block does in production.
+    HOSTILE = "User-agent: *\nAllow: /\n\n"
+
+    for label, doc in (("robots.txt", text), ("robots.txt behind a foreign wildcard group", HOSTILE + text)):
+        parser = urllib.robotparser.RobotFileParser()
+        parser.parse(doc.splitlines())
+        for agent, may_fetch_root in intent.items():
+            if agent == "*":
+                continue
+            got = parser.can_fetch(agent, "https://cindrasec.com/")
+            if got != may_fetch_root:
+                fail(
+                    f"{label}: {agent} is declared {'Allow' if may_fetch_root else 'Disallow'} "
+                    f"for / but a parser resolves it to {'allowed' if got else 'disallowed'}"
+                )
+            # Build inputs must be unreachable for anything that can crawl at all.
+            if may_fetch_root and parser.can_fetch(agent, "https://cindrasec.com/src/index.src.html"):
+                fail(
+                    f"{label}: {agent} can reach /src/ — groups do not inherit, so this "
+                    f"agent's own group needs its own Disallow: /src/"
+                )
+
 def check_internal_links(all_pages):
     for p in all_pages:
         base = os.path.dirname(p)
@@ -372,6 +443,7 @@ def main():
     check_analytics_consistent(all_pages)
     check_hreflang_reciprocity(all_pages)
     check_structured_data(all_pages)
+    check_robots_behaviour()
     check_internal_links(all_pages)
     check_sitemap(all_pages)
     check_service_worker()
